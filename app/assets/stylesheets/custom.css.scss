@@ -1,0 +1,14 @@
+@import "semantic-ui";
+
+.ui.vertical.menu{
+	margin-top: -15px;
+	display: none;
+}
+
+.computer.tablet .ui.menu{
+	margin-top: 1em;
+}
+
+#footer{
+	padding-top:0;
+}

@@ -1,0 +1,6 @@
+<%= link_to "Teamond", root_path, class: "item" %>
+<%= link_to "Menu", "#", class: "item" %>
+<% if is_computer %><div class="right menu"><% end %>
+	<%= link_to "Sign Up", signup_path, class: "item" %>
+	<%= link_to "Log In", "#", class: "item" %>
+<% if is_computer %></div><% end %>

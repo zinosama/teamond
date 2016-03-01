@@ -1,0 +1,26 @@
+<div class="ui container grid">
+	<div class="computer tablet only row">
+		<div class="ui large menu navbar fluid">
+			<%= render 'layouts/nav', is_computer: true %>
+		</div>
+	</div>
+
+	<div class="mobile only narrow row">
+	  <div class="ui large navbar menu fluid">
+	      <%= link_to "Teamond", root_path, class: "item" %>
+	      <div class="right menu open">
+	          <a href="#" class="menu item">
+	              <%= semantic_icon 'sidebar' %>
+	          </a>
+	      </div>
+	  </div>
+
+	  <div class="ui vertical navbar menu fluid">
+				<%= link_to "Menu", "#", class: "item" %>
+				<%= link_to "Order", "#", class: "item" %>
+				<%= link_to "Sign Up", "#", class: "item" %>
+				<%= link_to "Log In", "#", class: "item" %>
+	  </div>
+	</div>
+
+</div>

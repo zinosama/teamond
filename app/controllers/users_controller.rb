@@ -1,5 +1,9 @@
 class UsersController < ApplicationController
 
+	def new
+
+	end
+
 	private
 
 	def user_params
