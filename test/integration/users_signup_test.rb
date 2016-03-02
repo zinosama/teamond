@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class UserSignupTest < ActionDispatch::IntegrationTest
+class UsersSignupTest < ActionDispatch::IntegrationTest
 	
 	test 'invalid signup information' do
 		get signup_path
@@ -19,5 +19,6 @@ class UserSignupTest < ActionDispatch::IntegrationTest
 		end
 		assert_template 'users/show'
 		assert_not flash.empty?
+		assert is_logged_in?
 	end	
 end

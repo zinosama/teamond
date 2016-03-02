@@ -1,0 +1,25 @@
+<% provide(:title, "Login") %>
+
+<h1 class="ui header title">Log in</h1>
+<div class="row">
+	<%= form_for :session, url: login_path, html: { class: ["ui", "form", "column"], id: "loginForm" } do |f| %>
+			<div class="field">
+				<%= f.label :email %>
+				<%= icon_input_wrapper(f, :email, :mail, { placeholder: "Example@gmail.com" }) %>
+			</div>
+
+			<div class="field">
+				<%= f.label :password %>
+				<%= icon_input_wrapper(f, :password, :lock, { placeholder: "Minimum length: 6 characters!" }, :password_field) %>
+			</div>
+
+			<div class="field">
+				<div class="ui toggle checkbox">
+					<%= f.check_box :remember_me, tabindex: "0", class: "hidden" %>
+					<label>Remember me on this computer</label>
+				</div>
+			</div>
+
+			<%= f.submit "Log in", class: "ui teal basic button" %>
+	<% end %>
+</div>

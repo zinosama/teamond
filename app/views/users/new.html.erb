@@ -7,10 +7,7 @@
 
 		<div class="field">
 			<%= f.label :email %>
-			<div class="ui left icon large input">
-				<%= f.text_field :email, placeholder: "Example@gmail.com" %>
-				<%= semantic_icon :mail %>
-			</div>
+			<%= icon_input_wrapper(f, :email, :mail, { placeholder: "Example@gmail.com" }) %>
 		</div>
 
 		<div class="field">
