@@ -3,4 +3,13 @@ $(document).ready(function(){
     e.preventDefault();
 		$('.ui.vertical.menu').toggle();
 	});
+
+	$('.message .close')
+  .on('click', function() {
+    $(this)
+      .closest('.message')
+      .transition('fade')
+    ;
+  })
+;
 });

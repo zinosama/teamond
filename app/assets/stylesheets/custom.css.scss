@@ -43,5 +43,21 @@ pre{
 }
 #signupForm{
 	width: 80%;
-	margin: 0 auto
+	margin: 0 auto;
+}
+.field_with_errors{
+	width: 100%;
+}
+input{
+	width: 100%;
+}
+.ui.form .error input[type="text"], .ui.form .error input[type="password"]{
+    background-color: #fff6f6;
+    border-color: #e0b4b4;
+    color: #9f3a38;
+    box-shadow: none;
+}
+.error label{
+  font-size: 1.1em;
+  color: #9f3a38;
 }
