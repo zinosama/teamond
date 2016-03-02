@@ -1,35 +1,7 @@
 <% provide(:title, "Sign up") %>
+<% provide(:button_text, "Register Account") %>
 
 <h1 class="ui header title">Sign up</h1>
 <div class="row">
-	<%= form_for @user, html: { class: ["ui", "form", "column"], id: "signupForm"} do |f| %>
-		<%= render 'shared/error_msgs' %>
-
-		<div class="field">
-			<%= f.label :email %>
-			<%= icon_input_wrapper(f, :email, :mail, { placeholder: "Example@gmail.com" }) %>
-		</div>
-
-		<div class="field">
-			<%= f.label :password %>
-			<%= icon_input_wrapper(f, :password, :lock, { placeholder: "Minimum length: 6 characters!" }, :password_field) %>
-		</div>
-
-		<div class="field">
-			<%= f.label :password_confirmation %>
-			<%= icon_input_wrapper(f, :password_confirmation, "unlock alternate", { placeholder: "One more time :)" }, :password_field ) %>
-		</div>
-
-		<div class="field">
-			<%= f.label :name %>
-			<%= icon_input_wrapper(f, :name, :write, { placeholder: "Ji-yong Kwon" }) %>
-		</div>
-		
-		<div class="field">
-			<%= f.label :phone %>
-			<%= icon_input_wrapper(f, :phone, :phone, { placeholder: "585-121-1121" }) %>
-		</div>
-
-		<%= f.submit "Create Account", class: "ui teal basic button" %>
-	<% end %>
+	<%= render 'form' %>
 </div>
