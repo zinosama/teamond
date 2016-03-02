@@ -10,6 +10,7 @@ $(document).ready(function(){
       .closest('.message')
       .transition('fade')
     ;
-  })
-;
+  });
+
+  $('.ui.checkbox').checkbox();
 });
