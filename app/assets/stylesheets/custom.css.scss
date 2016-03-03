@@ -93,3 +93,7 @@ input{
     color: black; }
     .pagination a:hover, .pagination a:focus {
       text-decoration: underline; }
+
+p.unactivatedUser, .unactivatedUser a{
+  color:#FF4949;
+}
