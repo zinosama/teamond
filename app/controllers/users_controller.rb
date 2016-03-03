@@ -58,11 +58,11 @@ class UsersController < ApplicationController
 				flash[:success] = "The user has been removed."
 				redirect_to users_url
 			else
-				flash[:error] = "Invalid Password."
+				flash.now[:error] = "Invalid Password."
 				render 'leave'
 			end
 		else
-			flash[:error] = "Please type in 'I Understand' to confirm"
+			flash.now[:error] = "Please type in 'I Understand' to confirm"
 			render 'leave'
 		end
 	end
