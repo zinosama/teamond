@@ -1,0 +1,22 @@
+<%= provide(:title, "Password Reset") %>
+
+<h1 class="ui header title">Reset Password</h1>
+<div class="row">
+	<%= form_for @user, url: password_reset_path(params[:id]), html: { class: ["ui", "form", "column"], id: "passwordResetForm" } do |f| %>
+		<%= render 'shared/error_msgs' %>
+		<%= hidden_field_tag :email, @user.email %>
+		
+		<div class="field">
+			<%= f.label :password %>
+			<%= icon_input_wrapper(f, :password, :lock, { placeholder: "Minimum length: 6 characters!"}) %>
+		</div>
+
+		<div class="field">
+			<%= f.label :password_confirmation %>
+			<%= icon_input_wrapper(f, :password_confirmation, "unlock alternate", { placeholder: "One more time :)" }) %>
+		</div>
+
+		<%= f.submit "Update Password", class: "ui inverted red button" %>
+
+	<% end %>
+</div>

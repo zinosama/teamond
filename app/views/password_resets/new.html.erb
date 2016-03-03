@@ -1,0 +1,13 @@
+<%= provide(:title, "Forgot Password") %>
+<h1 class="ui header title">Forgot Password</h1>
+
+<div class="row">
+	<%= form_for :password_reset, url: password_resets_path, html: { class: ["ui", "form", "column"], id: "forgetPasswordForm" } do |f| %>
+		<div class="field">
+			<%= f.label :email %>
+			<%= icon_input_wrapper(f, :email, :mail, { placeholder: "Your@email.com..." }) %>
+		</div>
+
+		<%= f.submit "Send Recovery Email", class: "ui inverted red button" %>
+	<% end %>
+</div>
