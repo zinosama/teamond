@@ -73,7 +73,7 @@ class UserTest < ActiveSupport::TestCase
 
 	#authenticated? method test
 	test 'authenticated? should return false when argument is nil' do
-		assert_not @user.authenticated?('')
+		assert_not @user.authenticated?(:remember, '')
 	end
 
 end
