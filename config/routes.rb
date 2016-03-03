@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'questions' => 'static_pages#questions'
   get 'career' => 'static_pages#career'
 
+  get 'users/:id/leave' => 'users#leave', as: :leave_user
   get 'signup' => 'users#new'
   resources :users, except: :new
 

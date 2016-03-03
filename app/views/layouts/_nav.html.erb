@@ -1,11 +1,14 @@
-<%= link_to "Teamond", root_path, class: "item" %>
-<%= link_to "Menu", "#", class: "item" %>
+<%= nav_link("Teamond", root_path) %>
+<%= nav_link("Menu", "#") %>
 <% if is_computer %><div class="right menu"><% end %>
 	<% if logged_in? %>
-		<%= link_to "Account", current_user, class: "item" %>
+		<%= link_to "#", class: "item" do %>
+			Cart<div class="ui teal label">2</div>
+		<% end %>
+		<%= nav_link("Account", current_user) %>
 		<%= link_to "Log Out", logout_path, method: "delete", class: "item" %>
 	<% else %>
-		<%= link_to "Sign Up", signup_path, class: "item" %>
-		<%= link_to "Log In", login_path, class: "item" %>
+		<%= nav_link("Sign Up", signup_path) %>
+		<%= nav_link("Log In", login_path) %>
 	<% end %>
 <% if is_computer %></div><% end %>

@@ -1,0 +1,29 @@
+<% provide(:title, "Delete Account") %>
+
+<h1 class="ui header title">Delete Account</h1>
+<div class="row">
+	<%= form_tag user_url(@user.id), method: "delete", class: "ui form column", id: "deleteUserForm" do %>
+		
+		<div class="field">
+			<%= label_tag :confirm %>
+			<div class="ui left icon large input">
+				<%= text_field_tag :confirm, nil, placeholder: "I Understand" %>
+				<%= semantic_icon "warning sign" %>
+			</div>
+			<small>Account removal is irreversable. Please enter 'I Understand' </small>
+		</div>
+
+		<div class="field">
+			<%= label_tag :password %>
+			<div class="ui left icon large input">
+				<%= password_field_tag :password, nil, placeholder: "Enter password to proceed" %>
+				<%= semantic_icon "unlock alternate" %>
+			</div>
+		</div>
+
+		<div class="field">
+			<%= submit_tag "Delete Account", class: "ui inverted red button" %>
+		</div>
+	<% end %>	
+
+</div>
