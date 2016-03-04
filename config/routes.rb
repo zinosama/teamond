@@ -5,9 +5,10 @@ Rails.application.routes.draw do
   get 'questions' => 'static_pages#questions'
   get 'career' => 'static_pages#career'
 
-  get 'users/:id/leave' => 'users#leave', as: :leave_user
   get 'signup' => 'users#new'
-  resources :users, except: :new
+  resources :users, except: :new do
+    get 'leave', on: :member
+  end
 
   resources :account_activations, only: [:edit]
   resources :password_resets, only: [:new, :create, :edit, :update]
@@ -15,6 +16,13 @@ Rails.application.routes.draw do
   get 'login' => 'sessions#new'
   post 'login' => 'sessions#create'
   delete 'logout' => 'sessions#destroy'
+
+  resources :recipes, only: [:create, :show, :update, :destroy] do 
+    get 'manage', on: :collection
+  end
+
+  resources :dish_categories, only: [:create]
+  resources :milktea_addons, only: [:create]
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

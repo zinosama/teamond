@@ -97,3 +97,17 @@ input{
 p.unactivatedUser, .unactivatedUser a{
   color:#FF4949;
 }
+
+/* recipe management */
+#newRecipeForm .ui.grid > .column:not(.row){
+  padding-bottom: 0;
+}
+
+#newRecipeDishCategory{
+  display: none;
+}
+
+#newRecipeRow{
+  padding-bottom: 3em;
+  background-color: #F9F0FF;
+}
