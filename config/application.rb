@@ -26,5 +26,7 @@ module Teamond
     config.action_view.field_error_proc = Proc.new { |html_tag, instance| 
         "<div class=\"ui left icon input error\">#{html_tag}</div>".html_safe
     }
+
+    config.autoload_paths += %W(#{config.root}/app/models/recipes)
   end
 end
