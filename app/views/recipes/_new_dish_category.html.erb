@@ -1,0 +1,23 @@
+<div class="column">
+	<h4 class="ui horizontal divider header">
+	  <i class="tag icon"></i>
+	  New Dish Category
+	</h4>
+	<%= form_for @dish_category, html: { class: ["ui", "form"], id: "newDishCategoryForm" } do |f| %>
+		
+		<div class="field">
+			<%= f.label :name %>
+			<%= icon_input_wrapper(f, :name, :write, { placeholder: "GGGGGDragon style salad variations" }) %>
+		</div>
+
+		<div class="field">
+			<%= f.label :image %>
+			<%= icon_input_wrapper(f, :image, "file outline", { placeholder: "upload image" }) %>
+		</div>
+
+		<div class="field">
+			<%= f.label :description %>
+			<%= f.text_area(:description, rows: 5, placeholder: "Category description comes in here...") %>
+		</div>
+	<% end %>
+</div>

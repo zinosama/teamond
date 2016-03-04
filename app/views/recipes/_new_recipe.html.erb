@@ -1,0 +1,45 @@
+<%= form_for @recipe, html: { class: ["ui", "form", "column"], id: "newRecipeForm"} do |f| %>
+	<div class="ui grid">
+		<div class="eight wide column">
+			<div class="field">
+				<%= f.label :name %>
+				<%= icon_input_wrapper(f, :name, :spoon, { placeholder: "dukbokki" }) %>
+			</div>
+		</div>
+
+		<div class="eight wide column">
+			<div class="field">
+				<%= f.label :price %>
+				<%= icon_input_wrapper(f, :price, :dollar, { placeholder: "please enter number only!" }) %>
+			</div>
+		</div>
+
+		<div class="eight wide column">
+			<div class="field">
+				<%= f.label :type %>
+				<%= f.select(:type, [['Dish', 1], ['Milk Tea', 2]], { prompt: "Select Type of Recipe" }, { class: "ui dropdown" }) %>
+			</div>
+		</div>
+
+		<div class="eight wide column">
+			<div class="field">
+				<%= f.label :image %>
+				<%= icon_input_wrapper(f, :image, "file outline", { placeholder: "upload image" }) %>
+			</div>
+		</div>
+
+		<div class="sixteen wide column" id="newRecipeDishCategory">
+			<div class="field">
+				<%= f.label :dish_category %>
+				<%= f.select(:dish_category_id, [['ph1', 1], ['ph2', 2]], { prompt: "Select Category" }, { class: "ui dropdown" }) %>
+			</div>
+		</div>
+
+		<div class="sixteen wide column">
+			<div class="field">
+				<%= f.label :description %>
+				<%= f.text_area(:description, rows: 5, placeholder: "Description comes in here...") %>
+			</div>
+		</div>
+	</div>
+<% end %>

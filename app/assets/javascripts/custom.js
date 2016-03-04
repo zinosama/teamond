@@ -13,4 +13,14 @@ $(document).ready(function(){
   });
 
   $('.ui.checkbox').checkbox();
+
+  $('select.dropdown').dropdown();
+
+  toggleDishCategorySelectDisplay();
 });
+
+var toggleDishCategorySelectDisplay = function(){
+  $('#recipe_type').change(function(){
+    this.value == 1 ? $('#newRecipeDishCategory').show() : $('#newRecipeDishCategory').hide();
+  });
+}
