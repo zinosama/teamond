@@ -3,7 +3,7 @@ require 'test_helper'
 class DishCategoryTest < ActiveSupport::TestCase
 
 	def setup
-		@rice = DishCategory.new(name: "Rice", description: "all kinds of rice", image: "path_to_image")
+		@rice = DishCategory.new(name: "Rice", description: "all kinds of rice", image: File.open(File.join(Rails.root, '/test/fixtures/images/salad.jpg')) )
 	end
 
 	test 'should be valid' do
@@ -20,4 +20,8 @@ class DishCategoryTest < ActiveSupport::TestCase
 		assert_not @rice.valid?
 	end
 	
+	test 'image should not too large' do
+		@rice.image = File.open(File.join(Rails.root, '/test/fixtures/images/too-large.jpg'))
+		assert_not @rice.valid?
+	end
 end

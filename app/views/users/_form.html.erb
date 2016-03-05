@@ -1,5 +1,5 @@
 <%= form_for @user, html: { class: ["ui", "form", "column"], id: "signupForm"} do |f| %>
-	<%= render 'shared/error_msgs' %>
+	<%= render 'shared/error_msgs', object: f.object %>
 
 	<div class="field">
 		<%= f.label :email %>

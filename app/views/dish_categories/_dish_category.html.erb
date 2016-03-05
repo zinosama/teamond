@@ -1,0 +1,16 @@
+<%-# This view is controlled by RecipeController and rendered through recipes/manage view %>
+
+<div class="row">
+	<h1><%= dish_category.name %></h1>
+</div>
+
+<div class="ui container grid">
+	<% dish_category.dishes.each do |dish| %>
+		<div class="two wide column">
+			<%= image_tag dish.image.url(:thumb).to_s, class:"ui image" if dish.image? %>
+			<p><%= dish.name %></p>
+			<p>$ <%= dish.price %></p>
+		</div>
+	<% end %>
+</div>
+

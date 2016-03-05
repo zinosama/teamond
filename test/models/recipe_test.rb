@@ -3,8 +3,8 @@ require 'test_helper'
 class RecipeTest < ActiveSupport::TestCase
 
 	def setup
-		fried_rice = DishCategory.new(name: "Rice", description: "all kinds of rice", image: "path_to_image")
-		@dish = fried_rice.dishes.build(name: "Fried Rice", description: "fried rice with little nutrition.", price: 12.11, image: "path_to_image", type: "Dish")
+		fried_rice = DishCategory.new(name: "Rice", description: "all kinds of rice")
+		@dish = fried_rice.dishes.build(name: "Fried Rice", description: "fried rice with little nutrition.", price: 12.11, image: File.open(File.join(Rails.root, '/test/fixtures/images/salad.jpg')) )
 	end
 
 	#basic attributes testing
@@ -14,7 +14,7 @@ class RecipeTest < ActiveSupport::TestCase
 	end
 
 	test 'milktea should be subclass of recipe' do
-		milktea = Recipe.new(name: "bubble tea", description: "sugar water that makes you fat. Sorry.", price: 3, image: "path_to_image", type: "Milktea")
+		milktea = Recipe.new(name: "bubble tea", description: "sugar water that makes you fat. Sorry.", price: 3, image: File.open(File.join(Rails.root, '/test/fixtures/images/salad.jpg')), type: "Milktea")
 		assert milktea.valid?
 	end
 
@@ -43,6 +43,11 @@ class RecipeTest < ActiveSupport::TestCase
 		assert_not @dish.valid?
 	end
 
+	test 'image should not be too large' do
+		@dish.image = File.open(File.join(Rails.root, '/test/fixtures/images/too-large.jpg'))
+		assert_not @dish.valid?
+	end
+
 	test 'price should be present' do
 		@dish.price = nil 
 		assert_not @dish.valid?
@@ -60,6 +65,10 @@ class RecipeTest < ActiveSupport::TestCase
 		assert @dish.valid?
 	end
 
+	test 'type must be present' do
+		@dish.type = ""
+		assert_not @dish.valid?
+	end 
 	#sub-class attributes testing
 
 	test 'dish must have category' do

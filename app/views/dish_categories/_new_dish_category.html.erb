@@ -1,9 +1,12 @@
+<%-# This view is controlled by RecipeController and rendered through recipes/manage view %> 
+
 <div class="column">
 	<h4 class="ui horizontal divider header">
 	  <i class="tag icon"></i>
 	  New Dish Category
 	</h4>
-	<%= form_for @dish_category, html: { class: ["ui", "form"], id: "newDishCategoryForm" } do |f| %>
+	<%= form_for @dish_category, html: { multipart: true, class: ["ui", "form"], id: "newDishCategoryForm" } do |f| %>
+		<%= render 'shared/error_msgs', object: f.object %>
 		
 		<div class="field">
 			<%= f.label :name %>
@@ -12,7 +15,7 @@
 
 		<div class="field">
 			<%= f.label :image %>
-			<%= icon_input_wrapper(f, :image, "file outline", { placeholder: "upload image" }) %>
+			<%= f.file_field :image, accept: 'image/jpeg,image/gif,image/png'%>
 		</div>
 
 		<div class="field">
