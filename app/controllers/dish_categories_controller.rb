@@ -1,5 +1,5 @@
 class DishCategoriesController < ApplicationController
-
+	
 	def create
 		@recipe = Recipe.new
 		@milktea_addon = MilkteaAddon.new

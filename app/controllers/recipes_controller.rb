@@ -1,6 +1,6 @@
 class RecipesController < ApplicationController
-	before_action :logged_in_user
-	before_action :logged_in_admin
+	before_action :logged_in_user, except: [:show, :index]
+	before_action :logged_in_admin, except: [:show, :index]
 
 	def manage
 		@recipe = Recipe.new
