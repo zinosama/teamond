@@ -8,14 +8,14 @@
   New Menu Item
 </h4>
 <div class="row" id="newRecipeRow">
-	<%= render 'new_recipe' %>
+	<%= render 'recipes/new_recipe' %>
 </div>
 
 <div class="row">
 	<div class="ui two column grid">
 		<div class="row">
-		<%= render 'new_dish_category' %>
-		<%= render 'new_addon' %>
+		<%= render 'dish_categories/new_dish_category' %>
+		<%= render 'milktea_addons/new_addon' %>
 		</div>
 	</div>
 </div>
@@ -23,6 +23,8 @@
 <div class="row">
 	<h4 class="ui horizontal divider header">
 	  <i class="cubes icon"></i>
-	  All Products
+	  All Menu Items
 	</h4>
 </div>
+
+<%= render @dish_categories %>

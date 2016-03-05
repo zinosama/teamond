@@ -51,11 +51,12 @@ pre{
 input{
 	width: 100%;
 }
-.ui.form .error input[type="text"], .ui.form .error input[type="password"]{
+.ui.form .error input[type="text"], .ui.form .error input[type="password"], .ui.form .error div.selection {
     background-color: #fff6f6;
     border-color: #e0b4b4;
     color: #9f3a38;
     box-shadow: none;
+    width: 100%;
 }
 .error label{
   font-size: 1.1em;

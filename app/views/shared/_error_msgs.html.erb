@@ -1,11 +1,11 @@
-<% if @user.errors.any? %>
+<% if object.errors.any? %>
 	<div class="ui error message" style="display:block;">
 		<i class="close icon"></i>
 		<div class="header">
-			Your registration contains <%= pluralize(@user.errors.count, "error") %>.
+			This form contains <%= pluralize(object.errors.count, "error") %>.
 		</div>
 		<ul class="list">
-			<% @user.errors.full_messages.each do |msg| %>
+			<% object.errors.full_messages.each do |msg| %>
 				<li><%= msg %></li>
 			<% end %>
 		</ul>
