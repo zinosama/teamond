@@ -1,6 +1,8 @@
 class RecipesController < ApplicationController
+	before_action :logged_in_user, except: [:show, :index]
+	before_action :logged_in_admin, except: [:show, :index]
 
-	def manage #new
+	def manage
 		@recipe = Recipe.new
 		@dish_category = DishCategory.new
 		@milktea_addon = MilkteaAddon.new
@@ -12,7 +14,7 @@ class RecipesController < ApplicationController
 		@dish_category = DishCategory.new
 		@milktea_addon = MilkteaAddon.new
 		@dish_categories = DishCategory.all
-
+		
 		if params[:recipe][:type] == "dish"
 			dish_category = DishCategory.find(params[:recipe][:dish_category_id])
 			if dish_category
@@ -32,12 +34,21 @@ class RecipesController < ApplicationController
 		else
 			render 'shared/manage'
 		end
+	end
 
+	def edit
+		@recipe = Recipe.find(params[:id])
+	end
+
+	def update
+	end
+
+	def destroy
 	end
 
 	private 
 
 	def recipe_params
-		params.require(:recipe).permit(:name, :description, :image, :price)
+		params.require(:recipe).permit(:name, :description, :image, :price, :type)
 	end
 end
