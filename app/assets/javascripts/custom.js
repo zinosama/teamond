@@ -17,6 +17,7 @@ $(document).ready(function(){
   $('select.dropdown').dropdown();
 
   toggleDishCategorySelectDisplay();
+  enableRecipeDelete();
 
   $('#recipe_image').bind('change', function() {
     var size_in_megabytes = this.files[0].size/1024/1024;
@@ -27,6 +28,12 @@ $(document).ready(function(){
   });
 });
 
+var enableRecipeDelete = function(){
+  $('#delete_confirm').change(function(){
+    this.checked ? $('#recipeDeleteButton').removeClass("disabled") : $('#recipeDeleteButton').addClass("disabled");
+  });
+};
+
 var toggleDishCategorySelectDisplay = function(){
   var recipeTypeSelectField = $('#recipe_type');
   if(recipeTypeSelectField.length == 0){
@@ -36,4 +43,4 @@ var toggleDishCategorySelectDisplay = function(){
   recipeTypeSelectField.change(function(){
     this.value == 'Dish' ? $('#newRecipeDishCategory').show() : $('#newRecipeDishCategory').hide();
   });
-}
+};
