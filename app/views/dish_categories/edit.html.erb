@@ -1,0 +1,18 @@
+<% provide(:title, "Edit Dish Category") %>
+<% provide(:button_text, "Update Dish Category") %>
+<%= render 'shared/admin_nav' %>
+
+<h1 class="ui header title">Edit Dish Category</h1>
+<div class="row">
+	<div class="ui grid">
+
+		<div class="six wide column">
+			<%= image_tag @dish_category.image.url.to_s, class:"ui centered image" if @dish_category.image? %>
+		</div>
+		<div class="ten wide column">
+				<%= render 'form' %>
+				<%= render 'delete_button' %>
+		</div>
+
+	</div>
+</div>

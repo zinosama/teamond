@@ -17,15 +17,24 @@ class DishCategoriesController < ApplicationController
 	end
 
 	def edit
-
+		@dish_category = DishCategory.find(params[:id])
 	end
 
 	def update
-
+		@dish_category = DishCategory.find(params[:id])
+		if @dish_category && @dish_category.update_attributes(dish_category_params)
+			flash[:success] = "Category Updated."
+			redirect_to manage_recipes_url
+		else
+			render 'edit'
+		end 
 	end
 
 	def destroy
-
+		dish_category = DishCategory.find(params[:id])
+		dish_category.destroy
+		flash[:success] = "Category Deleted."
+		redirect_to manage_recipes_url
 	end
 
 	private
