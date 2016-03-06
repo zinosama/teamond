@@ -44,7 +44,7 @@ class RecipesController < ApplicationController
 
 	def update
 		@recipe = Recipe.find(params[:id])
-		if @recipe.type = "Dish"
+		if @recipe.type == "Dish"
 			dish_category = DishCategory.find_by(id: params[:recipe][:dish_category_id])
 			@recipe.dish_category = dish_category if dish_category
 		end
@@ -60,6 +60,7 @@ class RecipesController < ApplicationController
 	def destroy
 		@recipe = Recipe.find(params[:id])
 		@recipe.destroy
+		flash[:succss] = "Item has been deleted."
 		redirect_to manage_recipes_url
 	end
 

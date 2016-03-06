@@ -11,3 +11,10 @@ dish1:
   dish_category: cate1
   image: <%= File.open(File.join(Rails.root, '/test/fixtures/images/salad.jpg')) %>
   description: This is dish 1
+
+milktea1:
+  name: milktea1
+  price: 2.12
+  type: Milktea
+  image: <%= File.open(File.join(Rails.root, '/test/fixtures/images/salad2.jpg')) %>
+  description: This is milktea 1
