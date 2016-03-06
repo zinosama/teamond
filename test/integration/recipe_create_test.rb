@@ -4,7 +4,7 @@ class RecipeCreateTest < ActionDispatch::IntegrationTest
 	
 	def setup
 		@user = users(:zino)
-		@dish_category = DishCategory.create( name: "cate1", description: "cate1 description" )
+		@dish_category = dish_categories(:cate1)
 	end
 
 	test 'invalid recipe information' do
@@ -33,13 +33,13 @@ class RecipeCreateTest < ActionDispatch::IntegrationTest
 		log_in_as @user
 		get manage_recipes_url
 		assert_difference 'Dish.count', 1 do
-			post recipes_path, recipe: { name: "dish1", price: "1.23", type: "Dish", image: fixture_file_upload('test/fixtures/images/salad2.jpg','images/jpeg'), description: "description", dish_category_id: @dish_category.id }
+			post recipes_path, recipe: { name: "dish-integrate", price: "1.23", type: "Dish", image: fixture_file_upload('test/fixtures/images/salad2.jpg','images/jpeg'), description: "description", dish_category_id: @dish_category.id }
 		end
 		assert_redirected_to manage_recipes_url
 		follow_redirect!
 		assert_not flash.empty?
 		assert_select 'div.ui.error.message', count: 0
-		assert_select 'p', text: "dish1", count: 1
+		assert_select 'p', text: "dish-integrate", count: 1
 	end
 
 	test 'valid recipe information - milktea' do
