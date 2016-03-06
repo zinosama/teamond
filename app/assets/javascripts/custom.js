@@ -29,7 +29,7 @@ $(document).ready(function(){
 
 var toggleDishCategorySelectDisplay = function(){
   var recipeTypeSelectField = $('#recipe_type');
-  if(recipeTypeSelectField[0].value == "Dish"){
+  if(recipeTypeSelectField.length == 0){
     $('#newRecipeDishCategory').show();
   }
 
