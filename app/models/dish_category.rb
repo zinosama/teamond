@@ -1,5 +1,5 @@
 class DishCategory < ActiveRecord::Base
-	has_many :dishes
+	has_many :dishes, dependent: :destroy
 	mount_uploader :image, PictureUploader
 
 	validates :name, presence: true, length: { maximum: 50 }

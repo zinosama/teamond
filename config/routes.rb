@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     get 'manage', on: :collection
   end
 
-  resources :dish_categories, only: [:create]
+  resources :dish_categories, only: [:create, :edit, :update, :destroy]
   resources :milktea_addons, only: [:create]
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

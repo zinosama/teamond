@@ -30,7 +30,7 @@ $(document).ready(function(){
 
 var enableRecipeDelete = function(){
   $('#delete_confirm').change(function(){
-    this.checked ? $('#recipeDeleteButton').removeClass("disabled") : $('#recipeDeleteButton').addClass("disabled");
+    this.checked ? $('.deleteButton').removeClass("disabled") : $('.deleteButton').addClass("disabled");
   });
 };
 

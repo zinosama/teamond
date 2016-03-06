@@ -1,7 +1,7 @@
 <%-# This view is controlled by RecipeController and rendered through recipes/manage view %>
 
-<div class="row">
-	<h1><%= dish_category.name %></h1>
+<div class="row dishCategoryRowInManage">
+	<h1><%= link_to dish_category.name, edit_dish_category_url(dish_category) %></h1>
 </div>
 
 <div class="ui container grid">
