@@ -20,14 +20,16 @@ class RecipesController < ApplicationController
 			if dish_category
 				@recipe = dish_category.dishes.build(recipe_params)
 			else
-				flash[:error] = "Error - Category Not Exist. Please contact site admin."
+				@recipe = Recipe.new
+				flash.now[:error] = "Error - Category Not Exist. Please contact site admin."
 				render 'shared/manage'
 				return
 			end
-		else
+		elsif params[:recipe][:type] == "Milktea"
 			@recipe= Milktea.new(recipe_params)
+		else
+			@recipe = Recipe.new(recipe_params)
 		end
-
 		if @recipe.save
 			flash[:success] = "New Item Saved."
 			redirect_to manage_recipes_url
