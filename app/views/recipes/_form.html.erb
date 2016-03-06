@@ -16,12 +16,14 @@
 			</div>
 		</div>
 
-		<div class="eight wide column">
-			<div class="field">
-				<%= f.label :type %>
-				<%= f.select(:type, [['Dish', 'Dish'], ['Milk Tea', 'Milktea']], { prompt: "Select Type of Recipe" }, { class: "ui dropdown" }) %>
+		<% unless @recipe.type %>
+			<div class="eight wide column">
+				<div class="field">
+					<%= f.label :type %>
+					<%= f.select(:type, [['Dish', 'Dish'], ['Milk Tea', 'Milktea']], { prompt: "Select Type of Recipe" }, { class: "ui dropdown" }) %>
+				</div>
 			</div>
-		</div>
+		<% end %>
 
 		<div class="eight wide column">
 			<div class="field">

@@ -4,8 +4,10 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+dish1:
+  name: dish1
+  price: 1.23
+  type: Dish
+  dish_category: cate1
+  image: <%= File.open(File.join(Rails.root, '/test/fixtures/images/salad.jpg')) %>
+  description: This is dish 1

@@ -15,19 +15,21 @@ class RecipesController < ApplicationController
 		@milktea_addon = MilkteaAddon.new
 		@dish_categories = DishCategory.all
 		
-		if params[:recipe][:type] == "dish"
-			dish_category = DishCategory.find(params[:recipe][:dish_category_id])
+		if params[:recipe][:type] == "Dish"
+			dish_category = DishCategory.find_by(id: params[:recipe][:dish_category_id])
 			if dish_category
 				@recipe = dish_category.dishes.build(recipe_params)
 			else
-				flash[:error] = "Error - Category Not Exist. Please contact site admin."
+				@recipe = Recipe.new
+				flash.now[:error] = "Error - Category Not Exist. Please contact site admin."
 				render 'shared/manage'
 				return
 			end
+		elsif params[:recipe][:type] == "Milktea"
+			@recipe= Milktea.new(recipe_params)
 		else
-			@recipe= Recipe.new(recipe_params)
+			@recipe = Recipe.new(recipe_params)
 		end
-
 		if @recipe.save
 			flash[:success] = "New Item Saved."
 			redirect_to manage_recipes_url
@@ -42,6 +44,11 @@ class RecipesController < ApplicationController
 
 	def update
 		@recipe = Recipe.find(params[:id])
+		if @recipe.type = "Dish"
+			dish_category = DishCategory.find_by(id: params[:recipe][:dish_category_id])
+			@recipe.dish_category = dish_category if dish_category
+		end
+
 		if @recipe.update_attributes(recipe_params)
 			flash[:success] = "Changes saved."
 			redirect_to manage_recipes_url
@@ -56,6 +63,6 @@ class RecipesController < ApplicationController
 	private 
 
 	def recipe_params
-		params.require(:recipe).permit(:name, :description, :image, :price, :type, :dish_category_id)
+		params.require(:recipe).permit(:name, :description, :image, :price)
 	end
 end
