@@ -1,5 +1,7 @@
 class DishCategoriesController < ApplicationController
-	
+	before_action :logged_in_user
+	before_action :logged_in_admin
+
 	def create
 		@recipe = Recipe.new
 		@milktea_addon = MilkteaAddon.new
@@ -12,6 +14,18 @@ class DishCategoriesController < ApplicationController
 		else
 			render 'shared/manage'
 		end
+	end
+
+	def edit
+
+	end
+
+	def update
+
+	end
+
+	def destroy
+
 	end
 
 	private

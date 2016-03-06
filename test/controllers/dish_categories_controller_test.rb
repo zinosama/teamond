@@ -25,14 +25,14 @@ class DishCategoriesControllerTest < ActionController::TestCase
 	end
 
 	test 'should redirect edit when not logged in' do
-		get :edit
+		get :edit, id: @dish_cate
 		assert_redirected_to login_url
 		assert_not flash.empty?
 	end
 
 	test 'should redirect edit when logged in as non-admin' do
 		log_in_as @user
-		get :edit
+		get :edit, id: @dish_cate
 		assert_redirected_to root_url
 		assert_not flash.empty?
 	end
