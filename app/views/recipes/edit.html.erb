@@ -4,5 +4,14 @@
 
 <h1 class="ui header title">Edit Item</h1>
 <div class="row">
-	<%= render 'form' %>
+	<div class="ui grid">
+
+		<div class="six wide column">
+			<%= image_tag @recipe.image.url.to_s, class:"ui centered image" if @recipe.image? %>
+		</div>
+		<div class="ten wide column">
+				<%= render 'form' %>
+		</div>
+
+	</div>
 </div>

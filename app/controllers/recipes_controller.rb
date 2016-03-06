@@ -41,6 +41,13 @@ class RecipesController < ApplicationController
 	end
 
 	def update
+		@recipe = Recipe.find(params[:id])
+		if @recipe.update_attributes(recipe_params)
+			flash[:success] = "Changes saved."
+			redirect_to manage_recipes_url
+		else
+			render 'edit'
+		end
 	end
 
 	def destroy
@@ -49,6 +56,6 @@ class RecipesController < ApplicationController
 	private 
 
 	def recipe_params
-		params.require(:recipe).permit(:name, :description, :image, :price, :type)
+		params.require(:recipe).permit(:name, :description, :image, :price, :type, :dish_category_id)
 	end
 end

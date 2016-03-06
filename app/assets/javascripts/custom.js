@@ -28,7 +28,12 @@ $(document).ready(function(){
 });
 
 var toggleDishCategorySelectDisplay = function(){
-  $('#recipe_type').change(function(){
-    this.value == 'dish' ? $('#newRecipeDishCategory').show() : $('#newRecipeDishCategory').hide();
+  var recipeTypeSelectField = $('#recipe_type');
+  if(recipeTypeSelectField[0].value == "Dish"){
+    $('#newRecipeDishCategory').show();
+  }
+
+  recipeTypeSelectField.change(function(){
+    this.value == 'Dish' ? $('#newRecipeDishCategory').show() : $('#newRecipeDishCategory').hide();
   });
 }
