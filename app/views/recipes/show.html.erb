@@ -1,0 +1,16 @@
+<% provide(:title, "Menu Item") %>
+
+<div class="row">
+	<div class="ui grid">
+
+		<div class="six wide column">
+			<%= image_tag @recipe.image.url.to_s, class:"ui centered image" if @recipe.image? %>
+		</div>
+		<div class="ten wide column">
+			<h2 class="ui title header"><%= @recipe.name %></h2>
+			<p>$ <%= @recipe.price %></p>
+			<p><%= @recipe.description %></p>
+		</div>
+
+	</div>
+</div>

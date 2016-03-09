@@ -62,6 +62,14 @@ class RecipesController < ApplicationController
 		end
 	end
 
+	def show 
+		@recipe = Recipe.find_by(id: params[:id])
+		unless @recipe
+			flash[:error] = "Cannot find menu item"
+			redirect_to menu_url
+		end
+	end 
+
 	def destroy
 		@recipe = Recipe.find(params[:id])
 		@recipe.destroy

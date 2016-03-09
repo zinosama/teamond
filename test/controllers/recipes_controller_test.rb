@@ -91,4 +91,16 @@ class RecipesControllerTest < ActionController::TestCase
 		assert_redirected_to root_url
 		assert_not flash.empty?
 	end
+
+	test 'should get index' do
+		get :index
+		assert_template 'recipes/index'
+		assert_select "title", "Menu | Teamond"
+	end
+
+	test 'should get show' do
+		get :show, id: @recipe
+		assert_template 'recipes/show'
+		assert_select 'title', "Menu Item | Teamond"
+	end
 end
