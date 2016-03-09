@@ -9,7 +9,7 @@ class RecipeShowTest < ActionDispatch::IntegrationTest
 	test 'recipe show page' do
 		get recipe_path(@recipe)
 		assert_template 'recipes/show'
-		assert_select 'p', text: @recipe.name, count: 1
+		assert_select 'h2', text: @recipe.name, count: 1
 		assert_select 'p', text: "$ #{@recipe.price}", count: 1
 	end
 end

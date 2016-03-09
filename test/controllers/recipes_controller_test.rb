@@ -97,4 +97,10 @@ class RecipesControllerTest < ActionController::TestCase
 		assert_template 'recipes/index'
 		assert_select "title", "Menu | Teamond"
 	end
+
+	test 'should get show' do
+		get :show, id: @recipe
+		assert_template 'recipes/show'
+		assert_select 'title', "Menu Item | Teamond"
+	end
 end
