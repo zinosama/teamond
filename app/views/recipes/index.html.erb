@@ -1,0 +1,23 @@
+<% provide(:title, "Menu") %>
+
+<h1 class="ui title header">Menu</h1>
+
+<% @dish_categories.each do |dish_categorie| %>
+	<div class="row">
+		<h2><%= dish_categorie.name %></h2>
+	</div>
+	<div class="ui container grid">
+		<% dish_categorie.dishes.each do |recipe| %>
+			<%= render 'recipe', recipe: recipe %>
+		<% end %>
+	</div>
+<% end %>
+
+<div class="row">
+	<h2>Taiji Milk Tea</h2>
+</div>
+<div class="ui container grid">
+	<% @milkteas.each do |recipe| %>
+		<%= render 'recipe', recipe: recipe %>
+	<% end %>
+</div>	

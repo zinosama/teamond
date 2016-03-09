@@ -1,5 +1,5 @@
 <%= nav_link("Teamond", root_path) %>
-<%= nav_link("Menu", "#") %>
+<%= nav_link("Menu", menu_path) %>
 <% if is_computer %><div class="right menu"><% end %>
 	<% if logged_in? %>
 		<%= link_to "#", class: "item" do %>
