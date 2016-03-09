@@ -24,4 +24,9 @@ class DishCategoryTest < ActiveSupport::TestCase
 		@rice.image = File.open(File.join(Rails.root, '/test/fixtures/images/too-large.jpg'))
 		assert_not @rice.valid?
 	end
+
+	test 'description should not be too long' do
+		@rice.description = "a" * 256
+		assert_not @rice.valid?
+	end
 end

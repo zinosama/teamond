@@ -3,6 +3,7 @@ class DishCategory < ActiveRecord::Base
 	mount_uploader :image, PictureUploader
 
 	validates :name, presence: true, length: { maximum: 50 }
+	validates :description, length: { maximum: 255 }
 	validate :picture_size
 
 	private
