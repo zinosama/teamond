@@ -1,0 +1,5 @@
+<div class="four wide column">
+	<%= link_to(image_tag(recipe.image.url.to_s, class:"ui image"), edit_recipe_url(recipe)) if recipe.image?  %>
+	<p><%= link_to recipe.name, recipe_path(recipe) %></p>
+	<p>$ <%= recipe.price %></p>
+</div>

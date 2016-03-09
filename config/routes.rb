@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   post 'login' => 'sessions#create'
   delete 'logout' => 'sessions#destroy'
 
+  get 'menu' => 'recipes#index'
   resources :recipes, only: [:create, :show, :edit, :update, :destroy] do 
     get 'manage', on: :collection
   end

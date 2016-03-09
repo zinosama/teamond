@@ -10,6 +10,11 @@ class RecipesController < ApplicationController
 		render 'shared/manage'
 	end
 
+	def index
+		@dish_categories = DishCategory.all
+		@milkteas = Milktea.all
+	end
+
 	def create
 		@dish_category = DishCategory.new
 		@milktea_addon = MilkteaAddon.new
