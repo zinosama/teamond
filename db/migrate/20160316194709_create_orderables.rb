@@ -1,6 +1,6 @@
-class CreateOderables < ActiveRecord::Migration
+class CreateOrderables < ActiveRecord::Migration
   def change
-    create_table :oderables do |t|
+    create_table :orderables do |t|
     	t.references :buyable, polymorphic: true, index: true
     	t.references :ownable, polymorphic: true, index: true
 
