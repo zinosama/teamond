@@ -20,7 +20,7 @@ class OrderablesControllerTest < ActionController::TestCase
 
 	test 'should redirect create when not logged in' do
 		user = users(:zino)
-		dish = dishes(:dish1)
+		dish = recipes(:dish1)
 		post :create, orderable: { buyable: dish, ownable: user, quantity: 1, unit_price: 10 }
 		assert_redirected_to login_url
 		assert_not flash.empty?
