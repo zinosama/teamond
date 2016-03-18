@@ -1,0 +1,3 @@
+class MilkteaOrderablesController < ApplicationController
+	
+end
