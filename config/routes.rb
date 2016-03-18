@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   resources :dish_categories, only: [:create, :edit, :update, :destroy]
   resources :milktea_addons, only: [:create]
   resources :orderables, only: [:index, :create, :update, :destroy]
+  resources :milktea_orderables, only: [:new, :create]
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
