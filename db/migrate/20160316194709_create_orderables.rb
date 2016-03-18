@@ -5,7 +5,7 @@ class CreateOrderables < ActiveRecord::Migration
     	t.references :ownable, polymorphic: true, index: true
 
     	t.decimal :unit_price
-    	t.integer :quantity
+    	t.integer :quantity, default: 1
 
       t.timestamps null: false
     end
