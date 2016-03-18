@@ -34,11 +34,6 @@ class OrderableTest < ActiveSupport::TestCase
 		assert_not orderable.valid?
 	end
 
-	test 'quantity should be present' do 
-		orderable = Orderable.new(buyable: @dish, ownable: @user, unit_price: 10)
-		assert_not orderable.valid?
-	end
-
 	test 'unit_price should be present' do
 		orderable = Orderable.new(buyable: @dish, ownable: @user, quantity: 20)
 		assert_not orderable.valid?

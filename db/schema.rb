@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160316201645) do
+ActiveRecord::Schema.define(version: 20160318225606) do
 
   create_table "dish_categories", force: :cascade do |t|
     t.string   "name"
@@ -28,15 +28,26 @@ ActiveRecord::Schema.define(version: 20160316201645) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "milktea_orderables", force: :cascade do |t|
+    t.integer  "sweet_scale"
+    t.integer  "temp_scale"
+    t.integer  "size"
+    t.integer  "milktea_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "milktea_orderables", ["milktea_id"], name: "index_milktea_orderables_on_milktea_id"
+
   create_table "orderables", force: :cascade do |t|
     t.integer  "buyable_id"
     t.string   "buyable_type"
     t.integer  "ownable_id"
     t.string   "ownable_type"
     t.decimal  "unit_price"
-    t.integer  "quantity"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.integer  "quantity",     default: 1
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   add_index "orderables", ["buyable_type", "buyable_id"], name: "index_orderables_on_buyable_type_and_buyable_id"
