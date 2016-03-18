@@ -1,6 +1,7 @@
 class Dish < Recipe
 	belongs_to :dish_category
-	
+	has_many :orderables, as: :buyable
+
 	validates :dish_category, presence: true
 
 	#Caution! This hack may cause unexpected behaviors.

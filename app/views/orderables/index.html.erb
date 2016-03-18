@@ -1,0 +1,10 @@
+<% provide(:title, "Cart") %>
+
+<h1 class="ui title header">Shopping Cart</h1>
+<div class="row">
+	<ul>
+		<% @orderables.each do |orderable| %>
+			<li><%= orderable.buyable.name%></li>
+		<% end %>
+	</ul>
+</div>
