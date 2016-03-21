@@ -1,4 +1,6 @@
 class Milktea < Recipe
+	has_many :milktea_orderables
+
 	validates :dish_category_id, absence: true
 
 	#Caution! This hack may cause unexpected behaviors.
