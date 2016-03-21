@@ -1,5 +1,7 @@
 class MilkteaOrderable < ActiveRecord::Base
 	belongs_to :milktea
+	has_many :addons_orderables
+	has_many :milktea_addons, through: :addons_orderables
 
 	validates :milktea, presence: true
 	validates :sweet_scale, presence: true, numericality: { less_than: 5, greater_than_or_equal_to: 0 }

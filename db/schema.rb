@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160318225606) do
+ActiveRecord::Schema.define(version: 20160321215013) do
+
+  create_table "addons_orderables", force: :cascade do |t|
+    t.integer  "milktea_orderable_id"
+    t.integer  "milktea_addon_id"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "addons_orderables", ["milktea_addon_id"], name: "index_addons_orderables_on_milktea_addon_id"
+  add_index "addons_orderables", ["milktea_orderable_id"], name: "index_addons_orderables_on_milktea_orderable_id"
 
   create_table "dish_categories", force: :cascade do |t|
     t.string   "name"

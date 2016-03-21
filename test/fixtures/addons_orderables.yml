@@ -4,6 +4,6 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-milktea_addon1:
-  name: bubble
-  price: 0.5
+milktea_record1:
+  milktea_orderable: milktea_orderable1
+  milktea_addon: milktea_addon1
