@@ -4,8 +4,9 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+milktea_orderable1:
+  sweet_scale: 2
+  temp_scale: 1
+  size: 0
+  milktea: milktea1
+  
