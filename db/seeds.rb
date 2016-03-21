@@ -26,3 +26,8 @@ User.create!(name:  "zino sama",
                activated: true,
                activated_at: Time.zone.now)
 end
+
+Milktea.create!(name: "uuulong milktea", description:"first milktea", price: 1.23, image: File.open(File.join(Rails.root, '/test/fixtures/images/tea.jpg')))
+MilkteaAddon.create!(name: "bubble", price: 0.5)
+MilkteaAddon.create!(name: "red bean", price: 0.5)
+MilkteaAddon.create!(name: "green bean", price: 0.5)

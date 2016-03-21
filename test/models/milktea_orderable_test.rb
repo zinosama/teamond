@@ -31,8 +31,8 @@ class MilkteaOrderableTest < ActiveSupport::TestCase
 		assert_not @milktea_orderable.valid?
 	end
 
-	test 'temp_scale should be less than 5' do
-		@milktea_orderable.temp_scale = 5
+	test 'temp_scale should be less than 4' do
+		@milktea_orderable.temp_scale = 4
 		assert_not @milktea_orderable.valid?
 	end
 
