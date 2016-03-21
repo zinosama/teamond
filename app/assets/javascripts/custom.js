@@ -26,7 +26,30 @@ $(document).ready(function(){
       alert('Maximum file size is 1MB. Please choose a smaller file.');
     }
   });
+
+  //calculate existing total: $('div.addonSelect a.ui.label.transition.visible').length
+  //calculate existing size
+  watchMilkteaAddons();
+  watchMilkteaSizes();
 });
+
+var watchMilkteaSizes = function(){
+  $(".milkteaSize").change(function(){
+    $('input:checked.milkteaSize')[0].value === "0" ? updateMilkteaTotal(-1) : updateMilkteaTotal(1);
+  });
+};
+
+var watchMilkteaAddons = function(){
+  $('.addonSelect.dropdown').dropdown({
+    onAdd: function(){ updateMilkteaTotal(0.5);},
+    onRemove: function(){ updateMilkteaTotal(-0.5); }
+  });
+};
+
+var updateMilkteaTotal = function(difference){
+  var newPrice = parseFloat($('#milkteaOrderableRuningTotal').text(), 10) + difference;
+  $('#milkteaOrderableRuningTotal').text(newPrice.toFixed(2));
+};
 
 var enableRecipeDelete = function(){
   $('#delete_confirm').change(function(){
