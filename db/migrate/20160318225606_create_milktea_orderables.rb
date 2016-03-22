@@ -6,6 +6,7 @@ class CreateMilkteaOrderables < ActiveRecord::Migration
     	t.integer :size
 
     	t.references :milktea, index: true
+    	t.references :orderable, index: true
 
       t.timestamps null: false
     end

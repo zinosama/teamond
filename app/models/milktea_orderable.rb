@@ -1,5 +1,7 @@
 class MilkteaOrderable < ActiveRecord::Base
 	belongs_to :milktea
+	has_one :orderable, as: :buyable
+	
 	has_many :addons_orderables
 	has_many :milktea_addons, through: :addons_orderables
 

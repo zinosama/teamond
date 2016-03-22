@@ -43,11 +43,13 @@ ActiveRecord::Schema.define(version: 20160321215013) do
     t.integer  "temp_scale"
     t.integer  "size"
     t.integer  "milktea_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.integer  "orderable_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   add_index "milktea_orderables", ["milktea_id"], name: "index_milktea_orderables_on_milktea_id"
+  add_index "milktea_orderables", ["orderable_id"], name: "index_milktea_orderables_on_orderable_id"
 
   create_table "orderables", force: :cascade do |t|
     t.integer  "buyable_id"
