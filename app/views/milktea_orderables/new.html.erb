@@ -12,9 +12,9 @@
 				<%= render 'shared/error_msgs', object: f.object %>
 
 				<div class="field">
-					<%= f.label :addons, 'Toppings ($0.5/each):' %>
+					<%= f.label :milktea_addon_ids, 'Toppings ($0.5/each):' %>
 					<small>Caution: We recommend adding less than 3 toppings. Otherwise, you may not have much room for milktea</small>
-					<%= f.collection_select(:addons, MilkteaAddon.all, :id, :name, { include_blank: "No Topping" }, { multiple: true, class: "ui fluid dropdown addonSelect"} ) %>
+					<%= f.collection_select(:milktea_addon_ids, MilkteaAddon.all, :id, :name, { include_blank: "No Topping" }, { multiple: true, class: "ui fluid dropdown addonSelect"} ) %>
 				</div>
 
 				<div class="field">
@@ -49,7 +49,8 @@
 				<%= f.hidden_field :milktea_id, value: params[:milktea_id] %>
 
 				<div class="field">
-					<label>Total for this item: $<span id="milkteaOrderableRuningTotal"><%= @milktea.price %></span></label>
+					<label>Estimate for Total: $<span id="milkteaOrderableRuningTotal"><%= @milktea.price %></span></label>
+					<small>For final amount, please review at checkout.</small>
 				</div>
 
 				<div class="field">
