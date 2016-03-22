@@ -13,19 +13,19 @@ User.create!(name:  "zino sama",
              activated: true,
              activated_at: Time.zone.now)
 
-99.times do |n|
-  name  = Faker::Name.name
-  email = "example-#{n+1}@gmail.com"
-  password = "dasdaa"
-  phone = "5478-9347"
-  User.create!(name:  name,
-               email: email,
-               password:              password,
-               password_confirmation: password,
-               phone: phone,
-               activated: true,
-               activated_at: Time.zone.now)
-end
+# 99.times do |n|
+#   name  = Faker::Name.name
+#   email = "example-#{n+1}@gmail.com"
+#   password = "dasdaa"
+#   phone = "5478-9347"
+#   User.create!(name:  name,
+#                email: email,
+#                password:              password,
+#                password_confirmation: password,
+#                phone: phone,
+#                activated: true,
+#                activated_at: Time.zone.now)
+# end
 
 Milktea.create!(name: "uuulong milktea", description:"first milktea", price: 1.23, image: File.open(File.join(Rails.root, '/test/fixtures/images/tea.jpg')))
 MilkteaAddon.create!(name: "bubble", price: 0.5)

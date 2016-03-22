@@ -3,8 +3,8 @@ require 'test_helper'
 class MilkteaOrderableTest < ActiveSupport::TestCase
 
 	def setup
-		@milktea = recipes(:milktea1)
-		@milktea_orderable = MilkteaOrderable.new(sweet_scale: 3, temp_scale: 2, size: 1, milktea: @milktea)
+		milktea = recipes(:milktea1)
+		@milktea_orderable = MilkteaOrderable.new(sweet_scale: 3, temp_scale: 2, size: 1, milktea: milktea)
 	end
 
 	test 'should be valid' do
@@ -60,4 +60,6 @@ class MilkteaOrderableTest < ActiveSupport::TestCase
 		@milktea_orderable.milktea = nil
 		assert_not @milktea_orderable.valid?
 	end	
+
+
 end
