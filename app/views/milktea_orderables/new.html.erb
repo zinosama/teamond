@@ -46,6 +46,8 @@
 					<%= radio_wrapper(f, :temp_scale, "3", "Warm") %>
 				</div>
 
+				<%= f.hidden_field :milktea_id, value: params[:milktea_id] %>
+
 				<div class="field">
 					<label>Total for this item: $<span id="milkteaOrderableRuningTotal"><%= @milktea.price %></span></label>
 				</div>
