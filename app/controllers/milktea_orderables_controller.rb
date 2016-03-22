@@ -1,5 +1,6 @@
 class MilkteaOrderablesController < ApplicationController
-
+	before_action :logged_in_user
+	
 	def new
 		@milktea = Milktea.find_by(id: params[:milktea_id])
 		unless @milktea
