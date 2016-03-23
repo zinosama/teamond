@@ -31,6 +31,14 @@ class MilkteaOrderablesController < ApplicationController
 		end
 	end
 
+	def edit
+		@milktea_orderable = MilkteaOrderable.find(params[:id])
+		@milktea = @milktea_orderable.milktea
+	end
+
+	def update
+	end
+
 	private
 
 	def milktea_orderable_params
