@@ -10,7 +10,11 @@ module FormsHelper
 	def radio_wrapper(object, name, value, label_value, options = { checked: false })
 		content_tag :div, class: "field" do
 			content_tag :div, class: ["ui", "radio", "checkbox"] do 
-				object.send("radio_button", name, value, checked: options[:checked], class: options[:class]) + object.send("label", (name.to_s + "_" + value), label_value)
+				if options[:new_record]
+					object.send("radio_button", name, value, checked: options[:checked], class: options[:class]) + object.send("label", (name.to_s + "_" + value), label_value)
+				else
+					object.send("radio_button", name, value, class: options[:class]) + object.send("label", (name.to_s + "_" + value), label_value)
+				end
 			end
 		end
 	end

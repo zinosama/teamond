@@ -1,0 +1,61 @@
+<div class="row">
+	<div class="ui grid container">
+		<div class="sixteen wide column">
+			<h3>Milktea Recipe:</h3>
+			<p><%= @milktea.name %> - $<%= @milktea.price %> (standard)</p>
+		</div>
+		<div class="sixteen wide column">
+			<%= form_for @milktea_orderable, html: { class: ["ui", "form"], id: "newMilkteaOrderableForm" } do |f| %>
+				<%= render 'shared/error_msgs', object: f.object %>
+
+				<div class="field">
+					<%= f.label :milktea_addon_ids, 'Toppings ($0.5/each):' %>
+					<small>Caution: We recommend adding less than 3 toppings. Otherwise, you may not have much room for milktea</small>
+					<%= f.collection_select(:milktea_addon_ids, MilkteaAddon.all, :id, :name, { include_blank: "No Topping" }, { multiple: true, class: "ui fluid dropdown addonSelect"} ) %>
+				</div>
+
+				<div class="field">
+					<label>Size</label>
+				</div>
+				<div class="inline fields">
+					<%= radio_wrapper(f, :size, "0", "Standard", checked: true, class:"milkteaSize", new_record: @milktea_orderable.new_record?) %>
+					<%= radio_wrapper(f, :size, "1", "Large (+ $0.99)", class: "milkteaSize", new_record: @milktea_orderable.new_record?) %>
+				</div>
+				
+				<div class="field">
+					<label>Sweetness</label>
+				</div>
+				<div class="inline fields">
+					<%= radio_wrapper(f, :sweet_scale, "0", "Zero", new_record: @milktea_orderable.new_record?) %>
+					<%= radio_wrapper(f, :sweet_scale, "1", "Little", new_record: @milktea_orderable.new_record?) %>
+					<%= radio_wrapper(f, :sweet_scale, "2", "Half", new_record: @milktea_orderable.new_record?) %>
+					<%= radio_wrapper(f, :sweet_scale, "3", "Less", new_record: @milktea_orderable.new_record?) %>
+					<%= radio_wrapper(f, :sweet_scale, "4", "Regular", checked: true, new_record: @milktea_orderable.new_record?) %>
+				</div>
+
+				<div class="field">
+					<label>Ice Level</label>
+				</div>
+				<div class="inline fields">
+					<%= radio_wrapper(f, :temp_scale, "0", "Chill", checked: true, new_record: @milktea_orderable.new_record?) %>
+					<%= radio_wrapper(f, :temp_scale, "1", "Less Ice", new_record: @milktea_orderable.new_record?) %>
+					<%= radio_wrapper(f, :temp_scale, "2", "No Ice", new_record: @milktea_orderable.new_record?) %>
+					<%= radio_wrapper(f, :temp_scale, "3", "Warm", new_record: @milktea_orderable.new_record?) %>
+				</div>
+
+				<%= f.hidden_field :milktea_id, value: params[:milktea_id] || @milktea.id %>
+
+				<div class="field">
+					<label>Estimate for Total: $<span id="milkteaOrderableRuningTotal"><%= @milktea_orderable.new_record? ? @milktea.price : @milktea_orderable.orderable.unit_price %></span></label>
+					<small>For final amount, please review at checkout.</small>
+				</div>
+
+				<div class="field">
+					<%= f.submit yield(:button_text), class: "ui inverted blue button" %>
+				</div>
+			<% end %>
+
+		</div>
+	</div>
+</div>
+

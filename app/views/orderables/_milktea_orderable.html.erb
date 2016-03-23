@@ -2,7 +2,7 @@
 	<%= link_to image_tag( milktea.image, alt: "#{milktea.name} image", class: "ui small rounded image center "), recipe_url(milktea) %>
 </td>
 <td>
-	<%= link_to(milktea.name, recipe_url(milktea)) %>
+	<%= link_to(milktea.name, recipe_url(milktea), class: "title") %>
 	<p><%= "#{orderable.buyable.display_size} size, #{orderable.buyable.display_sweet_scale} sweet, #{orderable.buyable.display_temp_scale}" %></p>
 	<% if orderable.buyable.milktea_addons.any? %>
 		<p>Toppings:</p>
@@ -12,7 +12,7 @@
 			<% end %>
 		</ol>
 	<% end %>
-	<button class="ui icon button"><%= semantic_icon "write" %></button>
+	<%= link_to semantic_icon("write"), edit_milktea_orderable_url(orderable.buyable), class: "ui icon button" %>
 	<button class="ui icon button"><%= semantic_icon "trash outline" %></button>
 </td>
 <td>

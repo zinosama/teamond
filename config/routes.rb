@@ -24,10 +24,12 @@ Rails.application.routes.draw do
 
   resources :dish_categories, only: [:create, :edit, :update, :destroy]
   resources :milktea_addons, only: [:create]
-  resources :orderables, only: [:index, :create, :update, :destroy]
+
+  get 'cart' => 'orderables#index'
+  resources :orderables, only: [:create, :update, :destroy]
   
   get 'milktea_orderables/new/:milktea_id' => 'milktea_orderables#new', as: :new_milktea_orderable
-  resources :milktea_orderables, only: [:create]
+  resources :milktea_orderables, only: [:create, :edit, :update]
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

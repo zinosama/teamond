@@ -2,8 +2,7 @@
 	<%= link_to image_tag( dish.image, alt: "#{dish.name} image", class: "ui small rounded image center "), recipe_url(dish) %>
 </td>
 <td>
-	<p><%= link_to dish.name, recipe_url(dish) %></p>
-	<button class="ui icon button"><%= semantic_icon "write" %></button>
+	<p><%= link_to dish.name, recipe_url(dish), class: "title" %></p>
 	<button class="ui icon button"><%= semantic_icon "trash outline" %></button>
 </td>
 <td>
