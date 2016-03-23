@@ -22,7 +22,12 @@ class MilkteaOrderablesController < ApplicationController
 			end
 		else
 			@milktea = Milktea.find_by(id: params[:milktea_orderable][:milktea_id])
-			render "new", id: @milktea
+			if @milktea
+				render "new"
+			else
+				flash[:error] = "Invalid milktea id submitted."
+				redirect_to menu_url
+			end
 		end
 	end
 

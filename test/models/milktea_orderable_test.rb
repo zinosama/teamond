@@ -61,5 +61,11 @@ class MilkteaOrderableTest < ActiveSupport::TestCase
 		assert_not @milktea_orderable.valid?
 	end	
 
-
+	test 'should have correct association with milktea_component and milktea_addon' do
+		@milktea_orderable.milktea_addon_ids = get_addon_ids
+		@milktea_orderable.save
+		assert_equal 3, @milktea_orderable.addons_orderables.size
+		stored_addon_ids = @milktea_orderable.addons_orderables.map{ |component| component.milktea_addon.id }
+		assert_equal get_addon_ids.sort, stored_addon_ids.sort  
+	end
 end
