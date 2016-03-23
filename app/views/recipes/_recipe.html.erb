@@ -1,5 +1,9 @@
 <tr>
 	<td class="selectable"><%= link_to recipe.name, recipe_path(recipe) %></td>
 	<td>$ <%= recipe.price %></td>
-	<td class="selectable"><%= link_to semantic_icon("add to cart"), orderables_path(type: "dish", buyable_id: recipe.id), method: :post %></td>
+	<% if recipe.is_a? Milktea %>
+		<td class="selectable"><%= link_to semantic_icon("add to cart"), new_milktea_orderable_path(recipe) %>
+	<% else %>
+		<td class="selectable"><%= link_to semantic_icon("add to cart"), orderables_path(type: "dish", buyable_id: recipe.id), method: :post %></td>
+	<% end %>
 </tr>
