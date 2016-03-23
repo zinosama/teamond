@@ -63,7 +63,7 @@ class MilkteaOrderablesController < ApplicationController
 		orderable = MilkteaOrderable.find(params[:id]).orderable
 		if orderable.ownable.is_a? User
 			user = orderable.ownable
-			unless user == currect_user
+			unless user == current_user
 				redirect_to cart_url
 				flash[:error] = "Unauthorized request"
 			end
