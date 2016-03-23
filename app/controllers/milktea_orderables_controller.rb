@@ -32,12 +32,24 @@ class MilkteaOrderablesController < ApplicationController
 	end
 
 	def edit
-		@milktea_orderable = MilkteaOrderable.find(params[:id])
+		@milktea_orderable = MilkteaOrderable.find_by(params[:id])
+		unless @milktea_orderable
+			redirect_to menu_url
+			flash[:error] = "Unidentified item"
+		end
 		@milktea = @milktea_orderable.milktea
 	end
 
 	def update
-	end
+		@milktea_orderable = MilkteaOrderable.find(params[:id])
+		if @milktea_orderable.update_attributes(milktea_orderable_params)
+			@milktea_orderable.orderable.update_attribute(:unit_price, @milktea_orderable.unit_price)
+			redirect_to cart_url
+			flash[:success] = "Changes saved"
+		else
+			@milktea = @milktea_orderable.milktea
+			render 'edit'
+		end
 
 	private
 

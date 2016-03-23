@@ -43,10 +43,10 @@
 					<%= radio_wrapper(f, :temp_scale, "3", "Warm", new_record: @milktea_orderable.new_record?) %>
 				</div>
 
-				<%= f.hidden_field :milktea_id, value: params[:milktea_id] %>
+				<%= f.hidden_field :milktea_id, value: params[:milktea_id] || @milktea.id %>
 
 				<div class="field">
-					<label>Estimate for Total: $<span id="milkteaOrderableRuningTotal"><%= @milktea.price %></span></label>
+					<label>Estimate for Total: $<span id="milkteaOrderableRuningTotal"><%= @milktea_orderable.new_record? ? @milktea.price : @milktea_orderable.orderable.unit_price %></span></label>
 					<small>For final amount, please review at checkout.</small>
 				</div>
 
