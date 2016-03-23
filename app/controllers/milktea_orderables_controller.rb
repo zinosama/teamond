@@ -1,6 +1,6 @@
 class MilkteaOrderablesController < ApplicationController
 	before_action :logged_in_user
-	before_action :correct_user, only: [:edit, :update]
+	before_action :correct_user, only: [:edit, :update, :destroy]
 
 	def new
 		@milktea = Milktea.find_by(id: params[:milktea_id])
@@ -51,6 +51,13 @@ class MilkteaOrderablesController < ApplicationController
 			@milktea = @milktea_orderable.milktea
 			render 'edit'
 		end
+	end
+
+	def destroy
+		milktea_orderable = MilkteaOrderable.find(params[:id])
+		milktea_orderable.destroy
+		redirect_to cart_url
+		flash[:success] = "Item deleted"
 	end
 
 	private
