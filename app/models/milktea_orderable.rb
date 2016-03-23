@@ -16,6 +16,21 @@ class MilkteaOrderable < ActiveRecord::Base
 		milktea.price + 0.99 * size.to_i + 0.5 * milktea_addons.size
 	end
 
+	def display_sweet_scale
+		scale = ["zero", "little", "half", "less", "regular"]
+		scale[sweet_scale]
+	end
+
+	def display_temp_scale
+		scale = ["chill", "less ice", "no ice", "warm"]
+		scale[temp_scale]
+	end
+
+	def display_size
+		scale = ["regular", "large"]
+		scale[size]
+	end
+
 	private
 
 	def trim_addons
