@@ -25,4 +25,5 @@ class MilkteaOrderablesControllerTest < ActionController::TestCase
 		assert_redirected_to login_url
 		assert_not flash.empty?
 	end
+
 end

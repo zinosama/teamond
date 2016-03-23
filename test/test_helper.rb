@@ -24,6 +24,10 @@ class ActiveSupport::TestCase
   	end
   end
 
+  def get_addon_ids
+    [ milktea_addons(:bubble), milktea_addons(:red_bean), milktea_addons(:green_bean) ].map{|addon| addon.id }
+  end
+  
   private 
 
   def integration_test?

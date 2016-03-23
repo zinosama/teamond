@@ -4,6 +4,14 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-milktea_addon1:
+bubble:
   name: bubble
+  price: 0.5
+
+red_bean:
+  name: red_bean
+  price: 0.5
+
+green_bean:
+  name: green_bean
   price: 0.5

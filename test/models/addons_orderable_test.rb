@@ -3,7 +3,7 @@ require 'test_helper'
 class AddonsOrderableTest < ActiveSupport::TestCase
 
 	def setup
-		addon = milktea_addons(:milktea_addon1)
+		addon = milktea_addons(:bubble)
 		milktea_orderable = milktea_orderables(:milktea_orderable1)
 		@record = AddonsOrderable.new(milktea_addon: addon, milktea_orderable: milktea_orderable)
 	end
