@@ -1,0 +1,31 @@
+<td>
+	<%= link_to image_tag( milktea.image, alt: "#{milktea.name} image", class: "ui small rounded image center "), recipe_url(milktea) %>
+</td>
+<td>
+	<%= link_to(milktea.name, recipe_url(milktea)) %>
+	<p><%= "#{orderable.buyable.display_size} size, #{orderable.buyable.display_sweet_scale} sweet, #{orderable.buyable.display_temp_scale}" %></p>
+	<% if orderable.buyable.milktea_addons.any? %>
+		<p>Toppings:</p>
+		<ol class="ui list">
+			<% orderable.buyable.milktea_addons.each do |addon| %>
+				<li value=""><%= semantic_icon :checkmark %> <%= addon.name %></li>
+			<% end %>
+		</ol>
+	<% end %>
+	<button class="ui icon button"><%= semantic_icon "write" %></button>
+	<button class="ui icon button"><%= semantic_icon "trash outline" %></button>
+</td>
+<td>
+	<p>$ <%= orderable.unit_price %></p>
+</td>
+<td>
+	<form class="ui form">
+		<div class="field">
+		<label>Quantity</label>
+		<div class="ui action input">
+			<input type="text" name="quantity">
+			<button class="ui button" type="submit">Update</button> 
+		</div>
+		</div>
+	</form>
+</td>

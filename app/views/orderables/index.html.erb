@@ -2,9 +2,17 @@
 
 <h1 class="ui title header">Shopping Cart</h1>
 <div class="row">
-	<ul>
-		<% @orderables.each do |orderable| %>
-			<li><%= orderable.buyable.name%></li>
-		<% end %>
-	</ul>
+	<table class="ui very basic table" id="shoppingCartTable">
+		<thead>
+			<tr>
+				<th class="four wide"></th>
+				<th class="six wide"></th>
+				<th class="two wide"></th>
+				<th class="four wide"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<%= render @orderables %>
+		<tbody>
+	</table>
 </div>
