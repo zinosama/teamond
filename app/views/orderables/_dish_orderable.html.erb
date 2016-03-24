@@ -6,7 +6,7 @@
 	<%= link_to semantic_icon("trash outline"), orderable_url(orderable), method: :delete , class:"ui icon button" %>
 </td>
 <td>
-	<p>$ <%= dish.price %></p>
+	<p>$ <%= dish.price * orderable.quantity %></p>
 </td>
 <td>
 	<%= form_for orderable, html: { class: ["ui", "form"] } do |f| %>
