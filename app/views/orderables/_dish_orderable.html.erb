@@ -2,10 +2,12 @@
 	<%= link_to image_tag( dish.image, alt: "#{dish.name} image", class: "ui small rounded image center "), recipe_url(dish) %>
 </td>
 <td>
-	<p><%= link_to dish.name, recipe_url(dish), class: "title" %></p>
-	<%= link_to semantic_icon("trash outline"), orderable_url(orderable), method: :delete , class:"ui icon button" %>
+	<div class="centerBlock">
+		<p><%= link_to dish.name, recipe_url(dish), class: "title" %></p>
+		<%= link_to semantic_icon("trash outline"), orderable_url(orderable), method: :delete , class:"ui icon button" %>
+	</div>
 </td>
-<td>
+<td class="center aligned">
 	<p>$ <%= dish.price * orderable.quantity %></p>
 </td>
 <td>
