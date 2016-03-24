@@ -25,7 +25,10 @@ class OrderablesController < ApplicationController
 	end
 
 	def destroy
-
+		orderable = Orderable.find(params[:id])
+		orderable.destroy
+		redirect_to cart_url
+		flash[:success] = "Item removed"
 	end
 
 	private 
