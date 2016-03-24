@@ -54,6 +54,7 @@ class MilkteaOrderableCreateTest < ActionDispatch::IntegrationTest
 		assert_select 'a', text: milktea_orderable.milktea.name, count: 1
 		assert_select 'p', text: "$ #{total}", count: 1
 		assert_select 'li', count: 3
+		assert_select 'button', text: "Estimate for Total: $ #{total}", count: 1
 	end
 
 end
