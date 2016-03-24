@@ -6,4 +6,10 @@ module OrderablesHelper
 		sum
 	end
 
+	def orderable_count(orderables)
+		count = 0
+		orderables.each{ |orderable| count += orderable.quantity }
+		count
+	end
+
 end

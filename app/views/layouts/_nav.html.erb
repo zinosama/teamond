@@ -3,7 +3,7 @@
 <% if is_computer %><div class="right menu"><% end %>
 	<% if logged_in? %>
 		<%= link_to cart_path, class: "item" do %>
-			Cart<div class="ui teal label"><%= current_user.orderables.count %></div>
+			Cart<div class="ui teal label"><%= orderable_count(current_user.orderables) %></div>
 		<% end %>
 		<%= nav_link("Account", current_user) %>
 		<%= link_to "Log Out", logout_path, method: "delete", class: "item" %>
