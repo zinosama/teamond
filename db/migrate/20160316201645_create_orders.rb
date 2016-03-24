@@ -3,6 +3,7 @@ class CreateOrders < ActiveRecord::Migration
     create_table :orders do |t|
     	t.decimal :total
     	t.integer :payment_method
+    	t.string :payment_id
     	t.boolean :paid, default: false	
 
     	t.references :user, index:true

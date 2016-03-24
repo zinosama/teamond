@@ -30,6 +30,9 @@ Rails.application.routes.draw do
   
   get 'milktea_orderables/new/:milktea_id' => 'milktea_orderables#new', as: :new_milktea_orderable
   resources :milktea_orderables, only: [:create, :edit, :update]
+
+  get 'summary' => 'orders#new'
+  resources :orders, only: [:create]
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

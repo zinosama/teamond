@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 20160321215013) do
   create_table "orders", force: :cascade do |t|
     t.decimal  "total"
     t.integer  "payment_method"
+    t.string   "payment_id"
     t.boolean  "paid",           default: false
     t.integer  "user_id"
     t.datetime "created_at",                     null: false
