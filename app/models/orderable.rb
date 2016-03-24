@@ -6,4 +6,12 @@ class Orderable < ActiveRecord::Base
 	validates :unit_price, presence: true
 	validates :buyable_id, presence: true
 	validates :ownable_id, presence: true
+
+	after_destroy :destroy_milktea
+
+	private 
+
+	def destroy_milktea
+		buyable.destroy if buyable.is_a? MilkteaOrderable	
+	end
 end

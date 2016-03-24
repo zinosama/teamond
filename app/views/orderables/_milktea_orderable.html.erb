@@ -13,7 +13,7 @@
 		</ol>
 	<% end %>
 	<%= link_to semantic_icon("write"), edit_milktea_orderable_url(orderable.buyable), class: "ui icon button" %>
-	<button class="ui icon button"><%= semantic_icon "trash outline" %></button>
+	<%= link_to semantic_icon("trash outline"), orderable_url(orderable), method: :delete , class:"ui icon button" %>
 </td>
 <td>
 	<p>$ <%= orderable.unit_price %></p>

@@ -31,4 +31,18 @@ class OrderablesControllerTest < ActionController::TestCase
 		assert_redirected_to login_url
 		assert_not flash.empty?
 	end
+
+	test 'should redirect destroy if not logged in' do
+		delete :destroy, id: @orderable1
+		assert_redirected_to login_url
+		assert_not flash.empty?
+	end
+
+	test 'should redirect destroy if not owner' do
+		user = users(:ed)
+		log_in_as(user)
+		delete :destroy, id: @orderable1
+		assert_redirected_to cart_url
+		assert_not flash.empty?
+	end
 end

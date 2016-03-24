@@ -3,7 +3,7 @@
 </td>
 <td>
 	<p><%= link_to dish.name, recipe_url(dish), class: "title" %></p>
-	<button class="ui icon button"><%= semantic_icon "trash outline" %></button>
+	<%= link_to semantic_icon("trash outline"), orderable_url(orderable), method: :delete , class:"ui icon button" %>
 </td>
 <td>
 	<p>$ <%= dish.price %></p>

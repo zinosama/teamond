@@ -1,6 +1,6 @@
 <% if orderable.buyable.is_a? Dish %>
 	<tr>
-		<%= render 'dish_orderable', dish: orderable.buyable %>
+		<%= render 'dish_orderable', dish: orderable.buyable, orderable: orderable %>
 	</tr>
 <% elsif orderable.buyable.is_a? MilkteaOrderable %>
 	<tr>

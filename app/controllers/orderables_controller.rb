@@ -1,5 +1,6 @@
 class OrderablesController < ApplicationController
 	before_action :logged_in_user
+	before_action :correct_user, only: [:update, :destroy]
 
 	def index
 		@orderables = current_user.orderables
@@ -24,6 +25,25 @@ class OrderablesController < ApplicationController
 	end
 
 	def destroy
+		orderable = Orderable.find(params[:id])
+		orderable.destroy
+		redirect_to cart_url
+		flash[:success] = "Item removed"
 	end
 
+	private 
+
+	def correct_user
+		orderable = Orderable.find(params[:id])
+		if orderable.ownable.is_a? User
+			user = orderable.ownable
+			unless user == current_user
+				redirect_to cart_url
+				flash[:error] = "Unauthorized request"
+			end
+		else
+			redirect_to cart_url
+			flash[:error] = "Unauthorized request."
+		end
+	end
 end
