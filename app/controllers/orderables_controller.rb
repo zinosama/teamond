@@ -22,6 +22,14 @@ class OrderablesController < ApplicationController
 	end
 
 	def update
+		@orderable = Orderable.find(params[:id])
+		if @orderable.update( quantity: params[:orderable][:quantity] )
+			redirect_to cart_url
+			flash[:success] = "Quantity updated."
+		else
+			redirect_to cart_url
+			flash[:error] = "Quantity cannot be larger than 20"
+		end
 	end
 
 	def destroy
