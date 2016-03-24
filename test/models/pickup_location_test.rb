@@ -16,7 +16,7 @@ class PickupLocationTest < ActiveSupport::TestCase
 	end
 
 	test 'name should not be too long' do
-		@location.name = "a" * 31
+		@location.name = "a" * 51
 		assert_not @location.valid?
 	end
 
