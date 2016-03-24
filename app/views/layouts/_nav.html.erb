@@ -2,7 +2,7 @@
 <%= nav_link("Menu", menu_path) %>
 <% if is_computer %><div class="right menu"><% end %>
 	<% if logged_in? %>
-		<%= link_to cart_path, class: "item" do %>
+		<%= link_to cart_path, class: "item #{ 'active' if request.env['PATH_INFO'].match(/\/cart/) }" do %>
 			Cart<div class="ui teal label"><%= orderable_count(current_user.orderables) %></div>
 		<% end %>
 		<%= nav_link("Account", current_user) %>
