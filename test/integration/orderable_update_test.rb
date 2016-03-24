@@ -21,6 +21,9 @@ class OrderableUpdateTest < ActionDispatch::IntegrationTest
 		assert_select 'input[value="1"]', count: 1
 		assert_select 'input[value="2"]', count: 0
 		assert_select "form[action=\"#{orderable_path(@orderable)}\"]", count: 1
+		
+		#price before update
+		assert_select 'p', text: "$ #{@orderable.unit_price}", count: 1
 
 		patch orderable_url(@orderable), orderable: { quantity: 2 }
 		assert_redirected_to cart_url
@@ -30,6 +33,9 @@ class OrderableUpdateTest < ActionDispatch::IntegrationTest
 		assert_equal 2, @orderable.reload.quantity
 		assert_select 'input[value = "2"]', count: 1
 		assert_select 'input[value="1"]', count: 0
+
+		#price after update
+		assert_select 'p', text: "$ #{2 * @orderable.unit_price}", count: 1
 	end
 
 	test 'unsuccessful update' do

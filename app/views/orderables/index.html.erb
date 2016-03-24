@@ -6,8 +6,8 @@
 		<thead>
 			<tr>
 				<th class="four wide"></th>
-				<th class="six wide"></th>
-				<th class="two wide"></th>
+				<th class="five wide"></th>
+				<th class="three wide"></th>
 				<th class="four wide"></th>
 			</tr>
 		</thead>
@@ -15,4 +15,20 @@
 			<%= render @orderables %>
 		<tbody>
 	</table>
+</div>
+<div class="row">
+	<div class="ui buttons fluid">
+	  <button class="ui labeled icon button">
+	    <i class="left chevron icon"></i>
+	    <%= link_to "Back to Shopping", menu_url %>
+	  </button>
+	  <button class="ui button active">
+	  	<%= semantic_icon :cocktail %>
+	    Estimate for Total: $ <%= sum(@orderables) %>
+	  </button>
+	  <button class="ui right labeled icon button">
+	    Continue to Checkout
+	    <i class="right chevron icon"></i>
+	  </button>
+	</div>
 </div>

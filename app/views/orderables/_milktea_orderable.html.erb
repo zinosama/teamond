@@ -1,22 +1,24 @@
 <td>
-	<%= link_to image_tag( milktea.image, alt: "#{milktea.name} image", class: "ui small rounded image center "), recipe_url(milktea) %>
+	<%= link_to image_tag( milktea.image, alt: "#{milktea.name} image", class: "ui small rounded image center"), recipe_url(milktea) %>
 </td>
 <td>
-	<%= link_to(milktea.name, recipe_url(milktea), class: "title") %>
-	<p><%= "#{orderable.buyable.display_size} size, #{orderable.buyable.display_sweet_scale} sweet, #{orderable.buyable.display_temp_scale}" %></p>
-	<% if orderable.buyable.milktea_addons.any? %>
-		<p>Toppings:</p>
-		<ol class="ui list">
-			<% orderable.buyable.milktea_addons.each do |addon| %>
-				<li value=""><%= semantic_icon :checkmark %> <%= addon.name %></li>
-			<% end %>
-		</ol>
-	<% end %>
-	<%= link_to semantic_icon("write"), edit_milktea_orderable_url(orderable.buyable), class: "ui icon button" %>
-	<%= link_to semantic_icon("trash outline"), orderable_url(orderable), method: :delete , class:"ui icon button" %>
+	<div class="centerBlock">
+		<%= link_to(milktea.name, recipe_url(milktea), class: "title") %>
+		<p><%= "#{orderable.buyable.display_size} size, #{orderable.buyable.display_sweet_scale} sweet, #{orderable.buyable.display_temp_scale}" %></p>
+		<% if orderable.buyable.milktea_addons.any? %>
+			<p>Toppings:</p>
+			<ol class="ui list">
+				<% orderable.buyable.milktea_addons.each do |addon| %>
+					<li value=""><%= semantic_icon :checkmark %> <%= addon.name %></li>
+				<% end %>
+			</ol>
+		<% end %>
+		<%= link_to semantic_icon("write"), edit_milktea_orderable_url(orderable.buyable), class: "ui icon button" %>
+		<%= link_to semantic_icon("trash outline"), orderable_url(orderable), method: :delete , class:"ui icon button" %>
+	</div>
 </td>
-<td>
-	<p>$ <%= orderable.unit_price * orderable.quantity %></p>
+<td class="center aligned">
+	<p class="cartItemPrice">$ <%= orderable.unit_price * orderable.quantity %></p>
 </td>
 <td>
 	<%= form_for orderable, html: { class: ["ui", "form"] } do |f| %>
