@@ -53,13 +53,6 @@ class MilkteaOrderablesController < ApplicationController
 		end
 	end
 
-	# def destroy
-	# 	milktea_orderable = MilkteaOrderable.find(params[:id])
-	# 	milktea_orderable.destroy
-	# 	redirect_to cart_url
-	# 	flash[:success] = "Item deleted"
-	# end
-
 	private
 
 	def milktea_orderable_params
