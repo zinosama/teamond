@@ -128,3 +128,9 @@ p.unactivatedUser, .unactivatedUser a{
     font-size: 1.1em;
     letter-spacing: 0.3px;
 }
+
+.ui.input button input.linkInButton{
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+}

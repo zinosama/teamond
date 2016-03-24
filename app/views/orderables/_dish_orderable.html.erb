@@ -9,13 +9,13 @@
 	<p>$ <%= dish.price %></p>
 </td>
 <td>
-	<form class="ui form">
+	<%= form_for orderable, html: { class: ["ui", "form"] } do |f| %>
 		<div class="field">
-		<label>Quantity</label>
-		<div class="ui action input">
-			<input type="text" name="quantity">
-			<button class="ui button" type="submit">Update</button> 
+			<%= f.label :quantity  %>
+			<div class="ui action input">
+				<%= f.text_field :quantity %>
+				<button class="ui button"><%= f.submit "Update", class: "linkInButton" %></button>
+			</div>
 		</div>
-		</div>
-	</form>
+	<% end %>
 </td>
