@@ -151,3 +151,14 @@ button a:hover{
 p.cartItemPrice{
   font-size: 1.2em;
 }
+
+/* summary page */
+#paymentSummary p{
+  width: 100%;
+}
+
+#priceDivider{
+  padding-bottom: 1em;
+  margin-bottom: 0.8em;
+  border-bottom: 1px #FF9797 solid;
+}
