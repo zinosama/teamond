@@ -8,7 +8,7 @@
 	</div>
 </td>
 <td class="center aligned">
-	<p>$ <%= dish.price * orderable.quantity %></p>
+	<p class="cartItemPrice">$ <%= dish.price * orderable.quantity %></p>
 </td>
 <td>
 	<%= form_for orderable, html: { class: ["ui", "form"] } do |f| %>

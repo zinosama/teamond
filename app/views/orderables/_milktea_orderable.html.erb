@@ -18,7 +18,7 @@
 	</div>
 </td>
 <td class="center aligned">
-	<p>$ <%= orderable.unit_price * orderable.quantity %></p>
+	<p class="cartItemPrice">$ <%= orderable.unit_price * orderable.quantity %></p>
 </td>
 <td>
 	<%= form_for orderable, html: { class: ["ui", "form"] } do |f| %>
