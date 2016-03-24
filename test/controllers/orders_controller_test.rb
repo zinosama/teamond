@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class OrderControllerTest < ActionController::TestCase
+class OrdersControllerTest < ActionController::TestCase
 
 	def setup 
 		@user = users(:zino)
@@ -12,10 +12,10 @@ class OrderControllerTest < ActionController::TestCase
 		assert_not flash.empty?
 	end
 
-	test 'should get new' do
+	test 'should redirect new if cart is empty' do
 		log_in_as @user
 		get :new
-		assert_response :success
-		assert_template 'orders/new'
+		assert_redirected_to menu_url
+		assert_not flash.empty?
 	end
 end
