@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160321215013) do
+ActiveRecord::Schema.define(version: 20160324191330) do
 
   create_table "addons_orderables", force: :cascade do |t|
     t.integer  "milktea_orderable_id"
@@ -76,6 +76,21 @@ ActiveRecord::Schema.define(version: 20160321215013) do
   end
 
   add_index "orders", ["user_id"], name: "index_orders_on_user_id"
+
+  create_table "pickup_locations", force: :cascade do |t|
+    t.string   "name"
+    t.string   "address"
+    t.string   "description"
+    t.boolean  "active",      default: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
+  create_table "pickup_times", force: :cascade do |t|
+    t.datetime "time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "recipes", force: :cascade do |t|
     t.string   "name"
