@@ -1,3 +1,3 @@
 class PickupTime < ActiveRecord::Base
-	validates :time, presence: true
+	validates :time, presence: true	
 end
