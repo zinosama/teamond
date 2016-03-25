@@ -13,6 +13,7 @@ class PickupLocationsController < ApplicationController
 			redirect_to pickup_locations_url
 			flash[:success] = "New location saved."
 		else
+			@locations = PickupLocation.all
 			render 'index'
 		end
 	end
