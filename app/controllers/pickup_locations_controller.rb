@@ -5,6 +5,9 @@ class PickupLocationsController < ApplicationController
 	def index
 		@location = PickupLocation.new
 		@locations = PickupLocation.all
+
+		@time = PickupTime.new
+		@times = PickupTime.all
 	end
 
 	def create

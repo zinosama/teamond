@@ -1,0 +1,13 @@
+<%= form_for @time, html: { class: ["ui", "form", "column"] } do |f| %>
+	<%= render 'shared/error_msgs', object: f.object %>
+
+	<div class="field">
+		<%= f.label :pickup_hour %>
+		<%= icon_input_wrapper(f, :pickup_hour, "building outline", { placeholder: "icon_input_wrapperilson Commons" }) %>
+	</div>
+
+	<div class="field">
+		<%= f.submit "Create Delivery Location", class: "ui inverted blue button" %>
+	</div>
+
+<% end %>
