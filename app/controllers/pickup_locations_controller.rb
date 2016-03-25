@@ -7,6 +7,18 @@ class PickupLocationsController < ApplicationController
 	end
 
 	def create
-		
+		@location = PickupLocation.new(pickup_location_params)
+		if @location.save
+			redirect_to pickup_locations_url
+			flash[:success] = "New location saved."
+		else
+			render 'index'
+		end
+	end
+
+	private
+
+	def pickup_location_params
+		params.require(:pickup_location).permit(:name, :address, :description)
 	end
 end
