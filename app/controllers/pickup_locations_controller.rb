@@ -4,6 +4,7 @@ class PickupLocationsController < ApplicationController
 
 	def index
 		@location = PickupLocation.new
+		@locations = PickupLocation.all
 	end
 
 	def create
