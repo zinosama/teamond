@@ -23,6 +23,10 @@ class PickupLocationsController < ApplicationController
 		end
 	end
 
+	def show
+
+	end
+
 	private
 
 	def pickup_location_params
