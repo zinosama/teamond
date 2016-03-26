@@ -4,6 +4,7 @@ class PickupLocationsControllerTest < ActionController::TestCase
 
 	def setup
 		@user = users(:ed)
+		@location = pickup_locations(:one)
 	end
 
 	test 'should redirect index when not logged in' do
@@ -28,6 +29,19 @@ class PickupLocationsControllerTest < ActionController::TestCase
 	test 'should redirect create when not logged in as admin' do 
 		log_in_as @user
 		post :create, pickup_location: { name: "...", address: "..." }
+		assert_redirected_to root_url
+		assert_not flash.empty?
+	end
+
+	test 'should redirect show when not logged in' do
+		get :show, id: @location
+		assert_redirected_to login_url
+		assert_not flash.empty?
+	end
+
+	test 'should redirect show when not logged in as admin' do
+		log_in_as @user
+		get :show, id: @location
 		assert_redirected_to root_url
 		assert_not flash.empty?
 	end
