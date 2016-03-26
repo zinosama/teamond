@@ -1,0 +1,27 @@
+<% provide(:title, "Location Detail") %>
+
+<h1 header class="ui header title"><%= @location.name %></h1>
+<div class="row">
+	<div class="column locationShowColumn">
+		<label>Address:</label>
+		<p><%= @location.address %></p>
+		<label>Additional Information:</label>
+		<p><%= @location.description %></p>
+	</div>
+</div>
+
+<h4 class="ui horizontal divider header">
+  <i class="wait icon"></i>
+  Delivery Time for This Location
+</h4>
+
+<div class="row">
+</div>
+
+<h4 class="ui horizontal divider header">
+  <i class="plus icon"></i>
+  Add Delivery Time
+</h4>
+<div class="row">
+	<%= render 'locations_times/new' %>
+</div>

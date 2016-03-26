@@ -1,0 +1,2 @@
+class LocationsTimesController < ApplicationController
+end

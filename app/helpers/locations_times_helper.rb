@@ -1,0 +1,2 @@
+module LocationsTimesHelper
+end
