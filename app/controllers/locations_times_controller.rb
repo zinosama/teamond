@@ -3,7 +3,7 @@ class LocationsTimesController < ApplicationController
 	before_action :logged_in_admin
 
 	def create
-		@location = PickupLocation.find(params[:locations_time][:pickup_location_id])
+		@location = PickupLocation.find(params[:pickup_location_id])
 		days_of_week = params[:days_of_week] || []
 		pickup_time_ids = params[:pickup_time_ids] || []
 		create_delivery_times_for_location(@location, pickup_time_ids, days_of_week)

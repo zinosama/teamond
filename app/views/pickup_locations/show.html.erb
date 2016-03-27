@@ -16,7 +16,7 @@
   Delivery Time for This Location
 </h4>
 
-<div class="row">
+<div class="row locationCalendarRow">
 	<div class="ui seven column stackable grid">
 		<div class="row">
 			<% @day_of_week_namings.each_with_index do |day, index| %>
@@ -24,7 +24,7 @@
 					<p class="locationScheduleHeader"><%= day %></p>
 					<% if @schedule[index] %>
 						<% @schedule[index].each do |time| %>
-							<p><%= time.pickup_time %></p>
+							<a class="ui label"><%= time.pickup_time %><%= semantic_icon :delete %></a>
 						<% end %>
 					<% end %>
 				</div>

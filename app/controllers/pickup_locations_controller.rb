@@ -26,7 +26,6 @@ class PickupLocationsController < ApplicationController
 	def show
 		@day_of_week_namings = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 		@location = PickupLocation.find(params[:id])
-		@locations_time = LocationsTime.new
 		locations_times = @location.locations_times
 		
 		@schedule = {}
