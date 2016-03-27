@@ -3,5 +3,10 @@
 	<div class="content">
 		<%= link_to pickup_location.name, pickup_location_url(pickup_location), class: "header" %>
 		<%= content_tag :div, pickup_location.description, class: "description" %>
+		<% if pickup_location.active %>
+			<p class="locationActiveMark"><%= semantic_icon :checkmark %> Active</p>
+		<% else %>
+			<p class="locationInactiveMark"><%= semantic_icon :remove %> Inactive</p>
+		<% end %>
 	</div>
 </div>
