@@ -23,8 +23,11 @@
 				<div class="center aligned column">
 					<p class="locationScheduleHeader"><%= day %></p>
 					<% if @schedule[index] %>
-						<% @schedule[index].each do |time| %>
-							<a class="ui label"><%= time.pickup_time %><%= semantic_icon :delete %></a>
+						<% @schedule[index].each do |location_time| %>
+							<%= link_to locations_time_url(location_time), method: :delete, class: "ui label" do%>
+								<%= location_time.pickup_time.pickup_time %>
+								<%= semantic_icon :delete %>
+							<% end %>
 						<% end %>
 					<% end %>
 				</div>
