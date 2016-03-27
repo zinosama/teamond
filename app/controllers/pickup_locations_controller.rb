@@ -25,7 +25,7 @@ class PickupLocationsController < ApplicationController
 
 	def show
 		@location = PickupLocation.find(params[:id])
-		@locations_time = @location.locations_times.build
+		@locations_time = LocationsTime.new
 	end
 
 	private

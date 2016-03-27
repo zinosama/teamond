@@ -1,5 +1,6 @@
 <%= form_for @locations_time, html: { class: ["ui", "form"], id: 'locationsTimesForm' } do |f| %>
 	<%= render 'shared/error_msgs', object: f.object %>
+	<%= f.hidden_field :pickup_location_id, value: @location.id %>
 
 	<div class="field">
 		<%= label_tag :pickup_time_ids, 'Delivery Time:' %>
@@ -13,6 +14,6 @@
 		<small>What days of a week is food delivered to this location?</small>
 	</div> 
 
-	<%= f.submit "Add Delivery Time and Days", class: "ui button blue inverted" %>
+	<%= f.submit "Add Delivery Time and Days to This Location", class: "ui button blue inverted" %>
 	<small>***All selected time will be added to each of all selected days above.</small>
 <% end %>
