@@ -1,0 +1,65 @@
+<% provide(:button_text, "Update Delivery Location") %>
+<h4 class="ui horizontal divider header" id="locationEditTopDivider">
+  <i class="write icon"></i>
+  Edit Delivery Location
+</h4>
+
+<div class="row">
+	<%= render 'form' %>
+</div>
+
+<h4 class="ui horizontal divider header" id="locationEditTopDivider">
+  <i class="minus circle icon"></i>
+  Danger Zone
+</h4>
+
+<div class="row">
+	<div class="ui stackable two column very relaxed grid">
+		<div class="row">
+			<div class="column">
+				<%= form_tag pickup_location_url(@location), method: :patch, class: "ui form" do %>
+					<% if @location.active %>
+
+						<%= hidden_field_tag :active, 0 %>
+						<div class="field">
+							<%= label_tag :confirm_active do %>
+								Deactivate locations cannot be selected by users.<br> To proceed, please confirm:
+							<% end %>
+							<div class="ui left icon large input">
+								<%= text_field_tag :confirm_active, nil, placeholder: "I Understand" %>
+								<%= semantic_icon "warning sign" %>
+							</div>
+							<small>Please enter 'I Understand' </small>
+						</div>
+						<%= submit_tag "Deactivate This Location", class: "ui orange inverted button" %>
+
+					<% else %>
+						<%= hidden_field_tag :active, 1 %>
+						<%= submit_tag "Activate This Location", class: "ui green inverted button" %>
+						<small>*Activate this delivery location to allow users to select.</small>
+					
+					<% end %>
+				<% end %>
+			</div>
+
+		  <div class="ui vertical divider">
+		    OR
+		  </div>
+			<div class="column">
+				<%= form_tag pickup_location_url(@location), method: :delete, class: "ui form" do %>
+					<div class="field">
+						<%= label_tag :confirm_delete do %>
+							Deleted locations cannot be restored.<br> To proceed, please confirm: 
+						<% end %>
+						<div class="ui left icon large input">
+							<%= text_field_tag :confirm_delete, nil, placeholder: "I Understand" %>
+							<%= semantic_icon "warning sign" %>
+						</div>
+						<small>Please enter 'I Understand' </small>
+					</div>
+					<%= submit_tag "DELETE This Location", class: "ui red inverted button" %>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>

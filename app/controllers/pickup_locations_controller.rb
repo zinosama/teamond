@@ -36,7 +36,37 @@ class PickupLocationsController < ApplicationController
 				@schedule[location_time.day_of_week] = [location_time]
 			end
 		end
-		
+	end
+
+	def edit
+		@location = PickupLocation.find(params[:id])
+	end
+
+	def update
+		@location = PickupLocation.find(params[:id])
+		if params[:active]
+			if params[:active] == "0"
+				if params[:confirm_active].downcase.chomp == "i understand"
+					@location.update_attribute(:active, false)
+					redirect_to pickup_location_url(@location)
+					flash[:info] = "Location is now inactive"
+				else
+					redirect_to edit_pickup_location_url(@location)
+					flash[:error] = "Deactivation failed! Please type in 'I Understand' and try again!"
+				end
+			else
+				@location.update_attribute(:active, true)
+				redirect_to pickup_location_url(@location)
+				flash[:success] = "Location is now active"
+			end
+		else
+			if @location.update_attributes(pickup_location_params)
+				redirect_to pickup_location_url(@location)
+				flash[:success] = "Location updated"
+			else
+				render 'pickup_locations/edit'
+			end
+		end
 	end
 
 	private

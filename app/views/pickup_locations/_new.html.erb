@@ -1,23 +1,2 @@
-<%= form_for @location, html: { class: ["ui", "form", "column"] } do |f| %>
-	<%= render 'shared/error_msgs', object: f.object %>
-
-	<div class="field">
-		<%= f.label :name %>
-		<%= icon_input_wrapper(f, :name, "building outline", { placeholder: "Wilson Commons" }) %>
-	</div>
-
-	<div class="field">
-		<%= f.label :address %>
-		<%= icon_input_wrapper(f, :address, "marker", { placeholder: "500 Joseph C Wilson Blvd" }) %>
-	</div>
-
-	<div class="field">
-		<%= f.label :description, "Information" %>
-		<%= icon_input_wrapper(f, :description, "write", { placeholder: "See us at the front door." }) %>
-	</div>
-
-	<div class="field">
-		<%= f.submit "Create Delivery Location", class: "ui inverted blue button" %>
-	</div>
-
-<% end %>
+<% provide(:button_text, "Create Delivery Location") %>
+<%= render "pickup_locations/form" %>

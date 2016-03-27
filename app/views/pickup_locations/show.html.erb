@@ -1,7 +1,16 @@
 <% provide(:title, "Location Detail") %>
 <%= render 'shared/admin_nav' %>
 
-<h1 header class="ui header title"><%= @location.name %></h1>
+<h1 header class="ui header title">
+	<%= @location.name %>
+	<% if @location.active %>
+		<p class="ui green label">Active</p>
+	<% else %>
+		<p class="ui red label">Inactive</p>
+	<% end %>
+	<%= link_to "Edit", edit_pickup_location_url(@location), class: "ui teal label" %>
+</h1>
+
 <div class="row">
 	<div class="column locationShowColumn">
 		<label>Address:</label>
