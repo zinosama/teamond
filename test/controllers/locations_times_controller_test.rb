@@ -23,14 +23,14 @@ class LocationsTimesControllerTest < ActionController::TestCase
 	end
 
 	test 'should redirect destroy when not logged in' do 
-		delete :destroy, @locations_time
+		delete :destroy, id: @locations_time
 		assert_redirected_to login_url
 		assert_not flash.empty?
 	end
 
 	test 'should redirect destroy when not logged in as admin' do
 		log_in_as @user
-		delete :destroy, @locations_time
+		delete :destroy, id: @locations_time
 		assert_redirected_to root_url
 		assert_not flash.empty?
 	end

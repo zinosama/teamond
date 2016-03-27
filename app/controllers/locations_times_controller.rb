@@ -11,6 +11,14 @@ class LocationsTimesController < ApplicationController
 		redirect_to pickup_location_url(@location)
 	end
 
+	def destroy
+		locations_time = LocationsTime.find(params[:id])
+		pickup_location = locations_time.pickup_location
+		locations_time.destroy
+		redirect_to pickup_location_url(pickup_location)
+		flash[:success] = "Delivery time deleted"
+	end
+
 	private 
 
 	def create_delivery_times_for_location(location, pickup_time_ids, days_of_week)
