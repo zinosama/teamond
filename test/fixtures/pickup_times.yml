@@ -9,4 +9,8 @@ one:
   pickup_minute: 10
   cutoff_hour: 7
   cutoff_minute: 10
-
+two:
+  pickup_hour: 7
+  pickup_minute: 20
+  cutoff_hour: 6
+  cutoff_minute: 20

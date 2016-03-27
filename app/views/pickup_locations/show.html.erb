@@ -16,15 +16,18 @@
   Delivery Time for This Location
 </h4>
 
-<div class="row">
+<div class="row locationCalendarRow">
 	<div class="ui seven column stackable grid">
 		<div class="row">
 			<% @day_of_week_namings.each_with_index do |day, index| %>
 				<div class="center aligned column">
 					<p class="locationScheduleHeader"><%= day %></p>
 					<% if @schedule[index] %>
-						<% @schedule[index].each do |time| %>
-							<p><%= time.pickup_time %></p>
+						<% @schedule[index].each do |location_time| %>
+							<%= link_to locations_time_url(location_time), method: :delete, class: "ui label" do%>
+								<%= location_time.pickup_time.pickup_time %>
+								<%= semantic_icon :delete %>
+							<% end %>
 						<% end %>
 					<% end %>
 				</div>

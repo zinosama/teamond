@@ -1,5 +1,4 @@
-<%= form_for @locations_time, html: { class: ["ui", "form"], id: 'locationsTimesForm' } do |f| %>
-	<%= f.hidden_field :pickup_location_id, value: @location.id %>
+<%= form_tag pickup_location_locations_times_url(@location), class: "ui form", id: 'locationsTimesForm' do %>
 
 	<div class="field">
 		<%= label_tag :pickup_time_ids, 'Delivery Time:' %>
@@ -13,7 +12,7 @@
 		<small>What days of a week is food delivered to this location?</small>
 	</div> 
 
-	<%= f.submit "Add Delivery Time and Days to This Location", class: "ui button blue inverted" %>
+	<%= submit_tag "Add Delivery Time and Days to This Location", class: "ui button blue inverted" %>
 	<small>***All selected time will be added to each of all selected days above.</small><br>
 	<small>**Delivery times that already exist for this location will not be created again</small>
 <% end %>

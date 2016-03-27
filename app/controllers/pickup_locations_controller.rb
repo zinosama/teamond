@@ -26,15 +26,14 @@ class PickupLocationsController < ApplicationController
 	def show
 		@day_of_week_namings = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 		@location = PickupLocation.find(params[:id])
-		@locations_time = LocationsTime.new
 		locations_times = @location.locations_times
 		
 		@schedule = {}
 		locations_times.each do |location_time|
 			if @schedule[location_time.day_of_week]
-				insert_by_pickup_time(@schedule[location_time.day_of_week], location_time.pickup_time)
+				insert_by_pickup_time(@schedule[location_time.day_of_week], location_time)
 			else
-				@schedule[location_time.day_of_week] = [location_time.pickup_time]
+				@schedule[location_time.day_of_week] = [location_time]
 			end
 		end
 		
@@ -46,17 +45,20 @@ class PickupLocationsController < ApplicationController
 		params.require(:pickup_location).permit(:name, :address, :description)
 	end
 
-	def insert_by_pickup_time(pickup_times, pickup_time)
-		pickup_times.each_with_index do |time, index|
-			if pickup_time.pickup_hour < time.pickup_hour
-				pickup_times.insert(index, pickup_time)
+	def insert_by_pickup_time(location_times, new_location_time)
+		new_pickup_time = new_location_time.pickup_time
+		location_times.each_with_index do |location_time, index|
+			pickup_time = location_time.pickup_time
+			
+			if new_pickup_time.pickup_hour < pickup_time.pickup_hour
+				location_times.insert(index, new_location_time)
 				return
-			elsif pickup_time.pickup_hour == time.pickup_hour && pickup_minute < time.pickup_minute
-				pickup_times.insert(index, pickup_time)
+			elsif new_pickup_time.pickup_hour == pickup_time.pickup_hour && new_pickup_time.pickup_minute < pickup_time.pickup_minute
+				location_times.insert(index, new_location_time)
 				return
 			end
 		end
-		pickup_times.push pickup_time
+		location_times.push new_location_time
 	end
 
 end

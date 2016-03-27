@@ -34,9 +34,11 @@ Rails.application.routes.draw do
   get 'summary' => 'orders#new'
   resources :orders, only: [:create]
 
-  resources :pickup_locations, only: [:index, :create, :show]
+  resources :pickup_locations, only: [:index, :create, :show] do
+    resources :locations_times, only: [:create]  
+  end
   resources :pickup_times, only: [:index, :create]
-  resources :locations_times, only: [:create]
+  resources :locations_times, only: [:destroy]
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
