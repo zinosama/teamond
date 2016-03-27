@@ -4,9 +4,8 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one:
-  pickup_hour: 8
-  pickup_minute: 10
-  cutoff_hour: 7
-  cutoff_minute: 10
-
+one: {}
+# column: value
+#
+two: {}
+#  column: value

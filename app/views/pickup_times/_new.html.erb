@@ -1,0 +1,65 @@
+<%= form_for @time, html: { class: ["ui", "form", "column"] } do |f| %>
+	<%= render 'shared/error_msgs', object: f.object %>
+	
+	<div class="ui container grid">
+		<div class="row">
+			<div class="seven wide column">
+				<div class="field">
+					<%= f.label :pickup_hour, "Delivery Time - Hour" %>
+					<%= f.select(:pickup_hour, nil, { include_blank: "Hour" }, { class: "ui fluid dropdown" } ) do %>
+						<% (0..23).each do |hr| %>
+							<%= content_tag :option, hr, value: hr %>
+						<% end %>
+					<% end %>
+				</div>
+			</div>
+
+			<div class="one wide column middle aligned center aligned">
+				<p class="timeColon">:</p>
+			</div>
+
+			<div class="eight wide column">
+				<div class="field">
+					<%= f.label :pickup_minute, "Delivery Time - Minute"%>
+					<%= f.select(:pickup_minute, nil, { include_blank: "Minute" }, { class: "ui fluid dropdown" } ) do %>
+						<% (0..59).each do |min| %>
+							<%= content_tag :option, min, value: min %>
+						<% end %>
+					<% end %>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="seven wide column">
+				<div class="field">
+					<%= f.label :cutoff_hour, "Order Cutoff Time - Hour" %>
+					<%= f.select(:cutoff_hour, nil, { include_blank: "Hour" }, { class: "ui fluid dropdown" } ) do %>
+						<% (0..23).each do |hr| %>
+							<%= content_tag :option, hr, value: hr %>
+						<% end %>
+					<% end %>
+				</div>
+			</div>
+
+			<div class="one wide column middle aligned center aligned">
+				<p class="timeColon">:</p>
+			</div>
+
+			<div class="eight wide column">
+				<div class="field">
+					<%= f.label :cutoff_minute, "Order Cutoff Time - Minute"%>
+					<%= f.select(:cutoff_minute, nil, { include_blank: "Minute" }, { class: "ui fluid dropdown" } ) do %>
+						<% (0..59).each do |min| %>
+							<%= content_tag :option, min, value: min %>
+						<% end %>
+					<% end %>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<%= f.submit "Create Delivery Time", class: "ui inverted blue button" %>
+		</div>
+	</div>
+<% end %>

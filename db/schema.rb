@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160324191330) do
+ActiveRecord::Schema.define(version: 20160325130030) do
 
   create_table "addons_orderables", force: :cascade do |t|
     t.integer  "milktea_orderable_id"
@@ -30,6 +30,17 @@ ActiveRecord::Schema.define(version: 20160324191330) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
+
+  create_table "locations_times", force: :cascade do |t|
+    t.integer  "day_of_week"
+    t.integer  "pickup_time_id"
+    t.integer  "pickup_location_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "locations_times", ["pickup_location_id"], name: "index_locations_times_on_pickup_location_id"
+  add_index "locations_times", ["pickup_time_id"], name: "index_locations_times_on_pickup_time_id"
 
   create_table "milktea_addons", force: :cascade do |t|
     t.string   "name"
@@ -87,9 +98,12 @@ ActiveRecord::Schema.define(version: 20160324191330) do
   end
 
   create_table "pickup_times", force: :cascade do |t|
-    t.datetime "time"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "pickup_hour"
+    t.integer  "pickup_minute"
+    t.integer  "cutoff_hour"
+    t.integer  "cutoff_minute"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "recipes", force: :cascade do |t|

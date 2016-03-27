@@ -1,0 +1,19 @@
+<%= form_for @locations_time, html: { class: ["ui", "form"], id: 'locationsTimesForm' } do |f| %>
+	<%= f.hidden_field :pickup_location_id, value: @location.id %>
+
+	<div class="field">
+		<%= label_tag :pickup_time_ids, 'Delivery Time:' %>
+		<%= select_tag(:pickup_time_ids, options_from_collection_for_select(PickupTime.all.order(pickup_hour: :asc, pickup_minute: :asc), :id, :pickup_time), { include_blank: "Delivery time", multiple: true, class: "ui fluid dropdown"}) %>
+		<small>What time is food delivered to this location?</small>
+	</div>
+
+	<div class="field">
+		<%= label_tag :days_of_week, "Delivery Days:" %>
+		<%= select_tag(:days_of_week, options_for_select(get_days_of_week), { include_blank: "Days of week", multiple: true, class: "ui fluid dropdown"}) %>
+		<small>What days of a week is food delivered to this location?</small>
+	</div> 
+
+	<%= f.submit "Add Delivery Time and Days to This Location", class: "ui button blue inverted" %>
+	<small>***All selected time will be added to each of all selected days above.</small><br>
+	<small>**Delivery times that already exist for this location will not be created again</small>
+<% end %>

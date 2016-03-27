@@ -1,7 +1,7 @@
 <div class="item">
 	<i class="large marker middle aligned icon"></i>
 	<div class="content">
-		<%= link_to pickup_location.name, "#", class: "header" %>
+		<%= link_to pickup_location.name, pickup_location_url(pickup_location), class: "header" %>
 		<%= content_tag :div, pickup_location.description, class: "description" %>
 	</div>
 </div>
