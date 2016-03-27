@@ -36,7 +36,14 @@ class PickupLocationsController < ApplicationController
 				@schedule[location_time.day_of_week] = [location_time]
 			end
 		end
-		
+	end
+
+	def edit
+		@location = PickupLocation.find(params[:id])
+	end
+
+	def update
+
 	end
 
 	private
