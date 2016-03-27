@@ -5,7 +5,7 @@ class LocationsTimeCreateTest < ActionDispatch::IntegrationTest
 	def setup
 		@user = users(:zino)
 		@location = pickup_locations(:one)
-		@time = pickup_times(:one)
+		@time = pickup_times(:two)
 	end
 
 	test 'valid locations_time' do

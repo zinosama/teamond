@@ -1,5 +1,5 @@
 class PickupTime < ActiveRecord::Base
-	has_many :locations_times
+	has_many :locations_times, dependent: :destroy
 	has_many :pickup_locations, through: :locations_times
 
 	validates :pickup_hour, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 23 }
