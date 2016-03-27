@@ -3,9 +3,7 @@
 
 <h1 header class="ui header title">
 	<%= @location.name %>
-	<a class="ui teal label">
-		Edit
-	</a>
+	<%= link_to "Edit", edit_pickup_location_url(@location), class: "ui teal label" %>
 </h1>
 
 <div class="row">

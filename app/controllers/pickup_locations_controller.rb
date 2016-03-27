@@ -43,7 +43,13 @@ class PickupLocationsController < ApplicationController
 	end
 
 	def update
-
+		@location = PickupLocation.find(params[:id])
+		if @location.update_attributes(pickup_location_params)
+			redirect_to pickup_location_url(@location)
+			flash[:success] = "Location updated"
+		else
+			render 'pickup_locations/edit'
+		end
 	end
 
 	private
