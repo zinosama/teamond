@@ -8,6 +8,8 @@ class PickupTime < ActiveRecord::Base
 	validates :cutoff_minute, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 59}
 
 	def pickup_time
-		"#{self.pickup_hour} : #{self.pickup_minute}"
+		pickup_hour = "%02d" % self.pickup_hour
+		pickup_minute = "%02d" % self.pickup_minute
+		"#{pickup_hour} : #{pickup_minute}"
 	end	
 end
