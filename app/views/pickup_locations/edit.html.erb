@@ -65,7 +65,9 @@
 							<%= text_field_tag :confirm_delete, nil, placeholder: "I Understand" %>
 							<%= semantic_icon "warning sign" %>
 						</div>
-						<small>Please enter 'I Understand' </small>
+						<small><em>***<b>Extreme Caution</b>: Deleting locations after site goes online can cause unexpected behaviors, including issue with previous order display.</em></small><br>
+						<small><em>**It is recommended to use deactivation instead</em></small><br>
+						<small>*Please enter 'I Understand' </small>
 					</div>
 					<%= submit_tag "DELETE This Location", class: "ui red inverted button" %>
 				<% end %>
