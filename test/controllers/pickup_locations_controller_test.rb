@@ -71,4 +71,17 @@ class PickupLocationsControllerTest < ActionController::TestCase
 		assert_redirected_to root_url
 		assert_not flash.empty?
 	end
-end
+
+	test 'should redirect destroy when not logged in' do
+		delete :destroy, id: @location
+		assert_redirected_to login_url
+		assert_not flash.empty?
+	end
+
+	test 'should redirect destroy when not logged in as admin' do
+		log_in_as @user
+		delete :destroy, id: @location
+		assert_redirected_to root_url
+		assert_not flash.empty?
+	end
+end	

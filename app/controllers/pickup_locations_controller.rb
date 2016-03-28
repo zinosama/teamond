@@ -51,6 +51,12 @@ class PickupLocationsController < ApplicationController
 		end
 	end
 
+	def destroy
+		location = PickupLocation.find(params[:id])
+		location.destroy
+		redirect_and_flash(pickup_locations_url, :success, "Location has been removed")
+	end
+
 	private
 
 	def update_active(activating, location)
