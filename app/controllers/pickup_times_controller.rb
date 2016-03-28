@@ -18,10 +18,21 @@ class PickupTimesController < ApplicationController
 
 	def edit
 		@time = PickupTime.find(params[:id])
+		unless @time
+			redirect_to root_url
+			flash[:error] = "Requested delivery time does not exist"
+		end
 	end
 
 	def update
-
+		@time = PickupTime.find(params[:id])
+		if @time && @time.update_attributes(pickup_time_params)
+			redirect_to pickup_locations_url
+			flash[:success] = "Delivery time updated"
+		else
+			redirect_to edit_pickup_time_url(@time)
+			flash[:error] = "Update failed. Please contact system admin."
+		end
 	end
 
 	def destroy
