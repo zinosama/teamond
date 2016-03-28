@@ -1,0 +1,41 @@
+<div class="row">
+	<div class="center aligned column">
+		<div class="ui steps">
+		  <div class="active step">
+		    <i class="truck icon"></i>
+		    <div class="content">
+		      <div class="title">Shipping</div>
+		      <div class="description">Choose your delivery location</div>
+		    </div>
+		  </div>
+
+		  <div class="disabled step">
+		    <i class="wait icon"></i>
+		    <div class="content">
+		      <div class="title">Timing</div>
+		      <div class="description">Select delivery time</div>
+		    </div>
+		  </div>
+
+		  <div class="disabled step">
+		    <i class="info icon"></i>
+		    <div class="content">
+		      <div class="title">Recipient</div>
+		      <div class="description">Enter recipient information</div>
+		    </div>
+		  </div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<%= form_tag orders_url, class: "ui form column" do %>
+		<div class="field">
+			<%= label_tag :pickup_location_id, "Delivery Location" %>
+			<%= select_tag(:pickup_location_id, options_from_collection_for_select(PickupLocation.all, :id, :name), { include_blank: "Select delivery location", class: "ui fluid dropdown" }) %>
+		</div>
+		<div class="field">
+			<%= submit_tag "Continue", class: "ui blue inverted button" %>
+		</div>
+	<% end %>
+</div>

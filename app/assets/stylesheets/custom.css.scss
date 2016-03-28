@@ -163,6 +163,14 @@ p.cartItemPrice{
   border-bottom: 1px #FF9797 solid;
 }
 
+a.linkNoColor{
+  color: rgba(0,0,0,0.87);
+}
+
+#stripePaymentButton, #placeOrderButton, #payOnlineButton{
+  display: none;
+}
+
 /* new pickup location and pickup time page*/
 p.timeColon{
   font-size: 2.3em;

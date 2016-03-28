@@ -31,3 +31,11 @@ Milktea.create!(name: "uuulong milktea", description:"first milktea", price: 1.2
 MilkteaAddon.create!(name: "bubble", price: 0.5)
 MilkteaAddon.create!(name: "red bean", price: 0.5)
 MilkteaAddon.create!(name: "green bean", price: 0.5)
+
+DishCategory.create!(name: "Fried Rice", description: "Best fried rice in rochester")
+
+PickupLocation.create!(name: "Wilson Commons", address: "500 joseph c wilson blvd", description: "Meet us at the front door!")
+PickupLocation.create!(name: "ITS", address: "500 jospeph c wilson blvd - IT center", description: "We are on the first floor.")
+PickupTime.create!(pickup_hour: 18, pickup_minute: 20, cutoff_hour: 17, cutoff_minute: 15)
+PickupTime.create!(pickup_hour: 17, pickup_minute: 0, cutoff_hour: 16, cutoff_minute: 0)
+PickupTime.create!(pickup_hour: 20, pickup_minute: 30, cutoff_hour: 19, cutoff_minute: 0)

@@ -31,7 +31,31 @@ $(document).ready(function(){
   //calculate existing size
   watchMilkteaAddons();
   watchMilkteaSizes();
+
+  toggleOnlinePaymentForm();
+
+  watchPlaceOrderButton();
 });
+
+
+var watchPlaceOrderButton = function(){
+  $('#placeOrderButton').click(function(){
+    $('iframe')[0].remove();
+    $('#placeOrderForm').submit();
+  });
+};
+
+var toggleOnlinePaymentForm = function(){
+  $('select[name="order[payment_method]"]').change(function(){
+    if(this.value === '0'){
+      $('#placeOrderButton').hide();
+      $('#payOnlineButton').show();
+    }else{
+      $('#payOnlineButton').hide();
+      $('#placeOrderButton').show();
+    }
+  });
+};
 
 var watchMilkteaSizes = function(){
   $(".milkteaSize").change(function(){
@@ -59,10 +83,6 @@ var enableRecipeDelete = function(){
 
 var toggleDishCategorySelectDisplay = function(){
   var recipeTypeSelectField = $('#recipe_type');
-  if(recipeTypeSelectField.length == 0){
-    $('#newRecipeDishCategory').show();
-  }
-
   recipeTypeSelectField.change(function(){
     this.value == 'Dish' ? $('#newRecipeDishCategory').show() : $('#newRecipeDishCategory').hide();
   });

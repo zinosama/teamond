@@ -18,17 +18,19 @@
 </div>
 <div class="row">
 	<div class="ui buttons fluid">
-	  <button class="ui labeled icon button">
-	    <i class="left chevron icon"></i>
-	    <%= link_to "Back to Shopping", menu_url %>
-	  </button>
-	  <button class="ui button active">
+		<%= link_to menu_url, class: "ui labeled icon button" do %>
+	    Back to Shopping
+	    <%= semantic_icon "left chevron" %>
+	  <% end %>
+
+	  <div class="ui button active">
 	  	<%= semantic_icon :cocktail %>
 	    Estimate for Total: $ <%= sum(@orderables) %>
-	  </button>
-	  <button class="ui right labeled icon button">
-	    <%= link_to "Continue to Checkout", summary_url %>
-	    <i class="right chevron icon"></i>
-	  </button>
+	  </div>
+
+    <%= link_to summary_url, class: "ui right labeled icon button" do %>
+	    Continue to Checkout
+	    <%= semantic_icon "right chevron" %>
+	  <% end %>
 	</div>
 </div>

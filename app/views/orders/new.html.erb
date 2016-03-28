@@ -1,20 +1,11 @@
 <%= provide(:title, "Summary") %>
+<%= render 'orders/summary' %>
 
 <div class="row">
-	<h1>Order Summary</h1>
-</div>
-<div class="row" id="paymentSummary">
-	<p>Total before Tax: $ <%= sum(current_user.orderables) %></p>
-	<p id="priceDivider">Sales Tax (8%): $ <%= (sum(current_user.orderables) * 0.08).round(2) %></p> 
-	<p>Total Payment: $ <%= (sum(current_user.orderables) * 1.08).round(2) %></p>
+	<h4 class="ui horizontal divider header" class="locationEditTopDivider">
+	  <i class="shipping icon"></i>
+	  Delivery Information
+	</h4>
 </div>
 
-<div class="row">
-	<h1>Delivery Information</h1>
-
-</div>	
-
-<div class="row">
-	<h1>Payment Information</h1>
-	
-</div>
+<%= render "orders/#{@template}" %>
