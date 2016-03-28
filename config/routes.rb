@@ -34,7 +34,7 @@ Rails.application.routes.draw do
   get 'summary' => 'orders#new'
   resources :orders, only: [:create]
 
-  resources :pickup_locations, only: [:index, :create, :show, :edit, :update] do
+  resources :pickup_locations, only: [:index, :create, :show, :edit, :update, :destroy] do
     resources :locations_times, only: [:create]  
   end
   resources :pickup_times, only: [:index, :create]

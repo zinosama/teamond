@@ -1,4 +1,13 @@
 <% provide(:button_text, "Update Delivery Location") %>
+<div class="row">
+	<div class="ui breadcrumb">
+	  <%= link_to "Delivery Management", pickup_locations_url, class: "section" %>
+	  <i class="right angle icon divider"></i>
+	  <%= link_to "Location Summary", pickup_location_url(@location), class: "section" %>
+	  <i class="right angle icon divider"></i>
+	  <div class="active section">Edit Location</div>
+	</div>
+</div>
 <h4 class="ui horizontal divider header" id="locationEditTopDivider">
   <i class="write icon"></i>
   Edit Delivery Location
@@ -7,7 +16,6 @@
 <div class="row">
 	<%= render 'form' %>
 </div>
-
 <h4 class="ui horizontal divider header" id="locationEditTopDivider">
   <i class="minus circle icon"></i>
   Danger Zone
@@ -22,11 +30,11 @@
 
 						<%= hidden_field_tag :active, 0 %>
 						<div class="field">
-							<%= label_tag :confirm_active do %>
+							<%= label_tag :confirm_deactive do %>
 								Deactivate locations cannot be selected by users.<br> To proceed, please confirm:
 							<% end %>
 							<div class="ui left icon large input">
-								<%= text_field_tag :confirm_active, nil, placeholder: "I Understand" %>
+								<%= text_field_tag :confirm_deactive, nil, placeholder: "I Understand" %>
 								<%= semantic_icon "warning sign" %>
 							</div>
 							<small>Please enter 'I Understand' </small>
@@ -34,6 +42,7 @@
 						<%= submit_tag "Deactivate This Location", class: "ui orange inverted button" %>
 
 					<% else %>
+
 						<%= hidden_field_tag :active, 1 %>
 						<%= submit_tag "Activate This Location", class: "ui green inverted button" %>
 						<small>*Activate this delivery location to allow users to select.</small>
@@ -45,6 +54,7 @@
 		  <div class="ui vertical divider">
 		    OR
 		  </div>
+		  
 			<div class="column">
 				<%= form_tag pickup_location_url(@location), method: :delete, class: "ui form" do %>
 					<div class="field">

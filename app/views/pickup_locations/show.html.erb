@@ -1,5 +1,11 @@
 <% provide(:title, "Location Detail") %>
-<%= render 'shared/admin_nav' %>
+<div class="row">
+	<div class="ui breadcrumb">
+	  <%= link_to "Delivery Management", pickup_locations_url, class: "section" %>
+	  <i class="right angle icon divider"></i>
+	  <div class="active section">Location Summary</div>
+	</div>
+</div>
 
 <h1 header class="ui header title">
 	<%= @location.name %>
