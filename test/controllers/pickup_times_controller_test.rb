@@ -33,15 +33,28 @@ class PickupTimesControllerTest < ActionController::TestCase
 		assert_not flash.empty?
 	end
 	
-	test 'should update if not logged in' do
+	test 'should redirect update if not logged in' do
 		patch :update, id: @time
 		assert_redirected_to login_url
 		assert_not flash.empty?
 	end
 
-	test 'should update if not logged in as admin' do
+	test 'should redirect update if not logged in as admin' do
 		log_in_as @user
 		patch :update, id: @time
+		assert_redirected_to root_url
+		assert_not flash.empty?
+	end
+
+	test 'should redirect destroy if not logged in' do
+		delete :destroy, id: @time
+		assert_redirected_to login_url
+		assert_not flash.empty?
+	end
+
+	test 'should redirect destroy if not logged in as admin' do
+		log_in_as @user
+		delete :destroy, id: @time
 		assert_redirected_to root_url
 		assert_not flash.empty?
 	end
