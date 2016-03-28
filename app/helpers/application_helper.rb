@@ -12,4 +12,5 @@ module ApplicationHelper
 		
 		link_to link_text, link_path, class: class_name
 	end
+	
 end

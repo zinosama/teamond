@@ -75,11 +75,6 @@ class PickupLocationsController < ApplicationController
 		end
 	end
 
-	def redirect_and_flash(target_url, flash_symbol, flash_message)
-		redirect_to target_url
-		flash[flash_symbol] = flash_message
-	end
-
 	def pickup_location_params
 		params.require(:pickup_location).permit(:name, :address, :description)
 	end
