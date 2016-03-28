@@ -6,7 +6,7 @@
 
 <div class="ui container grid">
 	<% dish_category.dishes.each do |dish| %>
-		<div class="two wide column">
+		<div class="two wide center aligned column">
 			<%= link_to(image_tag(dish.image.url(:thumb).to_s, class:"ui image"), edit_recipe_url(dish)) if dish.image?  %>
 			<p><%= dish.name %></p>
 			<p>$ <%= dish.price %></p>

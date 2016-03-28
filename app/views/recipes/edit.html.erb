@@ -1,18 +1,23 @@
 <% provide(:title, "Edit Item") %>
 <% provide(:button_text, "Update Item") %>
-<%= render 'shared/admin_nav' %>
+<div class="row">
+	<div class="ui breadcrumb">
+	  <%= link_to "Menu Management", manage_recipes_url, class: "section" %>
+	  <i class="right angle icon divider"></i>
+	  <div class="active section">Edit Recipe</div>
+	</div>
+</div>
 
-<h1 class="ui header title">Edit Item</h1>
 <div class="row">
 	<div class="ui grid">
-
-		<div class="six wide column">
-			<%= image_tag @recipe.image.url.to_s, class:"ui centered image" if @recipe.image? %>
+		<div class="row">
+			<div class="six wide middle aligned column">
+				<%= image_tag @recipe.image.url.to_s, class:"ui centered image" if @recipe.image? %>
+			</div>
+			<div class="ten wide column">
+					<%= render 'form' %>
+					<%= render 'delete_button' %>
+			</div>
 		</div>
-		<div class="ten wide column">
-				<%= render 'form' %>
-				<%= render 'delete_button' %>
-		</div>
-
 	</div>
 </div>
