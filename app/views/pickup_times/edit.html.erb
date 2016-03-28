@@ -1,0 +1,20 @@
+<% provide(:button_text, "Update Delivery Time") %>
+
+<div class="row">
+	<div class="ui breadcrumb">
+	  <%= link_to "Delivery Management", pickup_locations_url, class: "section" %>
+	  <i class="right angle icon divider"></i>
+	  <div class="active section">Edit Delivery Time</div>
+	</div>
+</div>
+
+<h4 class="ui horizontal divider header" class="locationEditTopDivider">
+  <i class="write icon"></i>
+  Edit Delivery Time
+</h4>
+
+<div class="row">
+	<%= render 'pickup_times/form' %>
+</div>
+
+

@@ -1,7 +1,7 @@
 <div class="item">
 	<i class="large shipping middle aligned icon"></i>
 	<div class="content">
-		<%= link_to "Delivery Time - #{pickup_time.pickup_time}", "#", class: "header" %>
-		<%= content_tag :div, "Order cutoff time - #{pickup_time.pickup_time}", class: "description" %>
+		<%= link_to "Delivery Time - #{pickup_time.pickup_time}", edit_pickup_time_url(pickup_time), class: "header" %>
+		<%= content_tag :div, "Order cutoff time - #{pickup_time.cutoff_time}", class: "description" %>
 	</div>
 </div>

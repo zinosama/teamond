@@ -17,7 +17,7 @@ class PickupTimesController < ApplicationController
 	end
 
 	def edit
-
+		@time = PickupTime.find(params[:id])
 	end
 
 	def update
