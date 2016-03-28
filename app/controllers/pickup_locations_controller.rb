@@ -45,31 +45,30 @@ class PickupLocationsController < ApplicationController
 	def update
 		@location = PickupLocation.find(params[:id])
 		if params[:active]
-			if params[:active] == "0"
-				if params[:confirm_active].downcase.chomp == "i understand"
-					@location.update_attribute(:active, false)
-					redirect_to pickup_location_url(@location)
-					flash[:info] = "Location is now inactive"
-				else
-					redirect_to edit_pickup_location_url(@location)
-					flash[:error] = "Deactivation failed! Please type in 'I Understand' and try again!"
-				end
-			else
-				@location.update_attribute(:active, true)
-				redirect_to pickup_location_url(@location)
-				flash[:success] = "Location is now active"
-			end
+			params[:active] == "0" ? update_active(false, @location) : update_active(true, @location)
 		else
-			if @location.update_attributes(pickup_location_params)
-				redirect_to pickup_location_url(@location)
-				flash[:success] = "Location updated"
-			else
-				render 'pickup_locations/edit'
-			end
+			@location.update_attributes(pickup_location_params) ? redirect_and_flash(pickup_location_url(@location), :success, "Location updated") : render('pickup_locations/edit')
 		end
 	end
 
 	private
+
+	def update_active(activating, location)
+		if activating
+			location.update_attribute(:active, true)
+			redirect_and_flash(pickup_location_url(location), :success, "Location is now active")
+		elsif params[:confirm_deactive].downcase.chomp == "i understand"
+			location.update_attribute(:active, false)
+			redirect_and_flash(pickup_location_url(location), :info, "Location has been deactived")
+		else
+			redirect_and_flash(edit_pickup_location_url(location), :error, "Deactivation failed! Please type in 'I Understand' and try again!")
+		end
+	end
+
+	def redirect_and_flash(target_url, flash_symbol, flash_message)
+		redirect_to target_url
+		flash[flash_symbol] = flash_message
+	end
 
 	def pickup_location_params
 		params.require(:pickup_location).permit(:name, :address, :description)
