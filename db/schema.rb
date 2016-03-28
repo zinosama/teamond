@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20160325130030) do
     t.datetime "updated_at",         null: false
   end
 
+  add_index "locations_times", ["day_of_week"], name: "index_locations_times_on_day_of_week"
   add_index "locations_times", ["pickup_location_id"], name: "index_locations_times_on_pickup_location_id"
   add_index "locations_times", ["pickup_time_id"], name: "index_locations_times_on_pickup_time_id"
 
@@ -78,14 +79,19 @@ ActiveRecord::Schema.define(version: 20160325130030) do
 
   create_table "orders", force: :cascade do |t|
     t.decimal  "total"
+    t.boolean  "paid",              default: false
     t.integer  "payment_method"
     t.string   "payment_id"
-    t.boolean  "paid",           default: false
+    t.string   "recipient_name"
+    t.string   "recipient_phone"
+    t.string   "recipient_wechat"
     t.integer  "user_id"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.integer  "locations_time_id"
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
   end
 
+  add_index "orders", ["locations_time_id"], name: "index_orders_on_locations_time_id"
   add_index "orders", ["user_id"], name: "index_orders_on_user_id"
 
   create_table "pickup_locations", force: :cascade do |t|
@@ -123,6 +129,7 @@ ActiveRecord::Schema.define(version: 20160325130030) do
     t.string   "name"
     t.string   "email"
     t.string   "phone"
+    t.string   "wechat"
     t.string   "password_digest"
     t.string   "remember_digest"
     t.boolean  "admin",             default: false

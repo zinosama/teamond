@@ -1,0 +1,98 @@
+<div class="row">
+	<div class="center aligned column">
+		<div class="ui steps">
+		  <div class="step">
+		    <i class="truck icon"></i>
+		    <div class="content">
+		      <div class="title"><%= link_to "Shipping", summary_url, class: "linkNoColor" %></div>
+		      <div class="description">Choose your delivery location</div>
+		    </div>
+		  </div>
+
+		  <div class="step">
+		    <i class="wait icon"></i>
+		    <div class="content">
+		      <div class="title"><%= link_to "Timing", new_pickup_location_order_url(@locations_time.pickup_location), class: "linkNoColor" %></div>
+		      <div class="description">Select delivery time</div>
+		    </div>
+		  </div>
+
+		  <div class="active step">
+		    <i class="info icon"></i>
+		    <div class="content">
+		      <div class="title">Recipient</div>
+		      <div class="description">Enter recipient information</div>
+		    </div>
+		  </div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<%= form_for @order, url: locations_time_orders_url(@locations_time) , html: { class: ["ui", "form", "column"], id: "placeOrderForm" } do |f| %>
+		<div class="ui container grid">
+			<div class="two column row">
+				<div class="column">
+					<div class="field">
+						<%= f.label :recipient_name, "Who's picking up?" %>
+						<%= icon_input_wrapper(f, :recipient_name, :spy, value: current_user.name) %>
+					</div>
+				</div>
+				<div class="column">
+					<div class="field">
+						<%= f.label :recipient_phone, "Contact number?" %>
+						<%= icon_input_wrapper(f, :recipient_phone, :call, value: current_user.phone) %>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="field column">
+					<%= f.label :recipient_wechat, "Contact by WeChat? (optional)" %>
+					<%= icon_input_wrapper(f, :recipient_wechat, :wechat, value: current_user.wechat) %>
+				</div>
+			</div>
+
+			<div class="row">
+				<h4 class="ui horizontal divider header" class="locationEditTopDivider">
+				  <i class="dollar icon"></i>
+				  Payment Information
+				</h4>
+			</div>
+
+			<div class="row">
+				<div class="field column">
+					<%= f.label :payment_method %>
+					<%= f.select(:payment_method, [['Pay Online', 0], ['Pay Cash', 1]], { include_blank: "select payment method"}, { class: "ui fluid dropdown", id: ""}) %>
+				</div>
+			</div>
+
+
+			<div class="row" id="stripePaymentButton">
+			  <script
+			    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+			    data-key="pk_test_6pRNASCoBOKtIshFeQd4XMUh"
+			    data-image="https://stripe.com/img/open-graph/logo.png?2"
+			    data-name="Teamond"
+			    data-description="secure checkout"
+			    data-amount="<%= (sum(current_user.orderables) * 1.08).round(2) * 100 %>"
+			    data-locale="auto"
+			    data-email="<%= current_user.email %>">
+			  </script>
+			 </div>
+
+			<div class="row" id="placeOrderButton">
+				<div class="column">
+				 	<%= f.submit "Place Order", class: "ui blue inverted button" %>
+			 	</div>
+			</div>
+
+			<div class="row" id="payOnlineButton">
+				<div class="column">
+				 	<%= f.submit "Place Order", class: "ui blue inverted button" %>
+			 	</div>
+			</div>
+
+		</div>
+	<% end %>
+</div>

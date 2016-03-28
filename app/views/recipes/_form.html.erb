@@ -32,7 +32,7 @@
 			</div>
 		</div>
 
-		<div class="sixteen wide column" id="newRecipeDishCategory">
+		<div class="sixteen wide column" id="<%= 'newRecipeDishCategory' unless @recipe.type == 'Dish' %>">
 			<div class="field">
 				<%= f.label :dish_category_id %>
 				<%= f.collection_select(:dish_category_id, DishCategory.all, :id, :name, { prompt: "Select Category" }, { class: "ui dropdown" }) %>
