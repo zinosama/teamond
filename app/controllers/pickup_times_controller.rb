@@ -16,6 +16,18 @@ class PickupTimesController < ApplicationController
 		end
 	end
 
+	def edit
+
+	end
+
+	def update
+
+	end
+
+	def destroy
+
+	end
+
 	private
 
 	def pickup_time_params
