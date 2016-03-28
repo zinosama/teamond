@@ -30,7 +30,5 @@ class PickupTimeCreateTest < ActionDispatch::IntegrationTest
 			post pickup_times_url, pickup_time: { pickup_hour: 120, pickup_minute: -1, cutoff_hour: "", cutoff_minute: "hi" }
 		end
 		assert_template 'pickup_locations/index'
-		assert_select 'div.ui.error.message', count: 1
-		assert_select 'li', count: 5
 	end
 end

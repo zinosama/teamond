@@ -1,0 +1,15 @@
+<%= form_tag pickup_time_url(@time), method: :delete, class: "ui form column" do %>
+	<div class="field">
+		<%= label_tag :confirm_delete do %>
+			Deleted time slots cannot be restored.<br> To proceed, please confirm: 
+		<% end %>
+		<div class="ui left icon large input">
+			<%= text_field_tag :confirm_delete, nil, placeholder: "I Understand" %>
+			<%= semantic_icon "warning sign" %>
+		</div>
+		<small><em>***<b>Extreme Caution</b>: Deleting delivery time after site goes online can cause unexpected behaviors, including issue with previous order display.</em></small><br>
+		<small><em>**It is recommended to remove inactive time slots from location schedules instead</em></small><br>
+		<small>*Please enter 'I Understand' </small>
+	</div>
+	<%= submit_tag "DELETE This Delivery Time", class: "ui red inverted button" %>
+<% end %>

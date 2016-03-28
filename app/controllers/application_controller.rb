@@ -29,4 +29,8 @@ class ApplicationController < ActionController::Base
 			redirect_to root_url
 		end
 	end
+
+	def user_confirmed?(confirm_param)
+		confirm_param && confirm_param.downcase.chomp == "i understand"
+	end
 end

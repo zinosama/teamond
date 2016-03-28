@@ -53,8 +53,12 @@ class PickupLocationsController < ApplicationController
 
 	def destroy
 		location = PickupLocation.find(params[:id])
-		location.destroy
-		redirect_and_flash(pickup_locations_url, :success, "Location has been removed")
+		if user_confirmed? params[:confirm_delete]
+			location.destroy
+			redirect_and_flash(pickup_locations_url, :success, "Location has been removed")
+		else
+			redirect_and_flash(edit_pickup_location_url(location), :error, "Please type I Understand to confirm delete!")
+		end
 	end
 
 	private
@@ -63,7 +67,7 @@ class PickupLocationsController < ApplicationController
 		if activating
 			location.update_attribute(:active, true)
 			redirect_and_flash(pickup_location_url(location), :success, "Location is now active")
-		elsif params[:confirm_deactive].downcase.chomp == "i understand"
+		elsif user_confirmed? params[:confirm_deactive]
 			location.update_attribute(:active, false)
 			redirect_and_flash(pickup_location_url(location), :info, "Location has been deactived")
 		else

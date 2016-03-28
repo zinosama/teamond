@@ -26,7 +26,7 @@ class PickupTimesController < ApplicationController
 
 	def update
 		@time = PickupTime.find(params[:id])
-		if @time && @time.update_attributes(pickup_time_params)
+		if @time.update_attributes(pickup_time_params)
 			redirect_to pickup_locations_url
 			flash[:success] = "Delivery time updated"
 		else
@@ -36,8 +36,8 @@ class PickupTimesController < ApplicationController
 	end
 
 	def destroy
-
-	end
+		
+	end	
 
 	private
 
