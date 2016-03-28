@@ -24,4 +24,12 @@ class PickupLocationDestroyTest < ActionDispatch::IntegrationTest
 
 		assert_select 'a.header', text: @location.name, count: 0
 	end
+
+	test 'should destroy locations_time record' do
+		log_in_as @user
+		assert_difference 'LocationsTime.count', -1 do
+			delete pickup_location_url(@location)
+		end
+		assert_redirected_to pickup_locations_url
+	end
 end
