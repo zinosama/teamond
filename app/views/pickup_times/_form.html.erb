@@ -1,0 +1,49 @@
+<%= form_for @time, html: { class: ["ui", "form", "column"] } do |f| %>
+	
+	<div class="ui container grid">
+		<div class="row">
+			<div class="seven wide column">
+				<div class="field">
+					<%= f.label :pickup_hour, "Delivery Time - Hour" %>
+					<%= f.select(:pickup_hour, (0..23).map{ |hr| [hr,hr] }, { include_blank: "Hour" }, { class: "ui fluid dropdown" } )%>
+				</div>
+			</div>
+
+			<div class="one wide column middle aligned center aligned">
+				<p class="timeColon">:</p>
+			</div>
+
+			<div class="eight wide column">
+				<div class="field">
+					<%= f.label :pickup_minute, "Delivery Time - Minute"%>
+					<%= f.select(:pickup_minute, (0..59).map{ |min| [min,min] }, { include_blank: "Minute" }, { class: "ui fluid dropdown" } ) %>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="seven wide column">
+				<div class="field">
+					<%= f.label :cutoff_hour, "Order Cutoff Time - Hour" %>
+					<%= f.select(:cutoff_hour, (0..23).map{ |hr| [hr,hr] }, { include_blank: "Hour" }, { class: "ui fluid dropdown" } ) %>
+				</div>
+			</div>
+
+			<div class="one wide column middle aligned center aligned">
+				<p class="timeColon">:</p>
+			</div>
+
+			<div class="eight wide column">
+				<div class="field">
+					<%= f.label :cutoff_minute, "Order Cutoff Time - Minute"%>
+					<%= f.select(:cutoff_minute, (0..59).map{ |min| [min,min] }, { include_blank: "Minute" }, { class: "ui fluid dropdown" } ) %>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<%= f.submit yield(:button_text), class: "ui inverted blue button" %>
+		</div>
+	</div>
+	
+<% end %>

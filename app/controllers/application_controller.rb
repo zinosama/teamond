@@ -29,4 +29,13 @@ class ApplicationController < ActionController::Base
 			redirect_to root_url
 		end
 	end
+
+	def redirect_and_flash(target_url, flash_symbol, flash_message)
+		redirect_to target_url
+		flash[flash_symbol] = flash_message
+	end
+
+	def user_confirmed?(confirm_param)
+		confirm_param && confirm_param.downcase.chomp == "i understand"
+	end
 end

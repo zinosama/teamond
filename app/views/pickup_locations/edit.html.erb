@@ -1,4 +1,6 @@
 <% provide(:button_text, "Update Delivery Location") %>
+<% provide(:title, "Edit Delivery Location") %>
+
 <div class="row">
 	<div class="ui breadcrumb">
 	  <%= link_to "Delivery Management", pickup_locations_url, class: "section" %>
@@ -8,7 +10,7 @@
 	  <div class="active section">Edit Location</div>
 	</div>
 </div>
-<h4 class="ui horizontal divider header" id="locationEditTopDivider">
+<h4 class="ui horizontal divider header" class="locationEditTopDivider">
   <i class="write icon"></i>
   Edit Delivery Location
 </h4>
@@ -16,7 +18,7 @@
 <div class="row">
 	<%= render 'form' %>
 </div>
-<h4 class="ui horizontal divider header" id="locationEditTopDivider">
+<h4 class="ui horizontal divider header" class="locationEditTopDivider">
   <i class="minus circle icon"></i>
   Danger Zone
 </h4>

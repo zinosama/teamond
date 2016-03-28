@@ -14,10 +14,15 @@ class PickupLocationDestroyTest < ActionDispatch::IntegrationTest
 
 		assert_select 'input.ui.red.inverted.button[value=?]', "DELETE This Location", count: 1
 
-		assert_difference 'PickupLocation.count', -1 do
+		assert_no_difference 'PickupLocation.count' do
 			delete pickup_location_url(@location)
 		end
+		assert_redirected_to edit_pickup_location_url(@location)
+		assert_not flash.empty?
 
+		assert_difference 'PickupLocation.count', -1 do
+			delete pickup_location_url(@location), confirm_delete: 'I Understand'
+		end
 		assert_redirected_to pickup_locations_url
 		follow_redirect!
 		assert_not flash.empty?
@@ -28,7 +33,7 @@ class PickupLocationDestroyTest < ActionDispatch::IntegrationTest
 	test 'should destroy locations_time record' do
 		log_in_as @user
 		assert_difference 'LocationsTime.count', -1 do
-			delete pickup_location_url(@location)
+			delete pickup_location_url(@location), confirm_delete: 'I Understand'
 		end
 		assert_redirected_to pickup_locations_url
 	end
