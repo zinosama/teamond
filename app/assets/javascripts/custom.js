@@ -30,8 +30,15 @@ $(document).ready(function(){
   watchMilkteaAddons();
   watchMilkteaSizes();
 
+  if($('select[name="order[payment_method]"]')[0].value === '0'){
+    $('#placeOrderButton').hide();
+    $('#payOnlineButton').show();
+  }else if($('select[name="order[payment_method]"]')[0].value === '1'){
+    $('#payOnlineButton').hide();
+    $('#placeOrderButton').show();
+  }
+  
   toggleOnlinePaymentForm();
-
   watchPlaceOrderButton();
 });
 
