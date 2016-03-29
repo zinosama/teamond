@@ -22,8 +22,8 @@ class OrdersController < ApplicationController
 			else
 				redirect_and_flash(summary_url, :error, "Unidentified location")
 			end
-		elsif params[:pickup_location_id] && params[:pickup_time_id]
-			location_time =  LocationsTime.find_by(pickup_location_id: params[:pickup_location_id], pickup_time_id: params[:pickup_time_id])
+		elsif params[:locations_time_id]
+			location_time = LocationsTime.find(params[:locations_time_id])
 			if location_time
 				redirect_to new_locations_time_order_url(location_time)
 			else
