@@ -27,8 +27,6 @@ $(document).ready(function(){
     }
   });
 
-  //calculate existing total: $('div.addonSelect a.ui.label.transition.visible').length
-  //calculate existing size
   watchMilkteaAddons();
   watchMilkteaSizes();
 
