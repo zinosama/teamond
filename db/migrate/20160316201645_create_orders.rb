@@ -2,9 +2,15 @@ class CreateOrders < ActiveRecord::Migration
   def change
     create_table :orders do |t|
     	t.decimal :total
-      t.boolean :paid, default: false	
+      t.integer :payment_status, default: 0	
       t.integer :payment_method
       t.string :payment_id
+      t.string :refund_id
+
+      t.integer :fulfillment_status, default: 0
+      t.integer :satisfaction 
+      t.string :issue
+      t.string :solution
 
       t.string :recipient_name
       t.string :recipient_phone
