@@ -19,6 +19,7 @@ class PickupLocation < ActiveRecord::Base
 		self.locations_times.where( day_of_week: [ current_day, next_day(current_day) ] ).each do |location_time|
 			location_time.join_by_pickup_time(valid_associations) if location_time.before_cutoff?(current_day, current_hr, current_min)
 		end
+		return valid_associations
 	end
 
 	private 

@@ -20,8 +20,10 @@ class LocationsTime < ActiveRecord::Base
 			that_hour = locations_time.pickup_time.pickup_hour
 			that_minute = locations_time.pickup_time.pickup_minute
 			that_day = locations_time.day_of_week
-			
-			return collection.insert(index, self) if earlier_by_day(that_day) || earlier_by_hour(that_hour) || earlier_by_min(that_hour, that_minute)
+		 	if earlier_by_day(that_day) || earlier_by_hour(that_day, that_hour) || earlier_by_min(that_day, that_hour, that_minute)
+				collection.insert(index, self)
+				return
+			end
 		end
 
 		collection.push self
@@ -29,16 +31,16 @@ class LocationsTime < ActiveRecord::Base
 
 	private
 
-	def earlier_by_hour(that_hour)
-		self.pickup_time.pickup_hour < that_hour
+	def earlier_by_hour(that_day, that_hour)
+		(self.day_of_week == that_day) && (self.pickup_time.pickup_hour < that_hour)
 	end
 
-	def earlier_by_min(that_hour, that_minute)
-		(self.pickup_time.pickup_hour == that_hour) && (self.pickup_time.pickup_minute < that_minute)
+	def earlier_by_min(that_day, that_hour, that_minute)
+		(self.day_of_week == that_day) && (self.pickup_time.pickup_hour == that_hour) && (self.pickup_time.pickup_minute < that_minute)
 	end
 
 	def earlier_by_day(that_day)
-		self.day_of_week < that_day
+		(self.day_of_week + 1) % 7 == that_day % 7
 	end
 
 	def valid_for_today?(current_hr, current_min)
