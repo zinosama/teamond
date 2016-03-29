@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160325130030) do
+ActiveRecord::Schema.define(version: 20160329122646) do
 
   create_table "addons_orderables", force: :cascade do |t|
     t.integer  "milktea_orderable_id"
@@ -30,6 +30,19 @@ ActiveRecord::Schema.define(version: 20160325130030) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
+
+  create_table "feedbacks", force: :cascade do |t|
+    t.string   "title"
+    t.string   "message"
+    t.string   "email"
+    t.boolean  "read",       default: false
+    t.boolean  "responded",  default: false
+    t.integer  "user_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "feedbacks", ["user_id"], name: "index_feedbacks_on_user_id"
 
   create_table "locations_times", force: :cascade do |t|
     t.integer  "day_of_week"
@@ -79,16 +92,21 @@ ActiveRecord::Schema.define(version: 20160325130030) do
 
   create_table "orders", force: :cascade do |t|
     t.decimal  "total"
-    t.boolean  "paid",              default: false
+    t.integer  "payment_status",     default: 0
     t.integer  "payment_method"
     t.string   "payment_id"
+    t.string   "refund_id"
+    t.integer  "fulfillment_status", default: 0
+    t.integer  "satisfaction"
+    t.string   "issue"
+    t.string   "solution"
     t.string   "recipient_name"
     t.string   "recipient_phone"
     t.string   "recipient_wechat"
     t.integer  "user_id"
     t.integer  "locations_time_id"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
   add_index "orders", ["locations_time_id"], name: "index_orders_on_locations_time_id"
