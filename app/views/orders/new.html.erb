@@ -1,11 +1,11 @@
 <%= provide(:title, "Summary") %>
-<%= render 'orders/summary' %>
+<%= render 'orders/checkout_templates/summary' %>
 
-<div class="row">
+<div class="row" id="deliveryInfoHeader">
 	<h4 class="ui horizontal divider header" class="locationEditTopDivider">
 	  <i class="shipping icon"></i>
 	  Delivery Information
 	</h4>
 </div>
 
-<%= render "orders/#{@template}" %>
+<%= render "#{@template}" %>

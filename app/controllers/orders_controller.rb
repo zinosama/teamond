@@ -5,14 +5,14 @@ class OrdersController < ApplicationController
 
 	def new
 		if request.url == summary_url
-			@template = 'location_info'
+			@template = 'orders/checkout_templates/location_info'
 		elsif params[:pickup_location_id]
 			@location = PickupLocation.find(params[:pickup_location_id])
-			@template = 'time_info'
+			@template = 'orders/checkout_templates/time_info'
 		elsif params[:locations_time_id]
 			@order = Order.new(recipient_name: current_user.name, recipient_phone: current_user.phone, recipient_wechat: current_user.wechat)
 			@locations_time = LocationsTime.find(params[:locations_time_id])
-			@template = 'recipient_info'
+			@template = 'orders/checkout_templates/recipient_info'
 		end
 	end
 
@@ -25,7 +25,7 @@ class OrdersController < ApplicationController
 			end
 		elsif params[:locations_time_id] && params[:order] #coming from new_locations_time_order_url
 			@locations_time = LocationsTime.find_by(id: params[:locations_time_id])
-			@template = 'recipient_info'
+			@template = 'orders/checkout_templates/recipient_info'
 
 			if @locations_time
 				total = (sum(current_user.orderables) * 1.08).round(2) * 100
