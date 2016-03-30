@@ -49,6 +49,10 @@ class OrdersController < ApplicationController
 		end 
 	end
 
+	def show 
+		@order = Order.find(params[:id])
+	end 
+
 	private
 
 	def process_online_payment(order, token)

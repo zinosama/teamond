@@ -1,0 +1,22 @@
+<div class="row">
+<p>Order Confirmation</p>
+</div>
+<div class="row">
+<p>We have successfully received your order!</p> 
+</div>
+<div class="row">
+<p>Order summary:</p>
+</div>
+<div class="row">
+<ul>
+	<li>Order Id: <%= @order.id %></li>
+	<li>Price: $ <%= @order.total %></li>
+	<li>Payment Method: <%= @order.payment_method %></li>
+	<li>Recipient Name: <%= @order.recipient_name %></li>
+	<li>Recipient Phone Number: <%= @order.recipient_phone %></li>
+	<li>Recipient WeChat: <%= @order.recipient_wechat %></li>
+	<li>Pickup Location: <%= @order.locations_time.pickup_location.name %></li>
+	<li>Pickup Time: <%= @order.locations_time.pickup_time.pickup_time %></li>
+	<li>Order placed at: <%= @order.created_at %></li>
+</ul>
+</div>	
