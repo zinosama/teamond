@@ -1,0 +1,11 @@
+<div class="header"><%= orderable.buyable.milktea.name.capitalize %></div>
+<div class="description">
+  <p><%= "#{orderable.buyable.display_size.capitalize} size, #{orderable.buyable.display_sweet_scale} sweet, #{orderable.buyable.display_temp_scale}" %></p>
+  <p>Quantity: <%= orderable.quantity %></p>
+	<p>Toppings:</p>
+	<ol class="ui list">
+		<% orderable.buyable.milktea_addons.each do |addon| %>
+			<li value=""><%= semantic_icon :checkmark %> <%= addon.name %></li>
+		<% end %>
+	</ol>
+</div>

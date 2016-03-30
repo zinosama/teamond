@@ -157,10 +157,13 @@ p.cartItemPrice{
   width: 100%;
 }
 
-#priceDivider{
-  padding-bottom: 1em;
-  margin-bottom: 0.8em;
-  border-bottom: 1px #FF9797 solid;
+div#checkoutPriceSummary{
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+#checkoutPriceSummary div.extra.content{
+  color: rgba(0, 114, 173, 0.65);
 }
 
 a.linkNoColor{
@@ -171,6 +174,9 @@ a.linkNoColor{
   display: none;
 }
 
+#deliveryInfoHeader{
+  margin-top: 2em;
+}
 /* new pickup location and pickup time page*/
 p.timeColon{
   font-size: 2.3em;

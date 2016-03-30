@@ -60,7 +60,7 @@ class OrderTest < ActiveSupport::TestCase
 	end
 
 	test 'should have a locations_time' do
-		@order.locations_time = nil
+		@order.locations_time_id = 11111
 		assert_not @order.valid?
 	end
 
