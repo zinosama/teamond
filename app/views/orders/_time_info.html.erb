@@ -31,8 +31,8 @@
 <div class="row">
 	<%= form_tag pickup_location_orders_url(@location), class: "ui form column" do %>
 		<div class="field">
-			<%= label_tag :pickup_time_id, "Delivery Time" %>
-			<%= select_tag(:pickup_time_id, options_from_collection_for_select(@location.pickup_times, :id, :pickup_time), { include_blank: "Select delivery time", class: "ui fluid dropdown" }) %>
+			<%= label_tag :locations_time_id, "Delivery Time" %>
+			<%= select_tag(:locations_time_id, options_from_collection_for_select(@location.valid_associations, :id, :associated_pickup_time), { include_blank: "Select delivery time", class: "ui fluid dropdown" }) %>
 			<small>Didn't find the time you like? Check out our delivery schedule and see delivery times for other locations!</small>
 		</div>
 		<div class="field">

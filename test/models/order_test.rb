@@ -4,7 +4,7 @@ class OrderTest < ActiveSupport::TestCase
 
 	def setup
 		@user = users(:zino)
-		@order = Order.new( total: 2.12, payment_method: 1, paid: false, user: @user )
+		@order = Order.new( total: 2.12, payment_method: 1, payment_status: 0, user: @user )
 	end
 
 	test 'should be valid' do

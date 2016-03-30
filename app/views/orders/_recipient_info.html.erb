@@ -30,18 +30,19 @@
 
 <div class="row">
 	<%= form_for @order, url: locations_time_orders_url(@locations_time) , html: { class: ["ui", "form", "column"], id: "placeOrderForm" } do |f| %>
+		<%= render 'shared/error_msgs', object: f.object %>
 		<div class="ui container grid">
 			<div class="two column row">
 				<div class="column">
 					<div class="field">
 						<%= f.label :recipient_name, "Who's picking up?" %>
-						<%= icon_input_wrapper(f, :recipient_name, :spy, value: current_user.name) %>
+						<%= icon_input_wrapper(f, :recipient_name, :spy) %>
 					</div>
 				</div>
 				<div class="column">
 					<div class="field">
 						<%= f.label :recipient_phone, "Contact number?" %>
-						<%= icon_input_wrapper(f, :recipient_phone, :call, value: current_user.phone) %>
+						<%= icon_input_wrapper(f, :recipient_phone, :call) %>
 					</div>
 				</div>
 			</div>
@@ -49,7 +50,7 @@
 			<div class="row">
 				<div class="field column">
 					<%= f.label :recipient_wechat, "Contact by WeChat? (optional)" %>
-					<%= icon_input_wrapper(f, :recipient_wechat, :wechat, value: current_user.wechat) %>
+					<%= icon_input_wrapper(f, :recipient_wechat, :wechat) %>
 				</div>
 			</div>
 
@@ -71,7 +72,7 @@
 			<div class="row" id="stripePaymentButton">
 			  <script
 			    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-			    data-key="pk_test_6pRNASCoBOKtIshFeQd4XMUh"
+			    data-key="pk_test_tGb2jwze3GQ52hrSyUKXSu58"
 			    data-image="https://stripe.com/img/open-graph/logo.png?2"
 			    data-name="Teamond"
 			    data-description="secure checkout"
@@ -79,7 +80,7 @@
 			    data-locale="auto"
 			    data-email="<%= current_user.email %>">
 			  </script>
-			 </div>
+			</div>
 
 			<div class="row" id="placeOrderButton">
 				<div class="column">

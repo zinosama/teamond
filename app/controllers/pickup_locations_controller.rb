@@ -31,7 +31,7 @@ class PickupLocationsController < ApplicationController
 		@schedule = {}
 		locations_times.each do |location_time|
 			if @schedule[location_time.day_of_week]
-				insert_by_pickup_time(@schedule[location_time.day_of_week], location_time)
+				location_time.join_by_pickup_time(@schedule[location_time.day_of_week])
 			else
 				@schedule[location_time.day_of_week] = [location_time]
 			end
@@ -77,22 +77,6 @@ class PickupLocationsController < ApplicationController
 
 	def pickup_location_params
 		params.require(:pickup_location).permit(:name, :address, :description)
-	end
-
-	def insert_by_pickup_time(location_times, new_location_time)
-		new_pickup_time = new_location_time.pickup_time
-		location_times.each_with_index do |location_time, index|
-			pickup_time = location_time.pickup_time
-			
-			if new_pickup_time.pickup_hour < pickup_time.pickup_hour
-				location_times.insert(index, new_location_time)
-				return
-			elsif new_pickup_time.pickup_hour == pickup_time.pickup_hour && new_pickup_time.pickup_minute < pickup_time.pickup_minute
-				location_times.insert(index, new_location_time)
-				return
-			end
-		end
-		location_times.push new_location_time
 	end
 
 end

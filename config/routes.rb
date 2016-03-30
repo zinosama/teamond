@@ -32,7 +32,7 @@ Rails.application.routes.draw do
   resources :milktea_orderables, only: [:create, :edit, :update]
 
   get 'summary' => 'orders#new'
-  resources :orders, only: [:create]
+  resources :orders, only: [:create, :show]
 
   resources :pickup_locations, only: [:index, :create, :show, :edit, :update, :destroy] do
     resources :locations_times, only: [:create]  
