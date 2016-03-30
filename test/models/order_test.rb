@@ -44,8 +44,18 @@ class OrderTest < ActiveSupport::TestCase
 		assert_not @order.valid?
 	end 
 
+	test 'recipient_name should not be longer than 50 char' do
+		@order.recipient_name = "a" * 51
+		assert_not @order.valid?
+	end
+
 	test 'should have recipient_phone' do
 		@order.recipient_phone = ""
+		assert_not @order.valid?
+	end
+
+	test 'recipient_phone should not be longer than 60 char' do
+		@order.recipient_phone = "a" * 61
 		assert_not @order.valid?
 	end
 
