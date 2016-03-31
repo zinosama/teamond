@@ -1,4 +1,4 @@
-<div class="header"><%= orderable.buyable.name.capitalize %></div>
+<div class="header"><%= link_to orderable.buyable.name.capitalize, recipe_url(orderable.buyable) %></div>
 <div class="description">
 Quantity: <%= orderable.quantity %>
 </div>

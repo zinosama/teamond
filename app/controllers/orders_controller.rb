@@ -49,8 +49,10 @@ class OrdersController < ApplicationController
 	end
 
 	def show 
-		@order = Order.find(params[:id])
+		@order = Order.find_by(id: params[:id])
+		redirect_and_flash( user_url(current_user), :error, "Unidentified order" ) unless @order
 	end 
+
 
 
 	private
@@ -100,7 +102,7 @@ class OrdersController < ApplicationController
 	def process_payment(order, token)
 		if order.paying_cash?
 			reassign_orderables(order)
-			redirect_to order_url(order) 
+			redirect_and_flash( order_url(order), :success, "Your order has been successfully created." )
 		else
 			process_online_payment(order, token)
 		end
@@ -119,7 +121,7 @@ class OrdersController < ApplicationController
 		if charge = payment.charge
 			@order.update_attributes( payment_id: charge.id, payment_status: 1 )
 			reassign_orderables(@order)
-			redirect_to order_url(@order)
+			redirect_and_flash( order_url(@order), :success, "Your order has been successfully created." )
 		else
 			flash.now[:error] = payment.error_msg
 			@order = destroy_and_recreate(@order)

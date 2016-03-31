@@ -226,3 +226,27 @@ p.locationInactiveMark{
 /*.ui.inverted.table{
   background-color: #ECCE5B;
 }*/
+
+/* order show */
+p.orderStatus{
+  font-size: 1.3em;
+  font-weight: 600;
+}
+
+p.orderStatus.pending{
+  color: #2185d0;
+}
+
+div.ui.cards.orderShowCards div.card{
+  width: 100%;
+  text-align: center;
+}
+div.ui.cards.orderShowCards div.card:hover{
+  background-color:#EFEFEF;
+}
+
+
+.ui.cards > .card > .content, .ui.card > div.orderShowCard.content{
+  padding-bottom: 1.5em;
+}
+

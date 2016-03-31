@@ -13,7 +13,7 @@ class LocationsTime < ActiveRecord::Base
 	end
 
 	def associated_pickup_time
-		"#{self.pickup_time.pickup_time} - #{DOWs[day_of_week]}"
+		"#{self.pickup_time.pickup_time}, #{DOWs[day_of_week]}"
 	end
 
 	def join_by_pickup_time(collection)

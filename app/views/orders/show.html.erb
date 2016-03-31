@@ -1,22 +1,76 @@
 <div class="row">
-<p>Order Confirmation</p>
+	<div class="ui breadcrumb">
+	  <%= link_to "Your Orders", "#", class: "section" %>
+	  <i class="right angle icon divider"></i>
+	  <div class="active section">Current Order</div>
+	</div>
 </div>
+
 <div class="row">
-<p>We have successfully received your order!</p> 
+	<div class="ui fluid card">
+		<div class="content">
+			<div class="ui container stackable grid">
+				<div class="four column center aligned row">
+					<div class="column">ORDER PLACED<br> <%= @order.create_time %></div>
+					<div class="column">PRICE<br> $ <%= @order.total %></div>
+					<div class="column">RECIPIENT<br> <%= @order.recipient_name.capitalize %></div>
+					<div class="column">RECIPIENT NUMBER<br> <%= @order.recipient_phone %></div>
+				</div>
+			</div>
+		</div>
+		<div class="content orderShowCard">	
+			<div class="ui container stackable grid">
+				<div class="centered row">
+					<div class="five wide column">
+						<p class="orderStatus <%= @order.decode_fulfillment_status[:status]%>"><%= @order.decode_fulfillment_status[:msg] %></p>
+						<% if @order.fulfillment_status == 0 %>
+							<p>Scheduled for delivery:<br> <b><%= semantic_icon :wait %> <%= @order.locations_time.associated_pickup_time %></b></p>
+						<% else %>
+							<p>Delivered on:<br> <b><%= semantic_icon :wait %> <%= @order.locations_time.associated_pickup_time %></b></p>
+						<% end %>
+						<p>Delivery Location:<br> <b><%= semantic_icon :marker %> <%= @order.locations_time.pickup_location.name %></b></p>
+						<p>Delivery Instruction:<br> <b><%= semantic_icon "info circle" %><%= @order.locations_time.pickup_location.description %></b></p>
+					</div>
+					<div class="five wide column">
+						<p>Order ID<br> <b>10052011-<%= @order.id %></b>
+						<p>Payment method: <%= @order.decode_payment_method %></p>
+						<p>Payment status:<br> <b><%= @order.decode_payment_status %></b></p>
+						<% if @order.recipient_wechat %><p>Recipient WeChat: <%= @order.recipient_wechat %></p><% end %>
+						<p>Total number of <%= pluralize(@order.num_of_items, 'item') %></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="content orderShowCard">
+			<div class="ui container stackable grid">
+				<div class="centered row">
+					<div class="ten wide center aligned column">
+						<%= form_for @order, html: { class: ["ui", "form"], id: "orderShowFeedbackFrom" } do |f| %>
+							<div class="field">
+								<%= f.label :satisfaction,"Did we make you smile?" %>
+								<%= f.hidden_field :satisfaction %>
+								<div class="ui huge heart rating" data-rating="<%= @order.satisfaction || 0 %>" data-max-rating="5"></div>
+							</div>
+						  <div class="field">
+								<%= f.label :issue, "Is there anything we can do better?" %>
+						    <%= f.text_area :issue, rows: 2 %>
+						  </div>
+						  <%= submit_tag "Click me to save your rating and feedback!", class: "ui button inverted blue" %>
+						<% end %>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="orderShowCard content">
+			<div class="ui cards orderShowCards">
+				<% @order.orderables.each do |orderable| %>
+					<%= render 'orders/cards/checkout_item_card', orderable: orderable %>
+				<% end %>
+			</div>
+		</div>
+
+	</div>
 </div>
-<div class="row">
-<p>Order summary:</p>
-</div>
-<div class="row">
-<ul>
-	<li>Order Id: <%= @order.id %></li>
-	<li>Price: $ <%= @order.total %></li>
-	<li>Payment Method: <%= @order.payment_method %></li>
-	<li>Recipient Name: <%= @order.recipient_name %></li>
-	<li>Recipient Phone Number: <%= @order.recipient_phone %></li>
-	<li>Recipient WeChat: <%= @order.recipient_wechat %></li>
-	<li>Pickup Location: <%= @order.locations_time.pickup_location.name %></li>
-	<li>Pickup Time: <%= @order.locations_time.pickup_time.pickup_time %></li>
-	<li>Order placed at: <%= @order.created_at %></li>
-</ul>
-</div>	
+

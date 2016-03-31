@@ -1,13 +1,9 @@
 <div class="card">
   <div class="content">
-		<% if orderable.buyable.is_a? MilkteaOrderable %>
-			<%= render 'orders/cards/milktea_orderable_card', orderable: orderable %>
-			<% else %>
-				<%= render 'orders/cards/dish_orderable_card', orderable: orderable %>
-		<% end %>
+  	<%= render 'orders/cards/item_card', orderable: orderable %>
   </div>
   <div class="extra content">
     <%= semantic_icon :food %>
-			Price: $ <%= orderable.unit_price * orderable.quantity %>
+		Price: $ <%= orderable.unit_price * orderable.quantity %>
   </div>
 </div>

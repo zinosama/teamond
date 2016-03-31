@@ -16,6 +16,11 @@ $(document).ready(function(){
 
   $('select.dropdown').dropdown();
 
+  $('.ui.rating').rating('setting', 'onRate', function(value) {
+    $('#order_satisfaction').val(value);
+  });
+
+
   toggleDishCategorySelectDisplay();
   enableRecipeDelete();
 
@@ -25,7 +30,9 @@ $(document).ready(function(){
     if (size_in_megabytes > 1) {
       alert('Maximum file size is 1MB. Please choose a smaller file.');
     }
+
   });
+  
 
   watchMilkteaAddons();
   watchMilkteaSizes();
