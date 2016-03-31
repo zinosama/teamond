@@ -117,12 +117,10 @@ class OrdersController < ApplicationController
 		payment = Payment.new(payment_info)
 
 		if charge = payment.charge
-			# debugger
 			@order.update_attributes( payment_id: charge.id, payment_status: 1 )
 			reassign_orderables(@order)
 			redirect_to order_url(@order)
 		else
-			# debugger
 			flash.now[:error] = payment.error_msg
 			@order = destroy_and_recreate(@order)
 			render 'orders/new'

@@ -2,6 +2,7 @@ require 'test_helper'
 
 class OrderCreateTest < ActionDispatch::IntegrationTest
 	DOWs = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+	###!!! StripeMock requires Stripe gem version 1.31.0, which needs to be uncommented in Gemfile
 
 	def setup
 		@user = users(:zino)
@@ -20,16 +21,21 @@ class OrderCreateTest < ActionDispatch::IntegrationTest
 		@user.save
 
 		StripeMock.start
+		@token = StripeMock.generate_card_token(number: "4242424242424242", exp_month: 12, exp_year: 2017, cvc: '123')
 	end
 
 	def teardown
 		StripeMock.stop
 	end
 
-	test 'valid order with cash payment' do
+	test 'valid order creation work flow (cash payment)' do
 		log_in_as @user
+		
+		#############################Location##############
 		get summary_url
 		assert_template 'orders/new'
+		template = assigns(:template)
+		assert_equal 'orders/checkout_templates/location_info', template
 
 		#summary view is present, total is calculated correctly
 		assert_select 'div.header', text: @dish_orderable.buyable.name.capitalize, count: 1
@@ -54,6 +60,13 @@ class OrderCreateTest < ActionDispatch::IntegrationTest
 		assert_redirected_to new_pickup_location_order_url(@location)
 		follow_redirect!
 
+
+		###############################LocationsTime###############
+		template = assigns(:template)
+		assert_equal 'orders/checkout_templates/time_info', template
+		location = assigns(:location)
+		assert_equal @location, location
+
 		#time form and select field present
 		assert_select 'form[action=?]', pickup_location_orders_url(@location), count: 1
 		assert_select 'select[name=?]', "locations_time_id", count: 1
@@ -67,6 +80,14 @@ class OrderCreateTest < ActionDispatch::IntegrationTest
 		post pickup_location_orders_url(@location), locations_time_id: @locations_time.id
 		assert_redirected_to new_locations_time_order_url(@locations_time)
 		follow_redirect!
+
+
+		###############################RecipientInfo & Payment##########
+		template = assigns(:template)
+		assert_equal 'orders/checkout_templates/recipient_info', template
+		locations_time = assigns(:locations_time)
+		assert_equal @locations_time, locations_time
+
 		assert_select 'form[action=?]', locations_time_orders_url(@locations_time), count: 1
 		assert_select 'input[name=?]', 'order[recipient_name]', count: 1
 		assert_select 'input[name=?]', 'order[recipient_phone]', count: 1
@@ -96,24 +117,81 @@ class OrderCreateTest < ActionDispatch::IntegrationTest
 
 	end
 
-	test 'valid order with online payment' do
+	test 'valid order creation (online payment)' do
 		log_in_as @user
 
-		token = StripeMock.generate_card_token(number: "4242424242424242", exp_month: 12, exp_year: 2017, cvc: '123')
+		assert_difference 'Order.count', 1 do post_charge end
 
-		assert_difference 'Order.count', 1 do
-			post locations_time_orders_url(@locations_time), order: { recipient_name: "zino sama", recipient_phone: "123456", recipient_wechat: "abcdefg", payment_method: 0, }, stripeToken: token
-		end
 		order = assigns(:order)
 		assert_equal 1, order.payment_status
 		assert_not_nil order.payment_id
 		assert_redirected_to order_url(order)
 	end
 
+	test 'invalid online payment' do
+		error_msg_body = "Ooops! Looks like our payment service is down. Please contact customer service and provide them with error message:"
 
-		# StripeMock.prepare_card_error(:card_declined)
+		log_in_as @user
+		
+		StripeMock.prepare_card_error(:card_declined)
+		assert_no_difference 'Order.count' do post_charge end
+		verify_error 'orders/new', 'The card was declined'
+
+		template = assigns(:template)
+		assert_equal 'orders/checkout_templates/recipient_info', template
+		locations_time = assigns(:locations_time)
+		assert_equal @locations_time, locations_time
+
+		post_charge_with_error Stripe::RateLimitError.new
+		verify_error 'orders/new', 'Ooops! Something just went wrong. Please try again. If error persists, please contact customer service.'
+
+		post_charge_with_error Stripe::InvalidRequestError.new('invalid request', { attr: 'invalid' })
+		verify_error 'orders/new', "#{error_msg_body} Invalid Request."
+
+		post_charge_with_error Stripe::AuthenticationError.new
+		verify_error 'orders/new', "#{error_msg_body} Authentication Error."
+
+		post_charge_with_error Stripe::APIConnectionError.new
+		verify_error 'orders/new', "#{error_msg_body} Connection Error."
+
+		post_charge_with_error Stripe::StripeError.new
+		verify_error 'orders/new', "#{error_msg_body} Stripe Error."
+
+		post_charge_with_error StandardError.new('application error')
+		verify_error 'orders/new', "#{error_msg_body} Application Error."
+
+	end
+
+	test 'invalid recipient information' do
+		log_in_as @user
+		
+		assert_no_difference 'Order.count' do
+			post locations_time_orders_url(@locations_time), order: { recipient_name: "", recipient_phone: "", recipient_wechat: "" }
+		end
+
+		assert_template 'orders/new'
+		template = assigns(:template)
+		assert_equal 'orders/checkout_templates/recipient_info', template
+		assert_select 'li', count: 4
+		assert_select 'div.ui.error.message', count: 1
+	end
+
 	private 
 	
+	def verify_error(template, error_msg)
+		assert_template template
+		assert_equal error_msg, flash.now[:error]
+	end
+
+	def post_charge_with_error(error)
+		StripeMock.prepare_error(error, :new_charge)
+		assert_no_difference 'Order.count' do post_charge end
+	end
+
+	def post_charge
+		post locations_time_orders_url(@locations_time), order: { recipient_name: "zino sama", recipient_phone: "123456", recipient_wechat: "abcdefg", payment_method: 0, }, stripeToken: @token
+	end
+
 	#creates six scenarioes, each representing one of the possible cases. Two of them should be selectable.
 	def create_delivery_times(location) 
 		now = Time.now

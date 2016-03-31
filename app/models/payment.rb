@@ -37,7 +37,7 @@ class Payment
 			@error_msg = "#{error_msg_body} Stripe Error."
 			false
 		rescue => e
-			@error_msg = "#{error_msg_body} Application Error"
+			@error_msg = "#{error_msg_body} Application Error."
 			false
 		else
 			@charge_obj
