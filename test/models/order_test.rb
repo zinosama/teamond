@@ -5,7 +5,7 @@ class OrderTest < ActiveSupport::TestCase
 	def setup
 		@user = users(:zino)
 		@locations_time = locations_times(:one)
-		@order = Order.new( total: 2.12, payment_method: 1, recipient_name: "zino", recipient_phone: "4329423", locations_time: @locations_time, user: @user )
+		@order = Order.new( total: 2.12, payment_method: 1, recipient_name: "zino", recipient_phone: "4329423", recipient_wechat: "213dfds", locations_time: @locations_time, user: @user )
 	end
 
 	test 'should be valid' do
@@ -56,6 +56,11 @@ class OrderTest < ActiveSupport::TestCase
 
 	test 'recipient_phone should not be longer than 60 char' do
 		@order.recipient_phone = "a" * 61
+		assert_not @order.valid?
+	end
+
+	test 'recipient_wechat should not be longer than 50 char' do
+		@order.recipient_wechat = "a" * 51
 		assert_not @order.valid?
 	end
 

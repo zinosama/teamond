@@ -8,3 +8,7 @@ one:
   name: wilson commons
   address: 500 joseph c wilson blvd
   description: descriptionssss
+two:
+  name: itc
+  address: 500 joseph
+  description: the second location

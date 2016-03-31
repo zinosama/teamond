@@ -32,7 +32,7 @@ gem 'bcrypt', '~> 3.1.7'
 # Use Unicorn as the app server
 # gem 'unicorn'
 
-gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 gem 'will_paginate'
@@ -41,6 +41,9 @@ gem 'faker'
 gem 'carrierwave'
 gem 'mini_magick'
 gem 'fog'
+
+gem 'stripe', '1.31.0'
+# gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -51,8 +54,9 @@ group :development, :test do
 end
 
 group :test do
-	gem 'minitest-reporters'
-	gem 'mini_backtrace'
+  gem 'stripe-ruby-mock', '~> 2.2.2', :require => 'stripe_mock'
+  gem 'minitest-reporters'
+  gem 'mini_backtrace'
 end
 
 group :development do
