@@ -19,6 +19,11 @@ class OrderCreateTest < ActionDispatch::IntegrationTest
 		@user.orderables = [@dish_orderable, @milktea_orderable]
 		@user.save
 
+		StripeMock.start
+	end
+
+	def teardown
+		StripeMock.stop
 	end
 
 	test 'valid order with cash payment' do
@@ -91,6 +96,22 @@ class OrderCreateTest < ActionDispatch::IntegrationTest
 
 	end
 
+	test 'valid order with online payment' do
+		log_in_as @user
+
+		token = StripeMock.generate_card_token(number: "4242424242424242", exp_month: 12, exp_year: 2017, cvc: '123')
+
+		assert_difference 'Order.count', 1 do
+			post locations_time_orders_url(@locations_time), order: { recipient_name: "zino sama", recipient_phone: "123456", recipient_wechat: "abcdefg", payment_method: 0, }, stripeToken: token
+		end
+		order = assigns(:order)
+		assert_equal 1, order.payment_status
+		assert_not_nil order.payment_id
+		assert_redirected_to order_url(order)
+	end
+
+
+		# StripeMock.prepare_card_error(:card_declined)
 	private 
 	
 	#creates six scenarioes, each representing one of the possible cases. Two of them should be selectable.
