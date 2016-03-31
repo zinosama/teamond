@@ -25,7 +25,7 @@
 
 	  <div class="ui button active">
 	  	<%= semantic_icon :cocktail %>
-	    Estimate for Total: $ <%= sum(@orderables) %>
+	    Estimate for Total: $ <%= current_user.cart_balance_before_tax %>
 	  </div>
 
     <%= link_to summary_url, class: "ui right labeled icon button" do %>

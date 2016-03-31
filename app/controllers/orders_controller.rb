@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
 	before_action :logged_in_user
 	before_action :cart_not_empty, only: [:new, :create]
-	include OrderablesHelper
+	before_action :correct_user_or_admin, only: [:show]
 
 	def new
 		if request.url == summary_url
