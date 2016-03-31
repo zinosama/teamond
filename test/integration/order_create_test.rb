@@ -86,8 +86,8 @@ class OrderCreateTest < ActionDispatch::IntegrationTest
 		assert_equal @user.id, order.user.id
 
 		#orderables are reassigned to belong to the new order instead of user
-		assert_equal order, @dish_orderable.ownable
-		assert_equal order, @milktea_orderable.ownable
+		assert_equal order, @dish_orderable.reload.ownable
+		assert_equal order, @milktea_orderable.reload.ownable
 
 	end
 
@@ -100,19 +100,19 @@ class OrderCreateTest < ActionDispatch::IntegrationTest
 		current_min = now.strftime('%M').to_i
 		current_day = now.strftime('%w').to_i
 
-		past = PickupTime.create!( pickup_hour: current_hr - 1, pickup_minute: current_min - 1, cutoff_hour: current_hr - 2, cutoff_minute: current_min - 2 )
+		past = PickupTime.create!( pickup_hour: current_hr - 1, pickup_minute: current_min, cutoff_hour: current_hr - 2, cutoff_minute: current_min )
 		location.locations_times.create!( pickup_time: past, day_of_week: current_day )
 
-		today_after_cutoff = PickupTime.create!( pickup_hour: current_hr + 1, pickup_minute: current_min + 1, cutoff_hour: current_hr, cutoff_minute: current_min - 1)
+		today_after_cutoff = PickupTime.create!( pickup_hour: current_hr + 1, pickup_minute: current_min, cutoff_hour: current_hr - 1, cutoff_minute: current_min)
 		location.locations_times.create!( pickup_time: today_after_cutoff, day_of_week: current_day )
 
-		@today_before_cutoff = PickupTime.create!( pickup_hour: current_hr + 2, pickup_minute: current_min + 2, cutoff_hour: current_hr + 1, cutoff_minute: current_min - 1)
+		@today_before_cutoff = PickupTime.create!( pickup_hour: current_hr + 2, pickup_minute: current_min, cutoff_hour: current_hr + 1, cutoff_minute: current_min)
 		location.locations_times.create!( pickup_time: @today_before_cutoff, day_of_week: current_day )
 
-		@tomorrow = PickupTime.create!( pickup_hour: current_hr + 1, pickup_minute: current_min + 1, cutoff_hour: current_hr - 1, cutoff_minute: current_min - 1)
+		@tomorrow = PickupTime.create!( pickup_hour: current_hr + 1, pickup_minute: current_min, cutoff_hour: current_hr - 1, cutoff_minute: current_min)
 		location.locations_times.create!( pickup_time: @tomorrow, day_of_week: ((current_day + 1) % 7) )
 
-		day_after_tomorrow = PickupTime.create!( pickup_hour: current_hr + 2, pickup_minute: current_min + 2, cutoff_hour: current_hr + 2, cutoff_minute: current_min + 2)
+		day_after_tomorrow = PickupTime.create!( pickup_hour: current_hr + 2, pickup_minute: current_min, cutoff_hour: current_hr + 2, cutoff_minute: current_min)
 		location.locations_times.create!( pickup_time: day_after_tomorrow, day_of_week: ((current_day + 2) % 7) )
 	
 		location2 = pickup_locations(:two)

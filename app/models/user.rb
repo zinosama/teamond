@@ -14,6 +14,14 @@ class User < ActiveRecord::Base
 	has_many :orders
 	has_many :orderables, as: :ownable
 
+	def cart_balance_after_tax
+		(cart_balance * 1.08).round(2)
+	end
+
+	def cart_balance_after_tax_in_penny
+		cart_balance_after_tax * 100
+	end
+
 	def self.digest(input_string)
 		cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST : BCrypt::Engine.cost
 		BCrypt::Password.create(input_string, cost: cost)
@@ -60,6 +68,12 @@ class User < ActiveRecord::Base
 	end
 	
 	private
+
+	def cart_balance
+		@sum ||= 0
+		self.orderables.each{ |orderable| @sum += orderable.unit_price * orderable.quantity } if @sum == 0
+		@sum
+	end
 
 	def downcase_email
 		self.email.downcase!

@@ -17,35 +17,34 @@ class OrdersController < ApplicationController
 	end
 
 	def create
-		if request.url == orders_url #coming from summary_url
-			if PickupLocation.find_by(id: params[:pickup_location_id])
-				redirect_to new_pickup_location_order_url(pickup_location_id: params[:pickup_location_id])
-			else
-				redirect_and_flash(summary_url, :error, "Unidentified location")
-			end
-		elsif params[:locations_time_id] && params[:order] #coming from new_locations_time_order_url
+		if got_location?(request.url)
+			
+			location_id = params[:pickup_location_id]
+			route_params = {
+				object: PickupLocation.find_by(id: location_id),
+				from_url: summary_url,
+				to_url: new_pickup_location_order_url(location_id),
+				error_msg: "Unidentified location"
+			}
+			verify_and_redirect(route_params)
+
+		elsif got_all_info?(params[:locations_time_id], params[:order])
+
 			@locations_time = LocationsTime.find_by(id: params[:locations_time_id])
 			@template = 'orders/checkout_templates/recipient_info'
+			verify_info_and_create_order(@locations_time)
 
-			if @locations_time
-				total = (sum(current_user.orderables) * 1.08).round(2) * 100
-				@order = Order.new(order_params)
-				if @order.update_attributes(total: total, user_id: current_user.id, locations_time_id: @locations_time.id )
-					@order.payment_method == 1 ? redirect_to(order_url(@order)) : process_online_payment(@order, params[:stripeToken])
-				else
-					render 'new'
-				end
-			else
-				redirect_and_flash( new_locations_time_order_url(@locations_time), :error, "Unidentified time and location")
-			end
+		elsif got_time?(params[:locations_time_id])
 
-		elsif params[:locations_time_id] #coming from new_pickup_location_order_url
-			locations_time = LocationsTime.find(params[:locations_time_id])
-			if locations_time
-				redirect_to new_locations_time_order_url(locations_time)
-			else
-				redirect_and_flash(new_pickup_location_order_url(pickup_location_id: params[:pickup_location_id]), :error, "Unidentified delivery time")
-			end
+			association_id = params[:locations_time_id]
+			route_params = {
+				object: LocationsTime.find_by(id: association_id),
+				from_url: new_pickup_location_order_url(association_id),
+				to_url: new_locations_time_order_url(association_id),
+				error_msg: "Unidentified delivery time"
+			}
+			verify_and_redirect(route_params)
+		
 		end 
 	end
 
@@ -53,34 +52,86 @@ class OrdersController < ApplicationController
 		@order = Order.find(params[:id])
 	end 
 
+
 	private
 
-	def process_online_payment(order, token)
-		begin
-			Stripe.api_key = ENV["STRIPE_TEST_SECRET_KEY"]
-			charge = charge_card( order.total, token, current_user.email, order.id )
-		rescue Stripe::CardError => e
-			flash.now[:error] = e.message
-			render 'new'
-		else
-			@order.update_attributes( payment_id: charge.id )
-			redirect_to order_url(@order)
-		end
-	end
-
-	def charge_card(total, token, email, order_id)
-		charge = Stripe::Charge.create(
-			:amount => total.to_i,
-			:currency => "usd",
-			:source => token,
-			:receipt_email => email,
-			:metadata => { "order_id" => order_id, "customer_name" => current_user.name }
-		)
-	end
-
+	
 	def order_params
 		params.require(:order).permit(:payment_method, :recipient_name, :recipient_phone, :recipient_wechat)
 	end
+
+	def verify_info_and_create_order(locations_time)
+		if locations_time
+			@order = Order.new(order_params)
+			if @order.update_attributes(total: current_user.cart_balance_after_tax, user_id: current_user.id, locations_time_id: locations_time.id )
+				process_payment(@order, params[:stripeToken])
+			else
+				render 'new'
+			end
+		else
+			redirect_and_flash( new_locations_time_order_url(locations_time), :error, "Unidentified time and location")
+		end
+	end
+
+	def verify_and_redirect(args)
+		if args[:object]
+			redirect_to args[:to_url]
+		else
+			redirect_and_flash(args[:from_url], :error, args[:error_msg])
+		end
+	end
+
+	def got_location?(incoming_url)
+		incoming_url == orders_url
+	end
+
+	def got_time?(time_info)
+		time_info
+	end
+
+	def got_all_info?(locations_time, order_info)
+		locations_time && order_info
+	end
+
+	def reassign_orderables(order)
+		current_user.orderables.update_all(ownable_id: order.id, ownable_type: "Order")
+	end
+
+	def process_payment(order, token)
+		if order.paying_cash?
+			reassign_orderables(order)
+			redirect_to order_url(order) 
+		else
+			process_online_payment(order, token)
+		end
+	end
+
+	def process_online_payment(order, token)
+		payment_info = {
+			amount: order.total * 100,
+			currency: "usd",
+			source: token,
+			receipt_email: current_user.email,
+			metadata: { "order_id" => order.id, "customer_name" => current_user.name }
+		}
+		payment = Payment.new(payment_info)
+		
+		if payment.charge
+			@order.update_attributes( payment_id: charge.id )
+			reassign_orderables(@order)
+			redirect_to order_url(@order)
+		else
+			flash.now[:error] = payment.error_msg
+			@order = destroy_and_recreate(@order)
+			render 'orders/new'
+		end
+	end
+
+	def destroy_and_recreate(order)
+		new_order = Order.new( recipient_name: order.recipient_name, recipient_phone: order.recipient_phone, recipient_wechat: order.recipient_wechat)
+		order.destroy
+		new_order
+	end	
 
 	def cart_not_empty
 		if current_user.orderables.empty?
