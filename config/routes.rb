@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get 'signup' => 'users#new'
   resources :users, except: :new do
     get 'leave', on: :member
+    resources :orders, only: [:index]
   end
 
   resources :account_activations, only: [:edit]

@@ -1,7 +1,13 @@
 class OrdersController < ApplicationController
 	before_action :logged_in_user
 	before_action :cart_not_empty, only: [:new, :create]
-	before_action :correct_user_or_admin, only: [:show, :update]
+	before_action :correct_user, only: [:show, :update]
+	before_action :correct_user_index, only: [:index]
+
+	def index
+		@user = User.find(params[:user_id])
+		@user.admin? ? render('orders/index/admin') : render('orders/index/user')
+	end
 
 	def new
 		if request.url == summary_url
@@ -70,7 +76,24 @@ class OrdersController < ApplicationController
 
 	private
 
-	
+	def correct_user_index
+		user = User.find(params[:user_id])
+		if user
+			redirect_and_flash(root_url, :error, "Unauthorized request") unless user == current_user
+		else
+			redirect_and_flash(root_url, :error, "Unidentified user")
+		end
+	end
+
+	def correct_user
+		order = Order.find_by(id: params[:id])
+		if order
+			redirect_and_flash(root_url, :error, "Unauthorized request") unless order.user == current_user	
+		else
+			redirect_and_flash(root_url, :error, "Unidentified order")
+		end
+	end
+
 	def order_params
 		params.require(:order).permit(:payment_method, :recipient_name, :recipient_phone, :recipient_wechat)
 	end
