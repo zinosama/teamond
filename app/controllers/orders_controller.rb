@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
 	before_action :logged_in_user
 	before_action :cart_not_empty, only: [:new, :create]
-	before_action :correct_user, only: [:show, :update]
+	before_action :correct_user_or_admin_order, only: [:show, :update]
 	before_action :correct_user_index, only: [:index]
 
 	def index
@@ -77,7 +77,7 @@ class OrdersController < ApplicationController
 	private
 
 	def correct_user_index
-		user = User.find(params[:user_id])
+		user = User.find_by(id: params[:user_id])
 		if user
 			redirect_and_flash(root_url, :error, "Unauthorized request") unless user == current_user
 		else
@@ -85,10 +85,10 @@ class OrdersController < ApplicationController
 		end
 	end
 
-	def correct_user
+	def correct_user_or_admin_order
 		order = Order.find_by(id: params[:id])
 		if order
-			redirect_and_flash(root_url, :error, "Unauthorized request") unless order.user == current_user	
+			redirect_and_flash(root_url, :error, "Unauthorized request") unless ((order.user == current_user) || current_user.admin?)
 		else
 			redirect_and_flash(root_url, :error, "Unidentified order")
 		end
