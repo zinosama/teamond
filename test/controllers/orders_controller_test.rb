@@ -46,4 +46,17 @@ class OrdersControllerTest < ActionController::TestCase
 		assert_redirected_to root_url
 		assert_not flash.empty?
 	end
+
+	test 'should redirect update if not logged in' do
+		patch :update, id: orders(:order1).id
+		assert_redirected_to login_url
+		assert_not flash.empty?
+	end
+
+	test 'should redirect update if not correct user' do
+		log_in_as @incorrect_user
+		patch :update, id: orders(:order1).id
+		assert_redirected_to root_url
+		assert_not flash.empty?
+	end
 end

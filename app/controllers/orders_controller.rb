@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
 	before_action :logged_in_user
 	before_action :cart_not_empty, only: [:new, :create]
-	before_action :correct_user_or_admin, only: [:show]
+	before_action :correct_user_or_admin, only: [:show, :update]
 
 	def new
 		if request.url == summary_url
@@ -53,7 +53,20 @@ class OrdersController < ApplicationController
 		redirect_and_flash( user_url(current_user), :error, "Unidentified order" ) unless @order
 	end 
 
-
+	def update
+		@order = Order.find_by(id: params[:id])
+		if @order
+			if @order.update_attributes( satisfaction: params[:order][:satisfaction], issue: params[:order][:issue] )
+				flash[:success] = "Thank you for your feedback"
+				redirect_to order_url(@order)
+			else
+				flash.now[:error] = "Error. Please limit your feedback to under 255 characters."
+				render 'show'
+			end
+		else
+			redirect_and_flash(user_url(current_user), :error, "Unidentified order" )
+		end
+	end
 
 	private
 

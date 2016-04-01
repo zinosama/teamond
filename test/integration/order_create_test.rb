@@ -73,8 +73,8 @@ class OrderCreateTest < ActionDispatch::IntegrationTest
 
 		#correct listing of selectable times
 		assert_select 'option', count: 3
-		assert_select 'option', text: "#{@today_before_cutoff.pickup_time} - #{DOWs[Time.now.strftime('%w').to_i]}"
-		assert_select 'option', text: "#{@tomorrow.pickup_time} - #{DOWs[(Time.now.strftime('%w').to_i + 1) % 7]}"
+		assert_select 'option', text: "#{@today_before_cutoff.pickup_time}, #{DOWs[Time.now.strftime('%w').to_i]}"
+		assert_select 'option', text: "#{@tomorrow.pickup_time}, #{DOWs[(Time.now.strftime('%w').to_i + 1) % 7]}"
 
 		#orders create action correctly redirects
 		post pickup_location_orders_url(@location), locations_time_id: @locations_time.id
