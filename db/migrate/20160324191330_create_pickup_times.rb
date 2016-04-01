@@ -1,10 +1,10 @@
 class CreatePickupTimes < ActiveRecord::Migration
   def change
     create_table :pickup_times do |t|
-    	t.integer :pickup_hour
-    	t.integer :pickup_minute
-    	t.integer :cutoff_hour
-    	t.integer :cutoff_minute
+    	t.integer :pickup_hour, null: false
+    	t.integer :pickup_minute, null: false
+    	t.integer :cutoff_hour, null: false
+    	t.integer :cutoff_minute, null: false
     	
       t.timestamps null: false
     end

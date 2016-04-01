@@ -4,8 +4,8 @@ class CreateOrderables < ActiveRecord::Migration
     	t.references :buyable, polymorphic: true, index: true
     	t.references :ownable, polymorphic: true, index: true
 
-    	t.decimal :unit_price
-    	t.integer :quantity, default: 1
+    	t.decimal :unit_price, null: false
+    	t.integer :quantity, default: 1, null: false
 
       t.timestamps null: false
     end

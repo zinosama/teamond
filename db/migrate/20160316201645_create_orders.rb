@@ -1,9 +1,9 @@
 class CreateOrders < ActiveRecord::Migration
   def change
     create_table :orders do |t|
-    	t.decimal :total
+    	t.decimal :total, null: false
       t.integer :payment_status, default: 0	
-      t.integer :payment_method
+      t.integer :payment_method, null: false
       t.string :payment_id
       t.string :refund_id
 
@@ -12,12 +12,12 @@ class CreateOrders < ActiveRecord::Migration
       t.string :issue
       t.string :solution
 
-      t.string :recipient_name
-      t.string :recipient_phone
+      t.string :recipient_name, null: false
+      t.string :recipient_phone, null: false
       t.string :recipient_wechat
     	
-      t.references :user, index:true
-      t.references :locations_time, index: true
+      t.references :user, index:true, null: false
+      t.references :locations_time, index: true, null: false
 
       t.timestamps null: false
     end
