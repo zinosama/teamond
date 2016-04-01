@@ -10,6 +10,9 @@ class Order < ActiveRecord::Base
 	validates :recipient_wechat, length: { maximum: 50 }
 	validates :locations_time, presence: true
 	validates :user, presence: true
+	validates :satisfaction, numericality: { less_than_or_equal_to: 5, greater_than_or_equal_to: 0 }
+	validates :issue, length: { maximum: 255 }
+
 
 	def paying_cash?
 		self.payment_method == 1
