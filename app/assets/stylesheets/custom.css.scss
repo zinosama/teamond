@@ -233,8 +233,17 @@ p.orderStatus{
   font-weight: 600;
 }
 
-p.orderStatus.pending{
+.pending{
   color: #2185d0;
+}
+.error{
+  color: #db2828;
+}
+.warning{
+  color: #ff851b;
+}
+.success{
+  color: #2ecc40;
 }
 
 div.ui.cards.orderShowCards div.card{

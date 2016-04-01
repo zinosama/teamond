@@ -26,6 +26,19 @@ class Order < ActiveRecord::Base
 		self.orderables.count
 	end
 
+	def decode_issue_status
+		status = self.issue_status
+		if status == 0
+			{ msg: "This order has no issue", status: :pending }
+		elsif status == 1
+			{ msg: "An issue has been raised", status: :error }
+		elsif status == 2
+			{ msg: "Issue has been resolved", status: :warning }
+		elsif status == 3
+			{ msg: "Issue has been closed", status: :pending }
+		end				
+	end
+
 	def decode_payment_status
 		status = self.payment_status
 		if status == 0
@@ -49,13 +62,14 @@ class Order < ActiveRecord::Base
 	def decode_fulfillment_status
 		status = self.fulfillment_status
 		if status == 0
-			{ msg: "Order received", status: :pending }
+			{ msg: "Order received", status: :success }
 		elsif status == 1
-			{ msg: "Order delivered", status: :success }
+			{ msg: "Order delivered", status: :pending }
 		elsif status == 2
 			{ msg: "An issue has been reported. We're working on it!", status: :error }
 		else
 			{ msg: "Your issue has been resolved", status: :warning }
 		end
 	end
+
 end

@@ -33,10 +33,11 @@
 					</div>
 					<div class="five wide column">
 						<p>Order ID<br> <b>10052011-<%= @order.id %></b>
-						<p>Payment method: <%= @order.decode_payment_method %></p>
-						<p>Payment status:<br> <b><%= @order.decode_payment_status %></b></p>
+						<p>Payment method: <b><%= @order.decode_payment_method %></b></p>
+						<p>Payment status: <b><%= @order.decode_payment_status %></b></p>
 						<% if @order.recipient_wechat %><p>Recipient WeChat: <%= @order.recipient_wechat %></p><% end %>
 						<p>Total number of <%= pluralize(@order.num_of_items, 'item') %></p>
+						<p><b><span class="<%= @order.decode_issue_status[:status] %>"><%= @order.decode_issue_status[:msg] %></span></b></p>
 					</div>
 				</div>
 			</div>
