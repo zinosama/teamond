@@ -7,7 +7,7 @@ class AccountActivationsController < ApplicationController
 			flash[:success] = "Account activated. Welcome to Teamond."
 			redirect_to root_url
 		else
-			flash[:error] = "Invalid activation link. If you believe this is an error, please contact us. We provide reward for bug reporters :)"
+			flash[:error] = "Invalid activation link. If you believe this is an error, please contact customer service."
 			redirect_to root_url
 		end
 	end

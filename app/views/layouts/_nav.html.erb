@@ -2,16 +2,23 @@
 <%= nav_link("Menu", menu_path) %>
 <% if is_computer %><div class="right menu"><% end %>
 	<% if logged_in? %>
+		
 		<%= link_to cart_path, class: "item #{ 'active' if request.env['PATH_INFO'].match(/\/cart/) }" do %>
 			Cart<div class="ui teal label"><%= current_user.item_count %></div>
 		<% end %>
-		<%= nav_link("Account", user_orders_path(current_user)) %>
+		
 		<% if current_user.admin? %>
-			<%= nav_link("Admin", manage_recipes_path) %>
+			<%= nav_link("Account", edit_user_path(current_user)) %>
+			<%= nav_link("Admin", user_orders_path(current_user)) %>
+		<% else %>
+			<%= nav_link("Account", user_orders_path(current_user)) %>
 		<% end %>
 		<%= link_to "Log Out", logout_path, method: "delete", class: "item" %>
+
 	<% else %>
+
 		<%= nav_link("Sign Up", signup_path) %>
 		<%= nav_link("Log In", login_path) %>
+
 	<% end %>
 <% if is_computer %></div><% end %>
