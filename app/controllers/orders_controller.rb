@@ -6,7 +6,25 @@ class OrdersController < ApplicationController
 
 	def index
 		@user = User.find(params[:user_id])
-		@user.admin? ? render('orders/index/admin') : render('orders/index/user')
+		if @user.admin?
+			query_hash = {
+				"unpaid" => {payment_status: 0},
+				"unfulfilled" => {fulfillment_status: 0},
+				"fulfilled" => {fulfillment_status: 1},
+				"problemed" => {issue_status: [2, 3]},
+				"feedbacked" => "issue IS NOT NULL"
+			}
+			@num_unpaid = Order.where(query_hash["unpaid"]).count
+			@num_unfulfilled = Order.where(query_hash["unfulfilled"]).count
+			@num_fulfilled = Order.where(query_hash["fulfilled"]).count
+			@num_problem = Order.where(query_hash["problemed"]).count
+			@num_feedback = Order.where(query_hash["feedbacked"]).count
+
+			@orders = Order.where(query_hash[params[:query]])
+			render('orders/index/admin') 
+		else
+			render('orders/index/user')
+		end
 	end
 
 	def new
@@ -61,20 +79,38 @@ class OrdersController < ApplicationController
 
 	def update
 		@order = Order.find_by(id: params[:id])
-		if @order
-			if @order.update_attributes( satisfaction: params[:order][:satisfaction], issue: params[:order][:issue] )
-				flash[:success] = "Thank you for your feedback"
-				redirect_to order_url(@order)
+		
+		if @order && params[:admin_form] && current_user.admin?
+			@order.update_attributes( order_params_update_admin )
+			redirect_and_flash(user_orders_url(current_user, query: params[:query]), :success, "Order updated")
+
+		elsif @order && params[:admin_form].nil? && !current_user.admin?
+			if @order.update_attributes( order_params_update_user )
+				redirect_and_flash(order_url(@order), :success, "Thank you for your feedback")
 			else
 				flash.now[:error] = "Error. Please limit your feedback to under 255 characters."
 				render 'show'
 			end
+
 		else
-			redirect_and_flash(user_url(current_user), :error, "Unidentified order" )
+			redirect_and_flash(user_orders_url(current_user), :error, "Error. Unidentified order or unauthorized access" )
 		end
 	end
 
+
 	private
+
+	def order_params_update_user
+		params.require(:order).permit(:satisfaction, :issue)
+	end
+
+	def order_params_update_admin
+		params.require(:order).permit(:fulfillment_status, :solution, :note)
+	end
+
+	def order_params_create
+		params.require(:order).permit(:payment_method, :recipient_name, :recipient_phone, :recipient_wechat)
+	end
 
 	def correct_user_index
 		user = User.find_by(id: params[:user_id])
@@ -94,13 +130,9 @@ class OrdersController < ApplicationController
 		end
 	end
 
-	def order_params
-		params.require(:order).permit(:payment_method, :recipient_name, :recipient_phone, :recipient_wechat)
-	end
-
 	def verify_info_and_create_order(locations_time, token)
 		if locations_time
-			@order = Order.new(order_params)
+			@order = Order.new(order_params_create)
 			if @order.update_attributes(total: current_user.cart_balance_after_tax, user_id: current_user.id, locations_time_id: locations_time.id )
 				process_payment(@order, token)
 			else

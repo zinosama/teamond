@@ -19,11 +19,32 @@ class Order < ActiveRecord::Base
 	end
 
 	def create_time
-		self.created_at.strftime("%B %e, %Y (%A)")
+		self.created_at.utc.in_time_zone("Eastern Time (US & Canada)").strftime("%B %e, %Y (%A)")
 	end	
+
+	def create_time_to_min
+		self.created_at.utc.in_time_zone("Eastern Time (US & Canada)").strftime("%H : %M, %B %e, %Y (%A)")
+	end
 
 	def num_of_items
 		self.orderables.count
+	end
+
+	def decode_satisfaction
+		rating = self.satisfaction
+		if rating == 0
+			"Unrated"
+		elsif rating == 1
+			"Worst"
+		elsif rating == 2
+			"Bad"
+		elsif rating == 3
+			"Average"
+		elsif rating == 4
+			"Above average"
+		elsif rating == 5
+			"Best"
+		end				
 	end
 
 	def decode_issue_status
@@ -67,7 +88,7 @@ class Order < ActiveRecord::Base
 			{ msg: "Order delivered", status: :pending }
 		elsif status == 2
 			{ msg: "An issue has been reported. We're working on it!", status: :error }
-		else
+		elsif status == 3
 			{ msg: "Your issue has been resolved", status: :warning }
 		end
 	end
