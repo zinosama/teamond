@@ -14,12 +14,24 @@ class User < ActiveRecord::Base
 	has_many :orders
 	has_many :orderables, as: :ownable
 
+	def item_count
+		self.orderables.count
+	end
+
+	def cart_balance_before_tax
+		cart_balance.round(2)
+	end
+
+	def cart_balance_tax
+		(cart_balance_before_tax * 0.08).round(2)
+	end	
+
 	def cart_balance_after_tax
-		(cart_balance * 1.08).round(2)
+		cart_balance_before_tax + cart_balance_tax
 	end
 
 	def cart_balance_after_tax_in_penny
-		cart_balance_after_tax * 100
+		cart_balance_after_tax * 100.to_i
 	end
 
 	def self.digest(input_string)

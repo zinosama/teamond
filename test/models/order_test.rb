@@ -5,7 +5,7 @@ class OrderTest < ActiveSupport::TestCase
 	def setup
 		@user = users(:zino)
 		@locations_time = locations_times(:one)
-		@order = Order.new( total: 2.12, payment_method: 1, recipient_name: "zino", recipient_phone: "4329423", recipient_wechat: "213dfds", locations_time: @locations_time, user: @user )
+		@order = Order.new( total: 2.12, payment_method: 1, recipient_name: "zino", recipient_phone: "4329423", recipient_wechat: "213dfds", locations_time: @locations_time, user: @user, satisfaction: 0 )
 	end
 
 	test 'should be valid' do
@@ -73,4 +73,16 @@ class OrderTest < ActiveSupport::TestCase
 		@order.user = nil
 		assert_not @order.valid?
 	end
+
+	test 'satisfaction should be between 0 to 5' do
+		@order.satisfaction = -1
+		assert_not @order.valid?
+		@order.satisfaction = 6
+		assert_not @order.valid?
+	end 
+
+	test 'issue should not be too long' do
+		@order.issue = "a" * 256
+		assert_not @order.valid?
+	end	
 end

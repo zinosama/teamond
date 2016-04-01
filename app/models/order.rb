@@ -10,8 +10,52 @@ class Order < ActiveRecord::Base
 	validates :recipient_wechat, length: { maximum: 50 }
 	validates :locations_time, presence: true
 	validates :user, presence: true
+	validates :satisfaction, numericality: { less_than_or_equal_to: 5, greater_than_or_equal_to: 0 }
+	validates :issue, length: { maximum: 255 }
+
 
 	def paying_cash?
 		self.payment_method == 1
+	end
+
+	def create_time
+		self.created_at.strftime("%B %e, %Y (%A)")
+	end	
+
+	def num_of_items
+		self.orderables.count
+	end
+
+	def decode_payment_status
+		status = self.payment_status
+		if status == 0
+			"Not received"
+		elsif status == 1
+			"Received"
+		elsif status == 2			
+			"Refunded"
+		end
+	end
+
+	def decode_payment_method
+		code = self.payment_method
+		if code == 0
+			"Online payment"
+		else
+			"Cash payment"
+		end
+	end
+
+	def decode_fulfillment_status
+		status = self.fulfillment_status
+		if status == 0
+			{ msg: "Order received", status: :pending }
+		elsif status == 1
+			{ msg: "Order delivered", status: :success }
+		elsif status == 2
+			{ msg: "An issue has been reported. We're working on it!", status: :error }
+		else
+			{ msg: "Your issue has been resolved", status: :warning }
+		end
 	end
 end

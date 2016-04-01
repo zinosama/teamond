@@ -8,3 +8,7 @@ order1:
   user: zino
   total: 10
   payment_method: 1
+  locations_time: one
+  recipient_name: zinosama
+  recipient_phone: 3248738
+  

@@ -8,7 +8,7 @@ class CreateOrders < ActiveRecord::Migration
       t.string :refund_id
 
       t.integer :fulfillment_status, default: 0
-      t.integer :satisfaction 
+      t.integer :satisfaction, default: 0
       t.string :issue
       t.string :solution
 

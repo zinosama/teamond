@@ -1,4 +1,4 @@
-<div class="header"><%= orderable.buyable.milktea.name.capitalize %></div>
+<div class="header"><%= link_to orderable.buyable.milktea.name.capitalize, recipe_url(orderable.buyable.milktea) %></div>
 <div class="description">
   <p><%= "#{orderable.buyable.display_size.capitalize} size, #{orderable.buyable.display_sweet_scale} sweet, #{orderable.buyable.display_temp_scale}" %></p>
   <p>Quantity: <%= orderable.quantity %></p>

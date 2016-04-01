@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
 	before_action :logged_in_user
 	before_action :cart_not_empty, only: [:new, :create]
-	include OrderablesHelper
+	before_action :correct_user_or_admin, only: [:show, :update]
 
 	def new
 		if request.url == summary_url
@@ -32,7 +32,7 @@ class OrdersController < ApplicationController
 
 			@locations_time = LocationsTime.find_by(id: params[:locations_time_id])
 			@template = 'orders/checkout_templates/recipient_info'
-			verify_info_and_create_order(@locations_time)
+			verify_info_and_create_order(@locations_time, params[:stripeToken])
 
 		elsif got_time?(params[:locations_time_id])
 
@@ -49,9 +49,24 @@ class OrdersController < ApplicationController
 	end
 
 	def show 
-		@order = Order.find(params[:id])
+		@order = Order.find_by(id: params[:id])
+		redirect_and_flash( user_url(current_user), :error, "Unidentified order" ) unless @order
 	end 
 
+	def update
+		@order = Order.find_by(id: params[:id])
+		if @order
+			if @order.update_attributes( satisfaction: params[:order][:satisfaction], issue: params[:order][:issue] )
+				flash[:success] = "Thank you for your feedback"
+				redirect_to order_url(@order)
+			else
+				flash.now[:error] = "Error. Please limit your feedback to under 255 characters."
+				render 'show'
+			end
+		else
+			redirect_and_flash(user_url(current_user), :error, "Unidentified order" )
+		end
+	end
 
 	private
 
@@ -60,11 +75,11 @@ class OrdersController < ApplicationController
 		params.require(:order).permit(:payment_method, :recipient_name, :recipient_phone, :recipient_wechat)
 	end
 
-	def verify_info_and_create_order(locations_time)
+	def verify_info_and_create_order(locations_time, token)
 		if locations_time
 			@order = Order.new(order_params)
 			if @order.update_attributes(total: current_user.cart_balance_after_tax, user_id: current_user.id, locations_time_id: locations_time.id )
-				process_payment(@order, params[:stripeToken])
+				process_payment(@order, token)
 			else
 				render 'new'
 			end
@@ -100,7 +115,7 @@ class OrdersController < ApplicationController
 	def process_payment(order, token)
 		if order.paying_cash?
 			reassign_orderables(order)
-			redirect_to order_url(order) 
+			redirect_and_flash( order_url(order), :success, "Your order has been successfully created." )
 		else
 			process_online_payment(order, token)
 		end
@@ -108,18 +123,18 @@ class OrdersController < ApplicationController
 
 	def process_online_payment(order, token)
 		payment_info = {
-			amount: order.total * 100,
+			amount: (order.total * 100).to_i,
 			currency: "usd",
 			source: token,
 			receipt_email: current_user.email,
 			metadata: { "order_id" => order.id, "customer_name" => current_user.name }
 		}
 		payment = Payment.new(payment_info)
-		
-		if payment.charge
-			@order.update_attributes( payment_id: charge.id )
+
+		if charge = payment.charge
+			@order.update_attributes( payment_id: charge.id, payment_status: 1 )
 			reassign_orderables(@order)
-			redirect_to order_url(@order)
+			redirect_and_flash( order_url(@order), :success, "Your order has been successfully created." )
 		else
 			flash.now[:error] = payment.error_msg
 			@order = destroy_and_recreate(@order)

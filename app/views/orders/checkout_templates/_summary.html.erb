@@ -24,11 +24,11 @@
 <div class="centered row" id="paymentSummary">
 	<div class="ui fluid card" id="checkoutPriceSummary">
 		<div class="content">
-			<p>Total before Tax: $ <%= sum(current_user.orderables) %></p>
-			<p>Sales Tax (8%): $ <%= (sum(current_user.orderables) * 0.08).round(2) %></p> 
+			<p>Total before Tax: $ <%= current_user.cart_balance_before_tax %></p>
+			<p>Sales Tax (8%): $ <%= current_user.cart_balance_tax %></p> 
 		</div>
 		<div class="extra content">
-			<p>Total Payment: $ <%= (sum(current_user.orderables) * 1.08).round(2) %></p>
+			<p>Total Payment: $ <%= current_user.cart_balance_after_tax %></p>
 		</div>
 	</div>
 </div>
