@@ -13,12 +13,6 @@ class UsersControllerTest < ActionController::TestCase
 		assert_select "title", full_title("Sign up")
 	end
 
-	test 'should redirect show when not logged in' do
-		get :show, id: @user
-		assert_redirected_to login_url
-		assert_not flash.empty?
-	end
-
 	test 'should redirect edit when not logged in' do
 		get :edit, id: @user
 		assert_redirected_to login_url
@@ -28,13 +22,6 @@ class UsersControllerTest < ActionController::TestCase
 	test 'should redirect update when not logged in' do
 		patch :update, id: @user, user: { name: @user.name, email: @user.email }
 		assert_redirected_to login_url
-		assert_not flash.empty?
-	end
-
-	test 'should redirect show when logged in as wrong user' do
-		log_in_as(@other_user)
-		get :show, id: @user
-		assert_redirected_to root_url
 		assert_not flash.empty?
 	end
 

@@ -59,4 +59,17 @@ class OrdersControllerTest < ActionController::TestCase
 		assert_redirected_to root_url
 		assert_not flash.empty?
 	end
+
+	test 'should redirect index if not logged in' do
+		get :index, user_id: @user.id
+		assert_redirected_to login_url
+		assert_not flash.empty?
+	end
+
+	test 'should redirecet index if not correct users' do
+		log_in_as @incorrect_user
+		get :index, user_id: @user.id
+		assert_redirected_to root_url
+		assert_not flash.empty?
+	end
 end

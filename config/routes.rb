@@ -6,8 +6,9 @@ Rails.application.routes.draw do
   get 'career' => 'static_pages#career'
 
   get 'signup' => 'users#new'
-  resources :users, except: :new do
+  resources :users, except: [:new, :show] do
     get 'leave', on: :member
+    resources :orders, only: [:index]
   end
 
   resources :account_activations, only: [:edit]

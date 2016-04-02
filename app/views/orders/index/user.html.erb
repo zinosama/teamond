@@ -1,0 +1,28 @@
+<% provide(:title, "Orders") %>
+<%= render 'shared/user_nav' %>
+
+<div class="row">
+	<% @orders.each do |order| %>
+		<div class="ui fluid card">
+			<div class="content">
+				<div class="ui container stackable grid">
+					<div class="four column center aligned row">
+						<div class="column">ORDER PLACED<br> <%= order.create_time %></div>
+						<div class="column">PRICE<br> $ <%= order.total %></div>
+						<div class="column">RECIPIENT<br> <%= order.recipient_name.capitalize %></div>
+						<div class="column">RECIPIENT NUMBER<br> <%= order.recipient_phone %></div>
+					</div>
+				</div>
+			</div>
+			<div class="content orderShowCard">	
+				<div class="ui container stackable grid">
+					<div class="centered row">
+						<%= render 'orders/cards/order_summary_card_user_first_col', order: order, col_span: "five" %>
+						<%= render 'orders/cards/order_summary_card_user_second_col', order: order, col_span: "five" %>
+						<%= render 'orders/cards/order_summary_card_user_third_col', order: order, col_span: "six" %>
+					</div>
+				</div>
+			</div>
+		</div>
+	<% end %>
+</div>

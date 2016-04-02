@@ -1,0 +1,10 @@
+<div class="<%=col_span%> wide center aligned middle aligned column">
+	<p class="orderStatus <%= order.decode_fulfillment_status[:status]%>"><%= order.decode_fulfillment_status[:msg] %></p>
+	<% if order.fulfillment_status == 0 %>
+		<p>Scheduled for delivery:<br> <b><%= semantic_icon :wait %> <%= order.locations_time.associated_pickup_time %></b></p>
+	<% else %>
+		<p>Delivered on:<br> <b><%= semantic_icon :wait %> <%= order.locations_time.associated_pickup_time %></b></p>
+	<% end %>
+	<p>Delivery Location:<br> <b><%= semantic_icon :marker %> <%= order.locations_time.pickup_location.name %></b></p>
+	<p>Delivery Instruction:<br> <b><%= semantic_icon "info circle" %><%= order.locations_time.pickup_location.description %></b></p>
+</div>

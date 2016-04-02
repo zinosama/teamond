@@ -1,6 +1,8 @@
 <div class="row">
-	<div class="ui teal stackable four item menu">
-		<%= nav_link("Orders", "#") %>
+	<div class="ui teal stackable <%= @user.admin? ? "three" : "four" %> item menu">
+		<% unless @user.admin? %>
+			<%= nav_link("Orders", user_orders_url(@user)) %>
+		<% end %>
 		<%= nav_link("Messages", "#") %>
 		<%= nav_link("Edit Profile", edit_user_url(@user)) %>
 		<%= nav_link("Delete Account", leave_user_url(@user)) %>

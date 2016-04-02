@@ -61,7 +61,7 @@ class PasswordResetsTest < ActionDispatch::IntegrationTest
 
 		#valid password & confirmation
 		patch password_reset_url(id: user.reset_token), email: user.email, user: { password: "dasdaaa", password_confirmation: "dasdaaa" }
-		assert_redirected_to user
+		assert_redirected_to root_url
 		assert_not flash.empty?
 		assert is_logged_in?
 	end

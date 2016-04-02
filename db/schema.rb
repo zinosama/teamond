@@ -14,8 +14,8 @@
 ActiveRecord::Schema.define(version: 20160329122646) do
 
   create_table "addons_orderables", force: :cascade do |t|
-    t.integer  "milktea_orderable_id"
-    t.integer  "milktea_addon_id"
+    t.integer  "milktea_orderable_id", null: false
+    t.integer  "milktea_addon_id",     null: false
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
   end
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20160329122646) do
   add_index "addons_orderables", ["milktea_orderable_id"], name: "index_addons_orderables_on_milktea_orderable_id"
 
   create_table "dish_categories", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",        null: false
     t.string   "description"
     t.string   "image"
     t.datetime "created_at",  null: false
@@ -32,8 +32,8 @@ ActiveRecord::Schema.define(version: 20160329122646) do
   end
 
   create_table "feedbacks", force: :cascade do |t|
-    t.string   "title"
-    t.string   "message"
+    t.string   "title",                      null: false
+    t.string   "message",                    null: false
     t.string   "email"
     t.boolean  "read",       default: false
     t.boolean  "responded",  default: false
@@ -45,9 +45,9 @@ ActiveRecord::Schema.define(version: 20160329122646) do
   add_index "feedbacks", ["user_id"], name: "index_feedbacks_on_user_id"
 
   create_table "locations_times", force: :cascade do |t|
-    t.integer  "day_of_week"
-    t.integer  "pickup_time_id"
-    t.integer  "pickup_location_id"
+    t.integer  "day_of_week",        null: false
+    t.integer  "pickup_time_id",     null: false
+    t.integer  "pickup_location_id", null: false
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
   end
@@ -57,17 +57,17 @@ ActiveRecord::Schema.define(version: 20160329122646) do
   add_index "locations_times", ["pickup_time_id"], name: "index_locations_times_on_pickup_time_id"
 
   create_table "milktea_addons", force: :cascade do |t|
-    t.string   "name"
-    t.decimal  "price"
+    t.string   "name",       null: false
+    t.decimal  "price",      null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "milktea_orderables", force: :cascade do |t|
-    t.integer  "sweet_scale"
-    t.integer  "temp_scale"
-    t.integer  "size"
-    t.integer  "milktea_id"
+    t.integer  "sweet_scale",  null: false
+    t.integer  "temp_scale",   null: false
+    t.integer  "size",         null: false
+    t.integer  "milktea_id",   null: false
     t.integer  "orderable_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
@@ -81,8 +81,8 @@ ActiveRecord::Schema.define(version: 20160329122646) do
     t.string   "buyable_type"
     t.integer  "ownable_id"
     t.string   "ownable_type"
-    t.decimal  "unit_price"
-    t.integer  "quantity",     default: 1
+    t.decimal  "unit_price",               null: false
+    t.integer  "quantity",     default: 1, null: false
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
   end
@@ -91,20 +91,22 @@ ActiveRecord::Schema.define(version: 20160329122646) do
   add_index "orderables", ["ownable_type", "ownable_id"], name: "index_orderables_on_ownable_type_and_ownable_id"
 
   create_table "orders", force: :cascade do |t|
-    t.decimal  "total"
+    t.decimal  "total",                          null: false
     t.integer  "payment_status",     default: 0
-    t.integer  "payment_method"
+    t.integer  "payment_method",                 null: false
     t.string   "payment_id"
     t.string   "refund_id"
     t.integer  "fulfillment_status", default: 0
+    t.integer  "issue_status",       default: 0
     t.integer  "satisfaction",       default: 0
     t.string   "issue"
     t.string   "solution"
-    t.string   "recipient_name"
-    t.string   "recipient_phone"
+    t.string   "note"
+    t.string   "recipient_name",                 null: false
+    t.string   "recipient_phone",                null: false
     t.string   "recipient_wechat"
-    t.integer  "user_id"
-    t.integer  "locations_time_id"
+    t.integer  "user_id",                        null: false
+    t.integer  "locations_time_id",              null: false
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
   end
@@ -113,8 +115,8 @@ ActiveRecord::Schema.define(version: 20160329122646) do
   add_index "orders", ["user_id"], name: "index_orders_on_user_id"
 
   create_table "pickup_locations", force: :cascade do |t|
-    t.string   "name"
-    t.string   "address"
+    t.string   "name",                        null: false
+    t.string   "address",                     null: false
     t.string   "description"
     t.boolean  "active",      default: false
     t.datetime "created_at",                  null: false
@@ -122,20 +124,20 @@ ActiveRecord::Schema.define(version: 20160329122646) do
   end
 
   create_table "pickup_times", force: :cascade do |t|
-    t.integer  "pickup_hour"
-    t.integer  "pickup_minute"
-    t.integer  "cutoff_hour"
-    t.integer  "cutoff_minute"
+    t.integer  "pickup_hour",   null: false
+    t.integer  "pickup_minute", null: false
+    t.integer  "cutoff_hour",   null: false
+    t.integer  "cutoff_minute", null: false
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end
 
   create_table "recipes", force: :cascade do |t|
-    t.string   "name"
-    t.string   "description"
+    t.string   "name",             null: false
+    t.string   "description",      null: false
     t.string   "image"
-    t.decimal  "price"
-    t.string   "type"
+    t.decimal  "price",            null: false
+    t.string   "type",             null: false
     t.integer  "dish_category_id"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
@@ -144,11 +146,11 @@ ActiveRecord::Schema.define(version: 20160329122646) do
   add_index "recipes", ["dish_category_id"], name: "index_recipes_on_dish_category_id"
 
   create_table "users", force: :cascade do |t|
-    t.string   "name"
-    t.string   "email"
+    t.string   "name",                              null: false
+    t.string   "email",                             null: false
     t.string   "phone"
     t.string   "wechat"
-    t.string   "password_digest"
+    t.string   "password_digest",                   null: false
     t.string   "remember_digest"
     t.boolean  "admin",             default: false
     t.string   "activation_digest"

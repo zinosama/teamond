@@ -1,0 +1,50 @@
+<%= provide(:title, "Order Management") %>
+<%= render 'shared/admin_nav'%>
+
+<div class="row">
+	<div class="ui fluid card">
+		
+		<div class="content">
+			<div class="ui container stackable grid">
+				<div class="five column center aligned row">
+					<div class="column">
+						<%= link_to user_orders_url(current_user, query: "unpaid"), class: "linkNoColor"  do %>
+							 UNPAID<br> ORDERS<br> <%= @num_unpaid %>
+						<% end %>
+					</div>
+					<div class="column">
+						<%= link_to user_orders_url(current_user, query: "unfulfilled"), class: "linkNoColor"  do %>
+							 UNFULFILLED<br> ORDERS<br> <%= @num_unfulfilled %>
+						<% end %>
+					</div>
+					<div class="column">
+						<%= link_to user_orders_url(current_user, query: "fulfilled"), class: "linkNoColor"  do %>
+							 FULFILLED<br> ORDERS<br> <%= @num_fulfilled %>
+						<% end %>
+					</div>
+					<div class="column">
+						<%= link_to user_orders_url(current_user, query: "problemed"), class: "linkNoColor"  do %>
+							 PROBLEM<br> ORDERS<br> <%= @num_problem %>
+						<% end %>
+					</div>
+					<div class="column">
+						<%= link_to user_orders_url(current_user, query: "feedbacked"), class: "linkNoColor"  do %>
+							 ORDER<br> FEEDBACKS<br> <%= @num_feedback %>
+						<% end %>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="content">
+			<div class="ui fluid grid">		
+			<% @orders.each do |order| %>
+				<div class="ui sixteen wide column card" style="margin-top: 10px; margin-bottom: 10px;">
+					<%= render 'orders/cards/order_summary_card_admin', order: order, col_span: "five" %>	
+				</div>
+			<% end %>
+			</div>
+		</div>
+
+	</div>
+</div>

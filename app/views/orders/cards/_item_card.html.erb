@@ -1,5 +1,0 @@
-<% if orderable.buyable.is_a? MilkteaOrderable %>
-	<%= render 'orders/cards/milktea_orderable_card', orderable: orderable %>
-<% else %>
-	<%= render 'orders/cards/dish_orderable_card', orderable: orderable %>
-<% end %>
