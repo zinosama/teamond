@@ -40,7 +40,7 @@
 			<div class="ui fluid grid">		
 			<% @orders.each do |order| %>
 				<div class="ui sixteen wide column card" style="margin-top: 10px; margin-bottom: 10px;">
-					<%= render 'orders/cards/index_order_summary_card', order: order, col_span: "five" %>	
+					<%= render 'orders/cards/order_summary_card_admin', order: order, col_span: "five" %>	
 				</div>
 			<% end %>
 			</div>

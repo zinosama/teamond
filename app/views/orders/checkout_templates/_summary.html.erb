@@ -16,7 +16,7 @@
 <div class="row">
 	<div class="ui cards">
 		<% current_user.orderables.each do |orderable| %>
-			<%= render 'orders/cards/checkout_item_card', orderable: orderable %>
+			<%= render 'orders/cards/item_card_checkout', orderable: orderable %>
 		<% end %>
 	</div>
 </div>

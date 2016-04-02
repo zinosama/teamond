@@ -20,9 +20,10 @@ class OrdersController < ApplicationController
 			@num_problem = Order.where(query_hash["problemed"]).count
 			@num_feedback = Order.where(query_hash["feedbacked"]).count
 
-			@orders = Order.where(query_hash[params[:query]])
+			@orders = Order.where(query_hash[params[:query]]).order(created_at: :desc)
 			render('orders/index/admin') 
 		else
+			@orders = @user.orders.order(created_at: :desc)
 			render('orders/index/user')
 		end
 	end

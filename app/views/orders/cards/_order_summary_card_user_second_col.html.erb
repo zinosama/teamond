@@ -1,0 +1,6 @@
+<div class="<%=col_span%> wide center aligned middle aligned column">
+	<p>Order ID<br> <b>10052011-<%= order.id %></b>
+	<p>Payment method: <b><%= order.decode_payment_method %></b></p>
+	<p>Total number of <%= pluralize(order.num_of_items, 'item') %></p>
+	<p><b><span class="<%= order.decode_issue_status[:status] %>"><%= order.decode_issue_status[:msg] %></span></b></p>
+</div>

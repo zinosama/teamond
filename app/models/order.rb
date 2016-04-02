@@ -50,7 +50,7 @@ class Order < ActiveRecord::Base
 	def decode_issue_status
 		status = self.issue_status
 		if status == 0
-			{ msg: "This order has no issue", status: :pending }
+			{ msg: "This order has no issue", status: :success }
 		elsif status == 1
 			{ msg: "An issue has been raised", status: :error }
 		elsif status == 2
@@ -83,13 +83,9 @@ class Order < ActiveRecord::Base
 	def decode_fulfillment_status
 		status = self.fulfillment_status
 		if status == 0
-			{ msg: "Order received", status: :success }
+			{ msg: "Order received", status: :pending }
 		elsif status == 1
-			{ msg: "Order delivered", status: :pending }
-		elsif status == 2
-			{ msg: "An issue has been reported. We're working on it!", status: :error }
-		elsif status == 3
-			{ msg: "Your issue has been resolved", status: :warning }
+			{ msg: "Order delivered", status: :success }
 		end
 	end
 

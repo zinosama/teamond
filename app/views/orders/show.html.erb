@@ -3,7 +3,7 @@
 		<% if current_user.admin? %>
 			<%= link_to "Order Management", user_orders_url(current_user), class: "section" %>
 		<% else %>
-		  <%= link_to "Your Orders", "#", class: "section" %>
+		  <%= link_to "Your Orders", user_orders_url(current_user), class: "section" %>
 		<% end %>
 	  <i class="right angle icon divider"></i>
 	  <div class="active section">Current Order</div>
@@ -23,7 +23,7 @@
 			</div>
 		</div>
 
-		<%= render 'orders/cards/show_order_summary_card', order: @order, col_span: "five" %>
+		<%= render 'orders/cards/order_summary_card_user', order: @order, col_span: "five" %>
 		
 		<div class="content orderShowCard">
 			<div class="ui container stackable grid">
@@ -49,7 +49,7 @@
 		<div class="orderShowCard content">
 			<div class="ui cards orderShowCards">
 				<% @order.orderables.each do |orderable| %>
-					<%= render 'orders/cards/checkout_item_card', orderable: orderable %>
+					<%= render 'orders/cards/item_card_checkout', orderable: orderable %>
 				<% end %>
 			</div>
 		</div>

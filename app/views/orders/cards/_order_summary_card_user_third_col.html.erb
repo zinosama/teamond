@@ -1,0 +1,16 @@
+<div class="<%=col_span%> wide center aligned column">
+	<div class="row" style="margin-bottom: 1em;">
+	<%= form_for order, html: { class: ["ui", "form"], id: "orderShowFeedbackFrom" } do |f| %>
+		<div class="field">
+			<%= f.label :satisfaction,"Did we make you smile?" %>
+			<%= f.hidden_field :satisfaction %>
+			<div class="ui huge heart rating" data-rating="<%= order.satisfaction || 0 %>" data-max-rating="5"></div>
+		</div>
+	  <%= submit_tag "Save Rating", class: "ui button inverted blue" %>
+	<% end %>
+	</div>
+	<div class="row">
+	<%= link_to "Order Detail", order_url(order), class: "ui button fluid inverted brown" %>
+	</div>
+</div>
+
