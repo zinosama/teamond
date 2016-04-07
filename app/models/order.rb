@@ -47,16 +47,16 @@ class Order < ActiveRecord::Base
 		end				
 	end
 
-	def decode_issue_status
+	def decode_issue_status(source)
 		status = self.issue_status
 		if status == 0
 			{ msg: "This order has no issue", status: :success }
 		elsif status == 1
 			{ msg: "An issue has been raised", status: :error }
 		elsif status == 2
-			{ msg: "Issue has been resolved", status: :warning }
+			{ msg: (source == :admin ? "Solution has been offered" : "Issue is being resolved"), status: :warning }
 		elsif status == 3
-			{ msg: "Issue has been closed", status: :pending }
+			{ msg: "Issue has been resolved", status: :pending }
 		end				
 	end
 
