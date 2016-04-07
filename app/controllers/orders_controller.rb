@@ -86,11 +86,21 @@ class OrdersController < ApplicationController
 			redirect_and_flash(user_orders_url(current_user, query: params[:query]), :success, "Order updated")
 
 		elsif @order && params[:admin_form].nil? && !current_user.admin?
-			if @order.update_attributes( order_params_update_user )
+			
+			if @order.issue_status == 0
+				if @order.update_attributes( order_params_update_user )
+					@order.update_attribute(:issue_status, 1) if @order.issue && !@order.issue.empty?
+					redirect_and_flash(order_url(@order), :success, "Thank you for your feedback")
+				else
+					flash.now[:error] = "Error. Please limit your feedback to under 255 characters."
+					render 'show'
+				end
+			elsif @order.issue_status == 3
+				@order.update_attribute(:satisfaction, params[:order][:satisfaction])
 				redirect_and_flash(order_url(@order), :success, "Thank you for your feedback")
 			else
-				flash.now[:error] = "Error. Please limit your feedback to under 255 characters."
-				render 'show'
+				@order.update_attribute( :issue_status, 3) if !params[:solved].nil? && params[:solved] == "1"
+				redirect_and_flash(order_url(@order), :success, "Thank you for your update")
 			end
 
 		else

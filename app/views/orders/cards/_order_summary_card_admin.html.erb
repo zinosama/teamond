@@ -21,7 +21,10 @@
 				<p>Delivery Instruction:<br> <b><%= semantic_icon "info circle" %><%= order.locations_time.pickup_location.description %></b></p>
 				<p>Recipient: <b><%= order.recipient_name.capitalize %></b></p>
 				<p>Recipient Phone: <b><%= order.recipient_phone %></b></p>
-				<% if order.recipient_wechat %><p>Recipient WeChat: <b><%= order.recipient_wechat %></b></p><% end %>
+				<% if order.recipient_wechat && !order.recipient_wechat.empty? %><p>Recipient WeChat: <b><%= order.recipient_wechat %></b></p><% end %>
+				<p>Order Placed By:</p>
+				<p>Email: <b><%= order.user.email %></b></p>
+				<p>Name: <b><%= order.user.name %></b></p>
 			</div>
 
 			<div class="six wide column">
