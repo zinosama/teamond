@@ -29,7 +29,7 @@
 
 			<div class="six wide column">
 				<p>Satisfaction: <b><%= order.decode_satisfaction %></b></p>
-				<p><b><span class="<%= order.decode_issue_status[:status] %>"><%= order.decode_issue_status[:msg] %></span></b></p>
+				<p><b><span class="<%= order.decode_issue_status(:admin)[:status] %>"><%= order.decode_issue_status(:admin)[:msg] %></span></b></p>
 				<p><%= order.issue %></p>
 				<%= form_for order, html: { class: ["ui", "form"] } do |f| %>
 					<%= hidden_field_tag :query, params[:query] %>
@@ -38,6 +38,12 @@
 						<div class="field">
 							<%= f.label :solution %>
 							<%= f.text_area :solution, rows: 1 %>
+						</div>
+						<div class="field">
+							<div class="ui toggle checkbox">
+								<%= f.check_box :issue_status, {}, "2", "100" %>
+								<%= f.label :issue_status, "Solution offered" %>	
+							</div>
 						</div>
 					<% end %>
 					<div class="field">

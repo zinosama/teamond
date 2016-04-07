@@ -83,6 +83,7 @@ class OrdersController < ApplicationController
 		
 		if @order && params[:admin_form] && current_user.admin?
 			@order.update_attributes( order_params_update_admin )
+			@order.update_attribute( :issue_status, 2 ) if params[:order][:issue_status] == "2" && @order.issue_status == 1
 			redirect_and_flash(user_orders_url(current_user, query: params[:query]), :success, "Order updated")
 
 		elsif @order && params[:admin_form].nil? && !current_user.admin?
