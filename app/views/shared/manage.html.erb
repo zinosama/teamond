@@ -27,4 +27,38 @@
 	</h4>
 </div>
 
-<%= render @dish_categories %>
+<!-- Milktea Category -->
+<div class="ui container grid">
+	<div class="row">
+		<% Milktea.all.each do |milktea| %>
+		  <div class="three wide column">
+			  <div class="ui card">
+			    <div class="image">
+			      <%= link_to(image_tag(milktea.image.url, class:"ui image"), edit_recipe_url(milktea)) %>
+			    </div>
+			    <div class="content">
+			      <div class="header"><%= milktea.name %></div>
+			      <div class="meta">
+			        <a>Taichi Milktea</a>
+			      </div>
+			      <div class="description">
+			        <%= milktea.description %>
+			      </div>
+			    </div>
+			    <div class="extra content">
+			      <span>
+			        <i class="dollar icon"></i>
+			        <%= milktea.price %>
+			      </span>
+			    </div>
+			  </div>
+		  </div>	
+		<% end %>
+	</div>
+</div>
+
+<div class="ui container grid">
+	<div class="row">
+		<%= render @dish_categories %>
+	</div>
+</div>

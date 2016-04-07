@@ -1,16 +1,26 @@
 <%-# This view is controlled by RecipeController and rendered through recipes/manage view %>
 
-<div class="row dishCategoryRowInManage">
-	<h1><%= link_to dish_category.name, edit_dish_category_url(dish_category) %></h1>
-</div>
-
-<div class="ui container grid">
-	<% dish_category.dishes.each do |dish| %>
-		<div class="two wide center aligned column">
-			<%= link_to(image_tag(dish.image.url(:thumb).to_s, class:"ui image"), edit_recipe_url(dish)) if dish.image?  %>
-			<p><%= dish.name %></p>
-			<p>$ <%= dish.price %></p>
-		</div>
-	<% end %>
-</div>
-
+<% dish_category.dishes.each do |dish| %>
+  <div class="three wide column">
+	  <div class="ui card">
+	    <div class="image">
+	      <%= link_to(image_tag(dish.image.url, class:"ui image"), edit_recipe_url(dish)) %>
+	    </div>
+	    <div class="content">
+	      <div class="header"><%= dish.name %></div>
+	      <div class="meta">
+	        <%= link_to dish_category.name, edit_dish_category_url(dish_category) %>
+	      </div>
+	      <div class="description">
+	        <%= dish.description %>
+	      </div>
+	    </div>
+	    <div class="extra content">
+	      <span>
+	        <i class="dollar icon"></i>
+	        <%= dish.price %>
+	      </span>
+	    </div>
+	  </div>
+  </div>	
+<% end %>
