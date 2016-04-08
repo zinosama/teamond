@@ -1,63 +1,114 @@
 <div class="content orderShowCard">	
 	<div class="ui container stackable grid">
-		<div class="centered row">
-			<div class="<%=col_span%> wide column">
-				<p class="orderStatus <%= order.decode_fulfillment_status[:status]%>"><%= order.decode_fulfillment_status[:msg] %></p>
-				<p>Order placed:<br> <b><%= order.create_time_to_min %></b></p>
-				<p>Order ID<br> <b><%= link_to "10052011-#{order.id}", order_url(order)%></b>
-				<p>Payment amount: <b>$ <%= order.total %></b></p>
-				<p>Payment method: <b><%= order.decode_payment_method %></b></p>
-				<p>Payment status: <b><%= order.decode_payment_status %></b></p>
-				<p>Total number of <%= pluralize(order.num_of_items, 'item') %></p>
-			</div>
-			
-			<div class="<%=col_span%> wide column">
-				<% if order.fulfillment_status == 0 %>
-					<p>Scheduled for delivery:<br> <b><%= semantic_icon :wait %> <%= order.locations_time.associated_pickup_time %></b></p>
-				<% else %>
-					<p>Delivered on:<br> <b><%= semantic_icon :wait %> <%= order.locations_time.associated_pickup_time %></b></p>
-				<% end %>
-				<p>Delivery Location:<br> <b><%= semantic_icon :marker %> <%= order.locations_time.pickup_location.name %></b></p>
-				<p>Delivery Instruction:<br> <b><%= semantic_icon "info circle" %><%= order.locations_time.pickup_location.description %></b></p>
-				<p>Recipient: <b><%= order.recipient_name.capitalize %></b></p>
-				<p>Recipient Phone: <b><%= order.recipient_phone %></b></p>
-				<% if order.recipient_wechat && !order.recipient_wechat.empty? %><p>Recipient WeChat: <b><%= order.recipient_wechat %></b></p><% end %>
-				<p>Order Placed By:</p>
-				<p>Email: <b><%= order.user.email %></b></p>
-				<p>Name: <b><%= order.user.name %></b></p>
+		<div class="row">
+			<div class="four wide column">
+				<div class="ui fluid card">
+					<div class="content">
+						<div class="header"><p class="<%= order.decode_fulfillment_status[:status]%>"><%= order.decode_fulfillment_status[:msg] %></p></div>
+						<div class="description">
+							<p>Placed at:<br> <b><%= order.create_time_to_min %></b></p>
+							<p>Id:<br> <b><%= "10052011-#{order.id}" %></b></p>
+							<p><%= pluralize(order.num_of_items, 'item') %></p>
+						</div>
+					</div>
+				</div>
+
+				<div class="ui fluid card">
+					<div class="content">
+						<div class="header">Payment</div>
+						<div class="description">
+							<p>Payment amount: <br><b>$ <%= order.total %></b></p>
+							<p>Payment method: <br><b><%= order.decode_payment_method %></b></p>
+							<p>Payment status: <br><b><%= order.decode_payment_status %></b></p>
+						</div>
+					</div>
+				</div>
 			</div>
 
-			<div class="six wide column">
-				<p>Satisfaction: <b><%= order.decode_satisfaction %></b></p>
-				<p><b><span class="<%= order.decode_issue_status(:admin)[:status] %>"><%= order.decode_issue_status(:admin)[:msg] %></span></b></p>
-				<p><%= order.issue %></p>
-				<%= form_for order, html: { class: ["ui", "form"] } do |f| %>
-					<%= hidden_field_tag :query, params[:query] %>
-					<%= hidden_field_tag :admin_form, "1" %>
-					<% if order.issue %>
-						<div class="field">
-							<%= f.label :solution %>
-							<%= f.text_area :solution, rows: 1 %>
-						</div>
-						<div class="field">
-							<div class="ui toggle checkbox">
-								<%= f.check_box :issue_status, {}, "2", "100" %>
-								<%= f.label :issue_status, "Solution offered" %>	
+			<div class="eight wide column">
+					<div class="ui fluid card">
+						<div class="content">
+							<div class="header">Feedback</div>
+							<div class="description">
+								<p><b><span class="<%= order.decode_issue_status(:admin)[:status] %>"><%= order.decode_issue_status(:admin)[:msg] %></span></b></p>
+								<p>Satisfaction: <br><b><%= order.decode_satisfaction %></b></p>
+								<% if order.issue && !order.issue.empty? %><p>User Feedback: <br><b><%= order.issue %></b></p><% end %>
 							</div>
 						</div>
-					<% end %>
-					<div class="field">
-						<%= f.label :note %>
-						<%= f.text_area :note, rows: 1 %>
 					</div>
-					<div class="field">
-						<div class="ui toggle checkbox">
-							<%= f.check_box :fulfillment_status, {}, "1", "0" %>
-							<%= f.label :fulfillment_status, "Mark as delivered" %>	
+
+					<div class="ui fluid card">
+						<div class="content">
+							<div class="description">
+								<%= form_for order, html: { class: ["ui", "form"] } do |f| %>
+									<%= hidden_field_tag :query, params[:query] %>
+									<%= hidden_field_tag :admin_form, "1" %>
+									<% if order.issue %>
+										<div class="field">
+											<%= f.label :solution %>
+											<%= f.text_area :solution, rows: 1 %>
+										</div>
+										<div class="field">
+											<div class="ui toggle checkbox">
+												<%= f.check_box :issue_status, {}, "2", "100" %>
+												<%= f.label :issue_status, "Solution offered" %>	
+											</div>
+										</div>
+									<% end %>
+									<div class="field">
+										<%= f.label :note %>
+										<%= f.text_area :note, rows: 1 %>
+									</div>
+									<div class="field">
+										<%= f.label :payment_status %>
+										<%= f.select(:payment_status, [['Unpaid', 0], ['Paid', 1], ['Refunded', 2]], {}, { class: "ui dropdown" }) %>
+									</div>
+									<div class="field">
+										<div class="ui toggle checkbox">
+											<%= f.check_box :fulfillment_status, {}, "1", "0" %>
+											<%= f.label :fulfillment_status, "Mark as delivered" %>	
+										</div>
+									</div>
+									<div class="field">
+										<%= f.submit "Save", class: "ui button inverted blue" %>
+									</div>
+									<div class="field">
+										<%= link_to "Order Detail", order_url(order), class: "ui button fluid inverted brown" %>
+									</div>
+								<% end %>
+							</div>
 						</div>
 					</div>
-					<%= f.submit "Save", class: "ui button inverted blue" %>
-				<% end %>
+			</div>
+
+			<div class="four wide column">
+				<div class="ui fluid card">
+					<div class="content">
+						<div class="header">Delivery</div>
+						<div class="description">
+							<% if order.fulfillment_status == 0 %>
+								<p>Scheduled for delivery:<br> <b><%= semantic_icon :wait %> <%= order.locations_time.associated_pickup_time %></b></p>
+							<% else %>
+								<p>Delivered on:<br> <b><%= semantic_icon :wait %> <%= order.locations_time.associated_pickup_time %></b></p>
+							<% end %>
+							<p>Delivery Location:<br> <b><%= semantic_icon :marker %> <%= order.locations_time.pickup_location.name %></b></p>
+							<p>Delivery Instruction:<br> <b><%= semantic_icon "info circle" %><%= order.locations_time.pickup_location.description %></b></p>
+						</div>
+					</div>
+				</div>
+
+				<div class="ui fluid card">
+					<div class="content">
+						<div class="header">People</div>
+						<div class="description">
+							<p>Email:<br> <b><%= order.user.email %></b></p>
+							<p>Name:<br> <b><%= order.user.name.capitalize %></b></p>
+							<p>Recipient:<br> <b><%= order.recipient_name.capitalize %></b></p>
+							<p>Recipient Phone:<br> <b><%= order.recipient_phone %></b></p>
+							<% if order.recipient_wechat && !order.recipient_wechat.empty? %><p>Recipient WeChat: <b><%= order.recipient_wechat %></b></p><% end %>				
+						</div>
+					</div>
+				</div>
 			</div>
 
 		</div>

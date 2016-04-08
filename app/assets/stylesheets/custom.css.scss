@@ -240,7 +240,7 @@ p.orderStatus{
   color: #db2828;
 }
 .warning{
-  color: #ff851b;
+  color: #d67c1c;
 }
 .success{
   color: #A06A00;
@@ -259,3 +259,6 @@ div.ui.cards.orderShowCards div.card:hover{
   padding-bottom: 1.5em;
 }
 
+div.four.wide.column b{
+  color: #A06A00;
+}
