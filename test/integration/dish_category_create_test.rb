@@ -26,7 +26,6 @@ class DishCategoryCreateTest < ActionDispatch::IntegrationTest
 		assert_redirected_to manage_recipes_url
 		follow_redirect!
 		assert_select 'div.ui.error.message', count: 0
-		assert_select 'a', text: 'valid_name', count: 1
 	end
 
 end

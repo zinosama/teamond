@@ -39,7 +39,7 @@ class RecipeCreateTest < ActionDispatch::IntegrationTest
 		follow_redirect!
 		assert_not flash.empty?
 		assert_select 'div.ui.error.message', count: 0
-		assert_select 'p', text: "dish-integrate", count: 1
+		assert_select 'div.header', text: "dish-integrate", count: 1
 	end
 
 	test 'valid recipe information - milktea' do
