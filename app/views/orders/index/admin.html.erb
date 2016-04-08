@@ -23,13 +23,13 @@
 						<% end %>
 					</div>
 					<div class="column">
-						<%= link_to user_orders_url(current_user, query: "problemed"), class: "linkNoColor"  do %>
-							 PROBLEM<br> ORDERS<br> <%= @num_problem %>
+						<%= link_to user_orders_url(current_user, query: "complained"), class: "linkNoColor"  do %>
+							 PENDING<br> ISSUES<br> <%= @num_problem %>
 						<% end %>
 					</div>
 					<div class="column">
-						<%= link_to user_orders_url(current_user, query: "feedbacked"), class: "linkNoColor"  do %>
-							 ORDER<br> FEEDBACKS<br> <%= @num_feedback %>
+						<%= link_to user_orders_url(current_user, query: "resolved"), class: "linkNoColor"  do %>
+							 RESOLVED<br> ISSUES<br> <%= @num_feedback %>
 						<% end %>
 					</div>
 				</div>
@@ -37,13 +37,13 @@
 		</div>
 
 		<div class="content">
-			<div class="ui fluid grid">		
+		
 			<% @orders.each do |order| %>
-				<div class="ui sixteen wide column card" style="margin-top: 10px; margin-bottom: 10px;">
-					<%= render 'orders/cards/order_summary_card_admin', order: order, col_span: "five" %>	
+				<div class="ui fluid card adminOrderCard" style="margin-top: 3em; margin-bottom: 3em;">
+					<%= render 'orders/cards/order_summary_card_admin', order: order, col_span: "four" %>	
 				</div>
 			<% end %>
-			</div>
+
 		</div>
 
 	</div>

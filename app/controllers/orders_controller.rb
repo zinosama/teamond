@@ -11,14 +11,14 @@ class OrdersController < ApplicationController
 				"unpaid" => {payment_status: 0},
 				"unfulfilled" => {fulfillment_status: 0},
 				"fulfilled" => {fulfillment_status: 1},
-				"problemed" => {issue_status: [2, 3]},
-				"feedbacked" => "issue IS NOT NULL"
+				"complained" => {issue_status: [1, 2]},
+				"resolved" => {issue_status: 3}
 			}
 			@num_unpaid = Order.where(query_hash["unpaid"]).count
 			@num_unfulfilled = Order.where(query_hash["unfulfilled"]).count
 			@num_fulfilled = Order.where(query_hash["fulfilled"]).count
-			@num_problem = Order.where(query_hash["problemed"]).count
-			@num_feedback = Order.where(query_hash["feedbacked"]).count
+			@num_problem = Order.where(query_hash["complained"]).count
+			@num_feedback = Order.where(query_hash["resolved"]).count
 
 			@orders = Order.where(query_hash[params[:query]]).order(created_at: :desc)
 			render('orders/index/admin') 
@@ -84,6 +84,7 @@ class OrdersController < ApplicationController
 		if @order && params[:admin_form] && current_user.admin?
 			@order.update_attributes( order_params_update_admin )
 			@order.update_attribute( :issue_status, 2 ) if params[:order][:issue_status] == "2" && @order.issue_status == 1
+			@order.update_attribute( :issue_status, 1 ) if params[:order][:issue_status] == "100" && @order.issue_status == 2
 			redirect_and_flash(user_orders_url(current_user, query: params[:query]), :success, "Order updated")
 
 		elsif @order && params[:admin_form].nil? && !current_user.admin?
@@ -117,7 +118,7 @@ class OrdersController < ApplicationController
 	end
 
 	def order_params_update_admin
-		params.require(:order).permit(:fulfillment_status, :solution, :note)
+		params.require(:order).permit(:fulfillment_status, :solution, :note, :payment_status)
 	end
 
 	def order_params_create
