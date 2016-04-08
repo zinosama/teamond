@@ -52,7 +52,7 @@ class Order < ActiveRecord::Base
 		if status == 0
 			{ msg: "This order has no issue", status: :success }
 		elsif status == 1
-			{ msg: "An issue has been raised", status: :error }
+			{ msg: "Feedback has been submitted", status: :error }
 		elsif status == 2
 			{ msg: (source == :admin ? "Solution has been offered" : "Issue is being resolved"), status: :warning }
 		elsif status == 3
