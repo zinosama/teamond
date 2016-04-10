@@ -1,13 +1,14 @@
 <div class="row">
 	<%= recipe.name.upcase %> <%= recipe.price %>
 </div>
-<div class="row">
+<div class="row menuDescriptionRow">
 	<em><%= recipe.description %></em>
 </div>
+<div class="row menuButtonRow">
+	<%= link_to semantic_icon("list circular"), recipe_path(recipe), class: "menuButton" %>
 	<% if recipe.is_a? Milktea %>
-		<td class="selectable"><%= link_to semantic_icon("add to cart"), new_milktea_orderable_path(recipe) %>
+		<%= link_to semantic_icon("add to cart circular"), new_milktea_orderable_path(recipe), class: "menuButton" %>
 	<% else %>
-		<td class="selectable"><%= link_to semantic_icon("add to cart"), orderables_path(type: "dish", buyable_id: recipe.id), method: :post %></td>
+		<%= link_to semantic_icon("add to cart circular"), orderables_path(type: "dish", buyable_id: recipe.id), class: "menuButton", method: :post %>
 	<% end %>
-
-<%= link_to recipe.name, recipe_path(recipe) %>
+</div>

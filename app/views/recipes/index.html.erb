@@ -4,11 +4,11 @@
 	<div class="twelve wide column">
 		<div class="ui fluid card">
 			<div class="content">
-				<div class="center aligned header">Taiji Milktea</div>
+				<div class="center aligned categoryTitle">TAIJI MILKTEA</div>
 				<div class="description">
 					<div class="ui container grid">
 
-						<div class="two column row">
+						<div class="two column stackable row">
 							<% @milkteas.each do |milktea| %>
 								<div class="center aligned column">
 									<%= render 'recipe', recipe: milktea %>
@@ -25,11 +25,17 @@
 		<% @dish_categories.each do |dish_category| %>
 			<div class="ui fluid card">
 				<div class="content">
-					<div class="center aligned header"><%= dish_category.name %></div>
+					<div class="center aligned categoryTitle"><%= dish_category.name.upcase %></div>
 					<div class="description">
-					<% dish_category.dishes.each do |recipe| %>
-						<%= render 'recipe', recipe: recipe %>
-					<% end %>
+						<div class="ui container grid">
+							<div class="two column stackable row">
+								<% dish_category.dishes.each do |recipe| %>
+									<div class="center aligned column">
+										<%= render 'recipe', recipe: recipe %>
+									</div>
+								<% end %>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
