@@ -84,4 +84,10 @@ class PickupLocationsControllerTest < ActionController::TestCase
 		assert_redirected_to root_url
 		assert_not flash.empty?
 	end
+
+	test 'should get schedule' do
+		get :schedule
+		assert_response :success
+		assert_template 'pickup_locations/schedule'
+	end
 end	

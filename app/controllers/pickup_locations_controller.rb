@@ -1,6 +1,6 @@
 class PickupLocationsController < ApplicationController
-	before_action :logged_in_user
-	before_action :logged_in_admin
+	before_action :logged_in_user, except: [:schedule]
+	before_action :logged_in_admin, except: [:schedule]
 
 	def index
 		@location = PickupLocation.new
@@ -59,6 +59,10 @@ class PickupLocationsController < ApplicationController
 		else
 			redirect_and_flash(edit_pickup_location_url(location), :error, "Please type I Understand to confirm delete!")
 		end
+	end
+
+	def schedule 
+		@locations = PickupLocation.all
 	end
 
 	private
