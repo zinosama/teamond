@@ -13,7 +13,6 @@ class RecipesController < ApplicationController
 	def index
 		@dish_categories = DishCategory.all
 		@milkteas = Milktea.all
-		@colors = ["blue", "olive", "teal", "green"]
 	end
 
 	def create
