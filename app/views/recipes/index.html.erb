@@ -1,23 +1,38 @@
 <% provide(:title, "Menu") %>
 
-<div class="row">
-	<table class="ui selectable inverted brown table">
-		<thead><tr><th class="twelve wide">Taiji Milk Tea</th><th class="two wide"></th><th class="one wide"></th></tr></thead>
-		<tbody>
-			<% @milkteas.each do |milktea| %>
-				<%= render 'recipe', recipe: milktea %>
-			<% end %>
-		</tbody>
-	</table>
+<div class="centered row">
+	<div class="twelve wide column">
+		<div class="ui fluid card">
+			<div class="content">
+				<div class="center aligned header">Taiji Milktea</div>
+				<div class="description">
+					<div class="ui container grid">
 
-	<% @dish_categories.each_with_index do |dish_category, key| %>
-		<table class="ui selectable inverted <%= @colors[key % 4]%> table">
-			<thead><tr><th class="twelve wide"><%= dish_category.name %></th><th class="two wide"></th><th class="one wide"></th></tr></thead>
-			<tbody>
-				<% dish_category.dishes.each do |recipe| %>
-					<%= render 'recipe', recipe: recipe %>
-				<% end %>
-			</tbody>
-		</table>
-	<% end %>
+						<div class="two column row">
+							<% @milkteas.each do |milktea| %>
+								<div class="center aligned column">
+									<%= render 'recipe', recipe: milktea %>
+								</div>
+							<% end %>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<% @dish_categories.each do |dish_category| %>
+			<div class="ui fluid card">
+				<div class="content">
+					<div class="center aligned header"><%= dish_category.name %></div>
+					<div class="description">
+					<% dish_category.dishes.each do |recipe| %>
+						<%= render 'recipe', recipe: recipe %>
+					<% end %>
+					</div>
+				</div>
+			</div>
+		<% end %>
+	</div>
 </div>
