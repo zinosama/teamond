@@ -7,6 +7,7 @@ class RecipesController < ApplicationController
 		@dish_category = DishCategory.new
 		@milktea_addon = MilkteaAddon.new
 		@dish_categories = DishCategory.all
+		@addons = MilkteaAddon.all
 		render 'shared/manage'
 	end
 
@@ -19,6 +20,7 @@ class RecipesController < ApplicationController
 		@dish_category = DishCategory.new
 		@milktea_addon = MilkteaAddon.new
 		@dish_categories = DishCategory.all
+		@addons = MilkteaAddon.all
 		
 		if params[:recipe][:type] == "Dish"
 			dish_category = DishCategory.find_by(id: params[:recipe][:dish_category_id])
