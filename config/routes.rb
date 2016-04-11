@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   end
 
   resources :dish_categories, only: [:create, :edit, :update, :destroy]
-  resources :milktea_addons, only: [:create]
+  resources :milktea_addons, only: [:create, :edit, :update]
 
   get 'cart' => 'orderables#index'
   resources :orderables, only: [:create, :update, :destroy]
