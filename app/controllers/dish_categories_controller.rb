@@ -6,7 +6,8 @@ class DishCategoriesController < ApplicationController
 		@recipe = Recipe.new
 		@milktea_addon = MilkteaAddon.new
 		@dish_categories = DishCategory.all
-
+		@addons = MilkteaAddon.all
+		
 		@dish_category = DishCategory.new(dish_category_params)
 		if @dish_category.save
 			flash[:success] = "New category saved."
@@ -40,6 +41,6 @@ class DishCategoriesController < ApplicationController
 	private
 
 	def dish_category_params
-		params.require(:dish_category).permit(:name, :description, :image)
+		params.require(:dish_category).permit(:name)
 	end
 end
