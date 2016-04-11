@@ -76,4 +76,13 @@ class UserTest < ActiveSupport::TestCase
 		assert_not @user.authenticated?(:remember, '')
 	end
 
+	test 'phone should not be too long' do
+		@user.phone = "1" * 26
+		assert_not @user.valid?
+	end
+
+	test 'wechat should not be too long' do
+		@user.wechat = "a" * 51
+		assert_not @user.valid?
+	end 
 end
