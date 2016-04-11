@@ -2,7 +2,7 @@
 	<%= render 'shared/error_msgs', object: f.object %>
 
 	<div class="field">
-		<%= f.label :name %>
+		<%= f.label :name, yield(:label_name) %>
 		<%= icon_input_wrapper(f, :name, "building outline", { placeholder: "Wilson Commons" }) %>
 	</div>
 
