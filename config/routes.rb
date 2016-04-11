@@ -41,6 +41,8 @@ Rails.application.routes.draw do
   end
 
   resources :pickup_times, only: [:create, :edit, :update, :destroy]
+
+  get 'schedule' => 'locations_times#schedule'
   resources :locations_times, only: [:destroy] do
     resources :orders, only: [:new, :create]
   end

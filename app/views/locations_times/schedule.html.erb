@@ -1,0 +1,21 @@
+<% provide(:title, "Delivery Schedule") %>
+<div class="centered row">
+	<div class="categoryTitle">DELIVERY SCHEDULE</div>
+</div>
+
+<div class="row">
+	<div class="ui seven column stackable grid">
+		<div class="row">
+			<% @schedule.each do |key, record| %>
+				<div class="center aligned column">
+					<p class="locationScheduleHeader"><%= @day_of_week[key] %></p>
+					<% record.each do |time, locations| %>
+						<div class="row scheduleRow">
+							<div class="ui label browse" data-content="<%= locations.join(", ") %>"><%= time %></div>
+						</div>
+					<% end %>
+				</div>
+			<% end %>
+		</div>
+	</div>
+</div>

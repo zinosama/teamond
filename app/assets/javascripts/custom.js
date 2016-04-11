@@ -1,4 +1,9 @@
 $(document).ready(function(){
+  $('div.ui.label.browse').popup({
+    on    : 'hover'
+  });
+
+
 	$('.right.menu.open').on("click",function(e){
     e.preventDefault();
 		$('.ui.vertical.menu').toggle();

@@ -1,6 +1,6 @@
 class PickupLocationsController < ApplicationController
-	before_action :logged_in_user
-	before_action :logged_in_admin
+	before_action :logged_in_user, except: [:schedule]
+	before_action :logged_in_admin, except: [:schedule]
 
 	def index
 		@location = PickupLocation.new
