@@ -19,7 +19,29 @@ class LocationsTimesController < ApplicationController
 		flash[:success] = "Delivery time deleted"
 	end
 
+	def schedule 
+		@day_of_week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+		grouped_records = LocationsTime.includes(:pickup_time).order("pickup_times.pickup_hour, pickup_times.pickup_minute").group_by{ |record| record.day_of_week }
+		@schedule = transform_records(grouped_records)
+	end
+
 	private 
+
+	def transform_records(records)
+		schedule = { 0 => {}, 1 => {}, 2 => {}, 3 => {}, 4 => {}, 5 => {}, 6 => {} }
+		records.each do |key, array|
+
+				array.each do |record|
+					if schedule[key][record.pickup_time.pickup_time]
+						schedule[key][record.pickup_time.pickup_time].push(record.pickup_location.name)
+					else
+						schedule[key][record.pickup_time.pickup_time] = [record.pickup_location.name]
+					end
+				end
+
+		end
+		schedule
+	end
 
 	def create_delivery_times_for_location(location, pickup_time_ids, days_of_week)
 		days_of_week.each do |day_of_week|

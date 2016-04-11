@@ -61,10 +61,6 @@ class PickupLocationsController < ApplicationController
 		end
 	end
 
-	def schedule 
-		@locations = PickupLocation.all
-	end
-
 	private
 
 	def update_active(activating, location)

@@ -35,15 +35,14 @@ Rails.application.routes.draw do
   get 'summary' => 'orders#new'
   resources :orders, only: [:create, :show, :update]
 
-  get 'schedule' => 'pickup_locations#schedule'
   resources :pickup_locations, only: [:index, :create, :show, :edit, :update, :destroy] do
     resources :locations_times, only: [:create]  
     resources :orders, only: [:new, :create]
-    resources :pickup_times, only: [:index]
   end
 
   resources :pickup_times, only: [:create, :edit, :update, :destroy]
 
+  get 'schedule' => 'locations_times#schedule'
   resources :locations_times, only: [:destroy] do
     resources :orders, only: [:new, :create]
   end
