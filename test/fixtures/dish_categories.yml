@@ -6,8 +6,6 @@
 #
 cate1:
   name: cate1
-  description: This is cate1
 
 cate2:
   name: cate2
-  description: This is cate2

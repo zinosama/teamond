@@ -11,9 +11,9 @@ class DishCategoryEditTest < ActionDispatch::IntegrationTest
 		log_in_as @user
 		get edit_dish_category_url(@cate)
 		assert_template 'dish_categories/edit'
-		patch dish_category_url(@cate), dish_category: { name: "", description: "a" * 256, image: fixture_file_upload('test/fixtures/images/too-large.jpg','images/jpeg') }
+		patch dish_category_url(@cate), dish_category: { name: "" }
 		assert_template 'dish_categories/edit'
-		assert_select 'li', count: 3
+		assert_select 'li', count: 1
 		assert_select 'div.ui.error.message', count: 1		
 	end
 
@@ -21,7 +21,7 @@ class DishCategoryEditTest < ActionDispatch::IntegrationTest
 		log_in_as @user
 		get edit_dish_category_url(@cate)
 		assert_template 'dish_categories/edit' 
-		patch dish_category_url(@cate), dish_category: { name: "new-name", description: "valid description", image: fixture_file_upload('test/fixtures/images/salad.jpg', 'images/jpeg') }
+		patch dish_category_url(@cate), dish_category: { name: "new-name" }
 		assert_redirected_to manage_recipes_url
 		follow_redirect!
 		assert_not flash.empty?
