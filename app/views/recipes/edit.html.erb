@@ -1,5 +1,6 @@
 <% provide(:title, "Edit Item") %>
 <% provide(:button_text, "Update Item") %>
+<% provide(:label_name, "Name") %>
 <div class="row">
 	<div class="ui breadcrumb">
 	  <%= link_to "Menu Management", manage_recipes_url, class: "section" %>
@@ -9,7 +10,7 @@
 </div>
 
 <div class="row">
-	<div class="ui grid">
+	<div class="ui container grid">
 		<div class="row">
 			<div class="six wide middle aligned column">
 				<%= image_tag @recipe.image.url.to_s, class:"ui centered image" if @recipe.image? %>
