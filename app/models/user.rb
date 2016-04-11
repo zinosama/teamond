@@ -10,6 +10,8 @@ class User < ActiveRecord::Base
 	validates :name, presence: true, length: { maximum: 50 }
 	validates :email, presence: true, length: { maximum: 255 }, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
 	validates :password, presence: true, length: { minimum: 6 }, allow_nil: true #allows nil so that user can update without password. nil is checked in has_secure_password.
+	validates :wechat, allow_nil: true, length: { maximum: 50 }
+	validates :phone, allow_nil: true, length: { maximum: 25 }
 
 	has_many :orders
 	has_many :orderables, as: :ownable

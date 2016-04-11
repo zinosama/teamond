@@ -1,6 +1,7 @@
 <% provide(:title, "Login") %>
-
-<h1 class="ui header title">Log in</h1>
+<div class="centered row">
+	<p class="categoryTitle">Log In</p>
+</div>
 <div class="row">
 	<%= form_for :session, url: login_path, html: { class: ["ui", "form", "column"], id: "loginForm" } do |f| %>
 			<div class="field">

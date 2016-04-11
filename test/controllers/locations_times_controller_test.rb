@@ -35,4 +35,9 @@ class LocationsTimesControllerTest < ActionController::TestCase
 		assert_not flash.empty?
 	end
 
+	test 'should get schedule' do
+		get :schedule
+		assert_response :success
+		assert_template 'locations_times/schedule'
+	end
 end
