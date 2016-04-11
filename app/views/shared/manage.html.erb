@@ -1,64 +1,59 @@
 <% provide(:title, "Menu Management") %>
 <%= render 'shared/admin_nav' %>
+<div class="centered row">
+	<div class="categoryTitle">Menu Management</div>
+</div>
 
-<h1 class="ui header title">Menu Management</h1>
-
-<h4 class="ui horizontal divider header">
-  <i class="tag icon"></i>
-  New Menu Item
-</h4>
-<div class="row" id="newRecipeRow">
-	<%= render 'recipes/new_recipe' %>
+<div class="two column row">
+	<div class="column">
+		<%= render 'recipes/new_recipe' %>
+	</div>
+	<div class="column">
+		<%= render 'dish_categories/new_dish_category' %>
+		<%= render 'milktea_addons/new_addon' %>
+	</div>
 </div>
 
 <div class="row">
-	<div class="ui two column grid">
-		<div class="row">
-		<%= render 'dish_categories/new_dish_category' %>
-		<%= render 'milktea_addons/new_addon' %>
+	<div class="ui container grid">
+		<div class="stackable row">
+			<% Milktea.all.each do |milktea| %>
+			  <div class="three wide column">
+				  <div class="ui centered card">
+				    <div class="image">
+				      <%= link_to(image_tag(milktea.image.url, class:"ui image"), edit_recipe_url(milktea)) %>
+				    </div>
+				    <div class="content">
+				      <div class="header"><%= milktea.name %></div>
+				      <div class="meta">
+				        <a>Taichi Milktea</a>
+				      </div>
+				      <div class="description">
+				        <%= milktea.description %>
+				      </div>
+				    </div>
+				    <div class="extra content">
+				      <span>
+				        <i class="dollar icon"></i>
+				        <%= milktea.price %>
+				      </span>
+				    </div>
+				  </div>
+			  </div>	
+			<% end %>
 		</div>
 	</div>
 </div>
 
 <div class="row">
-	<h4 class="ui horizontal divider header">
-	  <i class="cubes icon"></i>
-	  All Menu Items
-	</h4>
-</div>
-
-<!-- Milktea Category -->
-<div class="ui container grid">
-	<div class="row">
-		<% Milktea.all.each do |milktea| %>
-		  <div class="three wide column">
-			  <div class="ui card">
-			    <div class="image">
-			      <%= link_to(image_tag(milktea.image.url, class:"ui image"), edit_recipe_url(milktea)) %>
-			    </div>
-			    <div class="content">
-			      <div class="header"><%= milktea.name %></div>
-			      <div class="meta">
-			        <a>Taichi Milktea</a>
-			      </div>
-			      <div class="description">
-			        <%= milktea.description %>
-			      </div>
-			    </div>
-			    <div class="extra content">
-			      <span>
-			        <i class="dollar icon"></i>
-			        <%= milktea.price %>
-			      </span>
-			    </div>
-			  </div>
-		  </div>	
-		<% end %>
+	<div class="ui container grid">
+		<div class="stackable row">
+			<%= render @dish_categories %>
+		</div>
 	</div>
 </div>
 
-<div class="ui container grid">
-	<div class="row">
-		<%= render @dish_categories %>
-	</div>
-</div>
+
+
+
+

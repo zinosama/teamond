@@ -1,8 +1,20 @@
 $(document).ready(function(){
   $('div.ui.label.browse').popup({
-    on    : 'hover'
+    on : 'hover'
   });
 
+  $('#showCategories').on('click', function(e){
+    $('#categoryListing').slideToggle(function(){
+      $('.categoryButton').toggle();
+    });
+    // console.log($(e.target).find('i').removeClass('dropdown').addClass('caret up'));
+  });
+
+  $('#showAddon').on('click', function(e){
+    $('#addonListing').slideToggle(function(){
+      $('.addonButton').toggle();
+    });
+  });
 
 	$('.right.menu.open').on("click",function(e){
     e.preventDefault();

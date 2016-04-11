@@ -1,23 +1,29 @@
 <%-# This view is controlled by RecipeController and rendered through recipes/manage view %> 
+<% provide(:addon_button_text, "Create New Add-on") %>
+<% provide(:addon_label_name, "New Milktea Add-on") %>
 
-<div class="column">
-	<h4 class="ui horizontal divider header">
-	  <i class="tag icon"></i>
-	  New Milk Tea Add-on
-	</h4>
-	<%= form_for @milktea_addon, html: { class: ["ui", "form"], id: "newAddonForm" } do |f| %>
-		<%= render 'shared/error_msgs', object: f.object %>
-	
-		<div class="field">
-			<%= f.label :name %>
-			<%= icon_input_wrapper(f, :name, :write, { placeholder: "Bubble" }) %>
+<div class="ui fluid card">
+	<div class="content">
+		<div class="row">
+			<%= render 'milktea_addons/form' %>
 		</div>
 
-		<div class="field">
-			<%= f.label :price %>
-			<%= icon_input_wrapper(f, :price, :dollar, { placeholder: "Please enter numeric values only!" }) %>
+		<div class="row" id="addonListing" style="margin-top: 1em; margin-bottom: 0.5em;">
+			<div class="ui fluid card">
+				<div class="content">
+					<% @addons.each do |addon| %>
+						<%= link_to addon.name, edit_milktea_addon_url(addon), class:"ui orange tag label" %>
+					<% end %>
+				</div>
+			</div>
 		</div>
 
-		<%= f.submit "Create New Add-on", class: "ui inverted blue button" %>
-	<% end %>
+		<div class="row" style="margin-top: 0.6em;">
+			<button class="ui fluid inverted orange button" id="showAddon">
+				<span class="addonButton"><%= semantic_icon "dropdown" %> Show Add-ons</span>
+				<span class="addonButton" style="display: none;"><%= semantic_icon "dropdown" %> Hide Add-ons</span>
+			</button>
+		</div>
+	</div>
 </div>
+
