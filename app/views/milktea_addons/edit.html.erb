@@ -1,0 +1,17 @@
+<% provide(:title, "Edit Milktea Addon") %>
+<% provide(:addon_button_text, "Update Add-on") %>
+<% provide(:addon_label_name, "Milktea Add-on Name") %>
+
+<div class="row">
+	<div class="ui breadcrumb">
+	  <%= link_to "Menu Management", manage_recipes_url, class: "section" %>
+	  <i class="right angle icon divider"></i>
+	  <div class="active section">Edit Milktea Addon</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="fluid column">
+		<%= render 'form' %>
+	</div>
+</div>
