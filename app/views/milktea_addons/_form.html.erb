@@ -1,0 +1,15 @@
+<%= form_for @milktea_addon, html: { class: ["ui", "form"] } do |f| %>
+	<%= render 'shared/error_msgs', object: f.object %>
+
+	<div class="field">
+		<%= f.label :name, yield(:addon_label_name) %>
+		<%= icon_input_wrapper(f, :name, :write, { placeholder: "Bubble" }) %>
+	</div>
+
+	<div class="field">
+		<%= f.label :price %>
+		<%= icon_input_wrapper(f, :price, :dollar, { placeholder: "Enter numbers only!" }) %>
+	</div>
+
+	<%= f.submit yield(:addon_button_text), class: "ui inverted blue button" %>
+<% end %>

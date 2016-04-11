@@ -1,28 +1,35 @@
 <%-# This view is controlled by RecipeController and rendered through recipes/manage view %> 
+<div class="ui fluid card">
+	<div class="content">
+		<div class="row">
+			<%= form_for @dish_category, html: { class: ["ui", "form"] } do |f| %>
+				<%= render 'shared/error_msgs', object: f.object %>
+				
+				<div class="field">
+					<%= f.label :name, "New Category" %>
+					<%= icon_input_wrapper(f, :name, :write, { placeholder: "Fried Rice" }) %>
+				</div>
 
-<div class="column">
-	<h4 class="ui horizontal divider header">
-	  <i class="tag icon"></i>
-	  New Dish Category
-	</h4>
-	<%= form_for @dish_category, html: { multipart: true, class: ["ui", "form"], id: "newDishCategoryForm" } do |f| %>
-		<%= render 'shared/error_msgs', object: f.object %>
-		
-		<div class="field">
-			<%= f.label :name %>
-			<%= icon_input_wrapper(f, :name, :write, { placeholder: "GGGGGDragon style salad variations" }) %>
+				<%= f.submit "Create New Category", class: "ui inverted blue button" %>
+			<% end %>
 		</div>
 
-		<div class="field">
-			<%= f.label :image %>
-			<%= f.file_field :image, accept: 'image/jpeg,image/gif,image/png'%>
-		</div>
+		<div class="row" id="categoryListing" style="margin-top: 1em; margin-bottom: 0.5em;">
+			<div class="ui fluid card">
+				<div class="content">
+					<a class="ui orange tag label">Taichi Milktea</a>
+					<% @dish_categories.each do |category| %>
+						<%= link_to category.name, edit_dish_category_url(category), class: "ui orange tag label" %>
+					<% end %>
+				</div>
+			</div>
+		</div>	
 
-		<div class="field">
-			<%= f.label :description %>
-			<%= f.text_area(:description, rows: 5, placeholder: "Category description comes in here...") %>
+		<div class="row" style="margin-top: 0.6em;">
+			<button class="ui fluid inverted orange button" id="showCategories">
+				<span class="categoryButton"><%= semantic_icon "dropdown" %> Show Categories</span>
+				<span class="categoryButton" style="display: none;"><%= semantic_icon "caret up" %> Hide Categories</span>
+			</button>
 		</div>
-
-		<%= f.submit "Create New Category", class: "ui inverted blue button" %>
-	<% end %>
+	</div>
 </div>

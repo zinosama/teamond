@@ -1,55 +1,40 @@
-<%= form_for @recipe, html: { multipart: true, class: ["ui", "form", "column"], id: "editRecipeForm"} do |f| %>
+<%= form_for @recipe, html: { multipart: true, class: ["ui", "form"], id: "editRecipeForm"} do |f| %>
 	<%= render 'shared/error_msgs', object: f.object %>
-
-	<div class="ui grid">
-		<div class="eight wide column">
-			<div class="field">
-				<%= f.label :name %>
-				<%= icon_input_wrapper(f, :name, :spoon, { placeholder: "dukbokki" }) %>
-			</div>
-		</div>
-
-		<div class="eight wide column">
-			<div class="field">
-				<%= f.label :price %>
-				<%= icon_input_wrapper(f, :price, :dollar, { placeholder: "please enter number only!" }) %>
-			</div>
-		</div>
-
-		<% unless @recipe.type %>
-			<div class="eight wide column">
-				<div class="field">
-					<%= f.label :type %>
-					<%= f.select(:type, [['Dish', 'Dish'], ['Milk Tea', 'Milktea']], { prompt: "Select Type of Recipe" }, { class: "ui dropdown" }) %>
-				</div>
-			</div>
-		<% end %>
-
-		<div class="eight wide column">
-			<div class="field">
-				<%= f.label :image %>
-				<%= f.file_field :image, accept: 'image/jpeg,image/gif,image/png'%>
-			</div>
-		</div>
-
-		<div class="sixteen wide column" id="<%= 'newRecipeDishCategory' unless @recipe.type == 'Dish' %>">
-			<div class="field">
-				<%= f.label :dish_category_id %>
-				<%= f.collection_select(:dish_category_id, DishCategory.all, :id, :name, { prompt: "Select Category" }, { class: "ui dropdown" }) %>
-			</div>
-		</div>
-
-		<div class="sixteen wide column">
-			<div class="field">
-				<%= f.label :description %>
-				<%= f.text_area(:description, rows: 5, placeholder: "Description comes in here...") %>
-			</div>
-		</div>
-
-		<div class="sixteen wide column">
-			<div class="field">
-				<%= f.submit yield(:button_text), class: "ui inverted blue button" %>
-			</div>
-		</div>
+	<div class="field">
+		<%= f.label :name, yield(:label_name) %>
+		<%= icon_input_wrapper(f, :name, :spoon, { placeholder: "New menu item name" }) %>
 	</div>
+
+	<div class="field">
+		<%= f.label :price %>
+		<%= icon_input_wrapper(f, :price, :dollar, { placeholder: "New menu item price, number only!" }) %>
+	</div>
+
+	<% unless @recipe.type %>
+			<div class="field">
+				<%= f.label :type %>
+				<%= f.select(:type, [['Dish', 'Dish'], ['Milk Tea', 'Milktea']], { prompt: "Select Item Type:" }, { class: "ui dropdown" }) %>
+			</div>
+	<% end %>
+
+	<div class="field" id="<%= 'newRecipeDishCategory' unless @recipe.type == 'Dish' %>">
+		<%= f.label :dish_category_id %>
+		<%= f.collection_select(:dish_category_id, DishCategory.all, :id, :name, { prompt: "Select Category" }, { class: "ui dropdown" }) %>
+	</div>
+	
+	<div class="field">
+		<%= f.label :image %>
+		<%= f.file_field :image, accept: 'image/jpeg,image/gif,image/png'%>
+	</div>
+
+
+	<div class="field">
+		<%= f.label :description %>
+		<%= f.text_area(:description, rows: 3, placeholder: "Description comes in here...") %>
+	</div>
+
+	<div class="field">
+		<%= f.submit yield(:button_text), class: "ui inverted blue button" %>
+	</div>
+
 <% end %>

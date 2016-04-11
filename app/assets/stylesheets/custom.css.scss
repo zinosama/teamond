@@ -101,6 +101,12 @@ p.unactivatedUser, .unactivatedUser a{
 }
 
 /* recipe management */
+#categoryListing{
+  display: none;
+}
+#addonListing{
+  display: none;
+}
 #newRecipeForm .ui.grid > .column:not(.row){
   padding-bottom: 0;
 }
@@ -111,7 +117,6 @@ p.unactivatedUser, .unactivatedUser a{
 
 #newRecipeRow{
   padding-bottom: 3em;
-  background-color: #F8F9FF;;
 }
 
 .dishCategoryRowInManage h1{
