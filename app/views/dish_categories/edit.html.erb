@@ -9,15 +9,10 @@
 </div>
 
 <div class="row">
-	<div class="ui grid">
-		<div class="row">
-			<div class="six wide middle aligned column">
-				<%= image_tag @dish_category.image.url.to_s, class:"ui centered image" if @dish_category.image? %>
-			</div>
-			<div class="ten wide column">
-					<%= render 'form' %>
-					<%= render 'delete_button' %>
-			</div>
-		</div>
+	<%= render 'form' %>
+</div>
+<div class="row">
+	<div class="fluid column">
+		<%= render 'delete_button' %>
 	</div>
 </div>

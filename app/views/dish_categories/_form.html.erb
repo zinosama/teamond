@@ -1,32 +1,11 @@
-<%= form_for @dish_category, html: { multipart: true, class: ["ui", "form", "column"], id: "editDishCategoryForm"} do |f| %>
+<%= form_for @dish_category, html: { class: ["ui", "form", "fluid", "column"] } do |f| %>
 	<%= render 'shared/error_msgs', object: f.object %>
-
-	<div class="ui grid">
-		<div class="eight wide column">
-			<div class="field">
-				<%= f.label :name %>
-				<%= icon_input_wrapper(f, :name, :spoon, { placeholder: "dukbokki" }) %>
-			</div>
-		</div>
-
-		<div class="eight wide column">
-			<div class="field">
-				<%= f.label :image %>
-				<%= f.file_field :image, accept: 'image/jpeg,image/gif,image/png'%>
-			</div>
-		</div>
-
-		<div class="sixteen wide column">
-			<div class="field">
-				<%= f.label :description %>
-				<%= f.text_area(:description, rows: 5, placeholder: "Description comes in here...") %>
-			</div>
-		</div>
-
-		<div class="sixteen wide column">
-			<div class="field">
-				<%= f.submit yield(:button_text), class: "ui inverted blue button" %>
-			</div>
-		</div>
+	<div class="field">
+		<%= f.label :name, "Category Name" %>
+		<%= icon_input_wrapper(f, :name, :spoon, { placeholder: "dukbokki" }) %>
+	</div>
+	
+	<div class="field">
+		<%= f.submit yield(:button_text), class: "ui inverted blue button" %>
 	</div>
 <% end %>
