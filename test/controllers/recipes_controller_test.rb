@@ -74,24 +74,6 @@ class RecipesControllerTest < ActionController::TestCase
 		assert_not flash.empty?
 	end
 
-	test 'should redirect delete when not logged in' do
-		assert_no_difference 'Recipe.count' do
-			delete :destroy, id: @recipe
-		end
-		assert_redirected_to login_url
-		assert_not flash.empty?
-	end
-
-	test 'should redirect delete when logged in as non-admin' do
-		log_in_as @user
-		assert_no_difference 'Recipe.count' do
-			delete :destroy, id: @recipe
-		end
-		
-		assert_redirected_to root_url
-		assert_not flash.empty?
-	end
-
 	test 'should get index' do
 		get :index
 		assert_template 'recipes/index'

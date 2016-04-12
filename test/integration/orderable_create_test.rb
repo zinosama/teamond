@@ -35,13 +35,20 @@ class OrderableCreateTest < ActionDispatch::IntegrationTest
 			post orderables_url, type: "milktea", buyable_id: @milktea.id
 		end
 		assert_redirected_to menu_url
-		assert_not flash.empty?
+		assert_not flash[:error].empty?
 
 		assert_no_difference 'Orderable.count' do
 			post orderables_url, type: "dish", buyable_id: 12
 		end
 		assert_redirected_to menu_url
-		assert_not flash.empty?
+		assert_not flash[:error].empty?
+
+		@dish.update_attribute(:active, false)
+		assert_no_difference 'Orderable.count' do
+			post orderables_url, type: "dish", buyable_id: @dish.id
+		end
+		assert_redirected_to menu_url
+		assert_not flash[:error].empty?
 	end
 
 end

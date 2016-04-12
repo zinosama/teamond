@@ -12,7 +12,7 @@ class MilkteaOrderableCreateTest < ActionDispatch::IntegrationTest
 		assert_template 'milktea_orderables/new'
 		post milktea_orderables_path @milktea.id, milktea_orderable: { sweet_scale: "", temp_scale: "", size: "", milktea_id: "" } 
 		assert_redirected_to menu_url
-		assert_not flash.empty?
+		assert_not flash[:error].empty?
 	end
 
 	test 'invalid milktea orderable - valid milktea id submission' do
@@ -22,6 +22,15 @@ class MilkteaOrderableCreateTest < ActionDispatch::IntegrationTest
 		assert_template 'milktea_orderables/new'
 		assert_select 'div.ui.error.message', count: 1
 		assert_select 'li', count: 6
+	end
+
+	test 'invalid milktea orderable - inactive milktea' do
+		@milktea.update_attribute(:active, false)
+		log_in_as(@user)
+		get new_milktea_orderable_path @milktea.id
+		post milktea_orderables_path @milktea.id, milktea_orderable: { sweet_scale: "", temp_scale: "", size: "", milktea_id: @milktea.id } 
+		assert_redirected_to menu_url
+		assert_not flash[:error].empty?
 	end
 
 	test 'valid milktea orderable - create correct addons_orderable' do

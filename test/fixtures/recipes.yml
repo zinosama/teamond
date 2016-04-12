@@ -11,6 +11,7 @@ dish1:
   dish_category: cate1
   image: <%= File.open(File.join(Rails.root, '/test/fixtures/images/salad.jpg')) %>
   description: This is dish 1
+  active: true
 
 milktea1:
   name: milktea1
@@ -18,3 +19,4 @@ milktea1:
   type: Milktea
   image: <%= File.open(File.join(Rails.root, '/test/fixtures/images/salad2.jpg')) %>
   description: This is milktea 1
+  active: true
