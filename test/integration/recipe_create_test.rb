@@ -25,7 +25,7 @@ class RecipeCreateTest < ActionDispatch::IntegrationTest
 			post recipes_path, recipe: { name: "", price: "", type: "Dish", image: "", description: "", dish_category_id: "101" }
 		end
 		assert_template 'shared/manage'
-		assert_not flash.empty?
+		assert_not flash[:error].empty?
 		assert_select 'li', count: 0
 	end
 
@@ -35,11 +35,13 @@ class RecipeCreateTest < ActionDispatch::IntegrationTest
 		assert_difference 'Dish.count', 1 do
 			post recipes_path, recipe: { name: "dish-integrate", price: "1.23", type: "Dish", image: fixture_file_upload('test/fixtures/images/salad2.jpg','images/jpeg'), description: "description", dish_category_id: @dish_category.id }
 		end
+		dish = assigns(:recipe)
 		assert_redirected_to manage_recipes_url
 		follow_redirect!
-		assert_not flash.empty?
+		assert_not flash[:success].empty?
 		assert_select 'div.ui.error.message', count: 0
 		assert_select 'div.header', text: "dish-integrate", count: 1
+		assert_equal false, dish.active
 	end
 
 	test 'valid recipe information - milktea' do
@@ -48,10 +50,12 @@ class RecipeCreateTest < ActionDispatch::IntegrationTest
 		assert_difference 'Milktea.count', 1 do
 			post recipes_path, recipe: { name: "milktea1", price: "1.22", type: "Milktea", image: fixture_file_upload('test/fixtures/images/salad2.jpg','images/jpeg'), description: "description" }
 		end
+		milktea = assigns(:recipe)
 		assert_redirected_to manage_recipes_url
 		follow_redirect!
-		assert_not flash.empty?
+		assert_not flash[:success].empty?
 		assert_select 'div.ui.error.message', count: 0
-		assert_select 'p', text: 'milktea1', count: 0		
+		assert_select 'p', text: 'milktea1', count: 0
+		assert_equal false, milktea.active		
 	end
 end

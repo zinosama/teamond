@@ -13,7 +13,7 @@ class RecipesController < ApplicationController
 
 	def index
 		@dish_categories = DishCategory.all
-		@milkteas = Milktea.all
+		@milkteas = Milktea.where("active = ?", true)
 	end
 
 	def create
@@ -51,33 +51,22 @@ class RecipesController < ApplicationController
 
 	def update
 		@recipe = Recipe.find(params[:id])
-		if @recipe.type == "Dish"
-			dish_category = DishCategory.find_by(id: params[:recipe][:dish_category_id])
-			@recipe.dish_category = dish_category if dish_category
-		end
-
-		if @recipe.update_attributes(recipe_params)
-			flash[:success] = "Changes saved."
-			redirect_to manage_recipes_url
+		if params[:recipe][:active]
+			params[:recipe][:active] == "0" ? @recipe.update_attribute(:active, false) : @recipe.update_attribute(:active, true)
+			redirect_and_flash(manage_recipes_url, :success, "Menu item updated")
 		else
-			render 'edit'
+			if @recipe.type == "Dish"
+				dish_category = DishCategory.find_by(id: params[:recipe][:dish_category_id])
+				@recipe.dish_category = dish_category if dish_category
+			end
+			@recipe.update_attributes(recipe_params) ? redirect_and_flash(manage_recipes_url, :success, "Menu item updated") : render('edit')
 		end
 	end
 
 	def show 
 		@recipe = Recipe.find_by(id: params[:id])
-		unless @recipe
-			flash[:error] = "Cannot find menu item"
-			redirect_to menu_url
-		end
+		redirect_to(menu_url, :error, "Cannot find menu item") unless @recipe
 	end 
-
-	def destroy
-		@recipe = Recipe.find(params[:id])
-		@recipe.destroy
-		flash[:success] = "Item has been deleted."
-		redirect_to manage_recipes_url
-	end
 
 	private 
 

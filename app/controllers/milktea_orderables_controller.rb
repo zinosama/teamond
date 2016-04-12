@@ -4,9 +4,8 @@ class MilkteaOrderablesController < ApplicationController
 
 	def new
 		@milktea = Milktea.find_by(id: params[:milktea_id])
-		unless @milktea
-			redirect_to menu_url
-			flash[:error] = "Error loading selected milktea"
+		unless @milktea && @milktea.active
+			redirect_and_flash(menu_url, :error, "Error loading selected milktea")
 		end
 		@milktea_orderable = MilkteaOrderable.new
 	end
@@ -23,11 +22,10 @@ class MilkteaOrderablesController < ApplicationController
 			end
 		else
 			@milktea = Milktea.find_by(id: params[:milktea_orderable][:milktea_id])
-			if @milktea
+			if @milktea && @milktea.active
 				render "new"
 			else
-				flash[:error] = "Invalid milktea id submitted."
-				redirect_to menu_url
+				redirect_and_flash(menu_url, :error, "Invalid milktea submitted")
 			end
 		end
 	end

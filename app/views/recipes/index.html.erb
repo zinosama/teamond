@@ -29,7 +29,7 @@
 					<div class="description">
 						<div class="ui container grid">
 							<div class="two column stackable row">
-								<% dish_category.dishes.each do |recipe| %>
+								<% dish_category.dishes.where("active = ?", true).each do |recipe| %>
 									<div class="center aligned column">
 										<%= render 'recipe', recipe: recipe %>
 									</div>

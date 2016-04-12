@@ -1,0 +1,23 @@
+<% if @recipe.active %>
+	<div class="ui segment">
+	  <div class="field">
+	    <div class="ui toggle checkbox">
+	      <input type="checkbox" name="delete_confirm" id="delete_confirm" tabindex="0" class="hidden">
+	      <label>Unlock Disable Button</label>
+	    </div>
+	  </div>
+	</div>
+
+	<%= form_for @recipe, html: { class: ["ui", "form"] } do |f| %>
+		<%= f.hidden_field :active, value: 0 %> 
+		<%= f.submit "Disable Item", class:"ui disabled inverted red button deleteButton" %>
+	<% end %>
+
+<% else %>
+
+	<%= form_for @recipe, html: { class: ["ui", "form", "toggleActiveForm"] } do |f| %>
+		<%= f.hidden_field :active, value: 1 %> 
+		<%= f.submit "Activate Item", class:"ui inverted orange button" %>
+	<% end %>
+
+<% end %>

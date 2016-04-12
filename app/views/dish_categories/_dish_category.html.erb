@@ -16,10 +16,19 @@
 	      </div>
 	    </div>
 	    <div class="extra content">
-	      <span>
+	      <span class="left floated">
 	        <i class="dollar icon"></i>
 	        <%= dish.price %>
 	      </span>
+      	<% if dish.active %>
+		      <span class="right floated success">
+	      		<i class="checkmark icon"></i>ACTIVE
+		      </span>
+      	<% else %>
+      		<span class="right floated error">
+      			<i class="remove icon"></i>INACTIVE
+      		</span>
+      	<% end %>
 	    </div>
 	  </div>
   </div>	

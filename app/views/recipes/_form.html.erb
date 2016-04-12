@@ -34,7 +34,7 @@
 	</div>
 
 	<div class="field">
-		<%= f.submit yield(:button_text), class: "ui inverted blue button" %>
+		<%= f.submit yield(:button_text), class: "ui inverted #{yield(:button_class)} button" %>
 	</div>
 
 <% end %>

@@ -24,9 +24,10 @@ ActiveRecord::Schema.define(version: 20160329122646) do
   add_index "addons_orderables", ["milktea_orderable_id"], name: "index_addons_orderables_on_milktea_orderable_id"
 
   create_table "dish_categories", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",                       null: false
+    t.boolean  "active",     default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "feedbacks", force: :cascade do |t|
@@ -55,10 +56,11 @@ ActiveRecord::Schema.define(version: 20160329122646) do
   add_index "locations_times", ["pickup_time_id"], name: "index_locations_times_on_pickup_time_id"
 
   create_table "milktea_addons", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.decimal  "price",      null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",                       null: false
+    t.decimal  "price",                      null: false
+    t.boolean  "active",     default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "milktea_orderables", force: :cascade do |t|
@@ -132,14 +134,15 @@ ActiveRecord::Schema.define(version: 20160329122646) do
   end
 
   create_table "recipes", force: :cascade do |t|
-    t.string   "name",             null: false
-    t.string   "description",      null: false
+    t.string   "name",                             null: false
+    t.string   "description",                      null: false
     t.string   "image"
-    t.decimal  "price",            null: false
-    t.string   "type",             null: false
+    t.decimal  "price",                            null: false
+    t.string   "type",                             null: false
+    t.boolean  "active",           default: false
     t.integer  "dish_category_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
   end
 
   add_index "recipes", ["dish_category_id"], name: "index_recipes_on_dish_category_id"

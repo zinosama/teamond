@@ -33,7 +33,19 @@ class RecipeEditTest < ActionDispatch::IntegrationTest
 		#type cannot be changed
 		assert_equal "Dish", @dish.type
 		#dish_category can be changed if item is dish
-		assert_equal @dish_cate2.id, @dish.dish_category_id		
+		assert_equal @dish_cate2.id, @dish.dish_category_id
+
+		#deactivate
+		patch recipe_path(@dish), recipe: { active: "0" }
+		assert_not flash[:success].empty?
+		assert_redirected_to manage_recipes_url
+		assert_equal false, @dish.reload.active
+
+		#activate
+		patch recipe_path(@dish), recipe: { active: "1" }
+		assert_not flash[:success].empty?
+		assert_redirected_to manage_recipes_url
+		assert_equal true, @dish.reload.active
 	end
 
 	test 'successful edit - milktea' do
