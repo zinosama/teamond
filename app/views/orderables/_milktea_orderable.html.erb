@@ -21,6 +21,10 @@
 	<p class="cartItemPrice">$ <%= orderable.unit_price * orderable.quantity %></p>
 </td>
 <td>
+	<% unless milktea.active %>
+		<p class="error"><b>THIS ITEM IS NO LONGER AVAILABLE</b></p>
+		<% flash.now[:error]="Some item(s) in your cart is no longer available. Please remove to continue." %>
+	<% end %>
 	<%= form_for orderable, html: { class: ["ui", "form"] } do |f| %>
 		<div class="field">
 			<%= f.label :quantity  %>

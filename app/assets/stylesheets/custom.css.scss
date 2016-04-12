@@ -128,6 +128,9 @@ p.unactivatedUser, .unactivatedUser a{
 }
 
 /* shopping cart */
+#cartView{
+  min-height: 60vh;
+}
 #shoppingCartTable a.title{
   color: #696969;
   font-size: 1.2em;
