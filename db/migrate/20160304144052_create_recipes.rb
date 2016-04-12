@@ -8,6 +8,7 @@ class CreateRecipes < ActiveRecord::Migration
     	t.decimal :price, null: false
 
     	t.string :type, null: false
+      t.boolean :active, default: false
 
     	t.references :dish_category, index: true, foreign_key: true
       t.timestamps null: false
