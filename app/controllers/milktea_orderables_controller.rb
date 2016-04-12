@@ -4,7 +4,7 @@ class MilkteaOrderablesController < ApplicationController
 
 	def new
 		@milktea = Milktea.find_by(id: params[:milktea_id])
-		unless @milktea
+		unless @milktea && @milktea.active
 			redirect_to menu_url
 			flash[:error] = "Error loading selected milktea"
 		end
