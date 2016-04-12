@@ -13,7 +13,7 @@ class RecipesController < ApplicationController
 
 	def index
 		@dish_categories = DishCategory.all
-		@milkteas = Milktea.all
+		@milkteas = Milktea.where("active = ?", true)
 	end
 
 	def create
