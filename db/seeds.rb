@@ -32,7 +32,7 @@ MilkteaAddon.create!(name: "bubble", price: 0.5)
 MilkteaAddon.create!(name: "red bean", price: 0.5)
 MilkteaAddon.create!(name: "green bean", price: 0.5)
 
-DishCategory.create!(name: "Fried Rice", description: "Best fried rice in rochester")
+DishCategory.create!(name: "Fried Rice")
 
 PickupLocation.create!(name: "Wilson Commons", address: "500 joseph c wilson blvd", description: "Meet us at the front door!")
 PickupLocation.create!(name: "ITS", address: "500 jospeph c wilson blvd - IT center", description: "We are on the first floor.")
