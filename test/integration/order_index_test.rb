@@ -75,13 +75,13 @@ class OrderIndexTest < ActionDispatch::IntegrationTest
 
 	def create_order(type)
 		if type == :paid
-			Order.create( user: @user, total: 10, payment_method: 1, payment_status: 1, locations_time: locations_times(:one), recipient_name: "zinosama", recipient_phone: 3248738 )
+			Order.create( user: @user, total: 10, payment_method: 1, payment_status: 1, delivery_location: locations_times(:one).pickup_location.name, delivery_time: locations_times(:one).pickup_time_datetime, recipient_name: "zinosama", recipient_phone: 3248738 )
 		elsif type == :fulfilled
-			Order.create( user: @user, total: 10, payment_method: 1, payment_status: 1, locations_time: locations_times(:one), recipient_name: "zinosama", fulfillment_status: 1, recipient_phone: 3248738 )
+			Order.create( user: @user, total: 10, payment_method: 1, payment_status: 1, delivery_location: locations_times(:one).pickup_location.name, delivery_time: locations_times(:one).pickup_time_datetime, recipient_name: "zinosama", fulfillment_status: 1, recipient_phone: 3248738 )
 		elsif type == :pending_issue
-			Order.create( user: @user, total: 10, payment_method: 1, locations_time: locations_times(:one), recipient_name: "zinosama", recipient_phone: 3248738, issue_status: 2, issue: "hi")
+			Order.create( user: @user, total: 10, payment_method: 1, delivery_location: locations_times(:one).pickup_location.name, delivery_time: locations_times(:one).pickup_time_datetime, recipient_name: "zinosama", recipient_phone: 3248738, issue_status: 2, issue: "hi")
 		elsif type == :resolved_issue
-			Order.create( user: @user, total: 10, payment_method: 1, locations_time: locations_times(:one), recipient_name: "zinosama", recipient_phone: 3248738, issue_status: 3, issue: "hi")
+			Order.create( user: @user, total: 10, payment_method: 1, delivery_location: locations_times(:one).pickup_location.name, delivery_time: locations_times(:one).pickup_time_datetime, recipient_name: "zinosama", recipient_phone: 3248738, issue_status: 3, issue: "hi")
 		end
 	end
 end
