@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
 	validates :wechat, allow_nil: true, length: { maximum: 50 }
 	validates :phone, allow_nil: true, length: { maximum: 25 }
 
-	has_many :orders
+	has_many :orders, dependent: :destroy
 	has_many :orderables, as: :ownable
 
 	def item_count

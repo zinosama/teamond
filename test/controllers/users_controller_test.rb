@@ -52,45 +52,6 @@ class UsersControllerTest < ActionController::TestCase
 		assert_response :success
 	end
 
-	test 'should redirect leave when not logged in' do
-		get :leave, id: @user
-		assert_redirected_to login_url
-	end
-
-	test 'should redirect leave when logged in as wrong user' do
-		log_in_as @other_user
-		get :leave, id: @user
-		assert_redirected_to root_url
-		assert_not flash.empty?
-	end
-
-	test 'should get leave when logged in as account owner' do
-		log_in_as @other_user
-		get :leave, id: @other_user
-		assert_response :success
-	end
-
-	test 'should get leave when logged in as admin' do
-		log_in_as @user
-		get :leave, id: @other_user
-		assert_response :success
-	end
-
-	test 'should redirect destroy when not logged in' do
-		assert_no_difference 'User.count' do
-			delete :destroy, id: @user
-		end
-		assert_redirected_to login_url
-	end
-
-	test 'should redirect destroy when logged in as wrong user' do
-		log_in_as @other_user
-		assert_no_difference 'User.count' do
-			delete :destroy, id: @user
-		end
-		assert_redirected_to root_url
-	end
-
 	test 'should not allow admin attribute to be edited via web' do
 		log_in_as @other_user
 		assert_not @other_user.admin?
