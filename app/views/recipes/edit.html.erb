@@ -1,6 +1,7 @@
 <% provide(:title, "Edit Item") %>
-<% provide(:button_text, "Update Item") %>
+<% provide(:button_text, "Adjust Item Info") %>
 <% provide(:label_name, "Name") %>
+<% provide(:button_class, "red") %>
 <div class="row">
 	<div class="ui breadcrumb">
 	  <%= link_to "Menu Management", manage_recipes_url, class: "section" %>
@@ -17,7 +18,8 @@
 			</div>
 			<div class="ten wide column">
 					<%= render 'form' %>
-					<%= render 'delete_button' %>
+					<small>**Extreme Caution: changing item information can affect existing orders!</small>
+					<%= render 'toggle_active_button' %>
 			</div>
 		</div>
 	</div>
