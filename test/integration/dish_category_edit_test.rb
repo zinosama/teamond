@@ -25,6 +25,6 @@ class DishCategoryEditTest < ActionDispatch::IntegrationTest
 		assert_redirected_to manage_recipes_url
 		follow_redirect!
 		assert_not flash.empty?
-		assert_select 'a', text: 'new-name', count: 1
+		assert_select 'a', text: 'new-name', count: 2
 	end
 end
