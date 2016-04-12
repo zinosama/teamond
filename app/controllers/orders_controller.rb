@@ -146,7 +146,13 @@ class OrdersController < ApplicationController
 	def verify_info_and_create_order(locations_time, token)
 		if locations_time
 			@order = Order.new(order_params_create)
-			if @order.update_attributes(total: current_user.cart_balance_after_tax, user_id: current_user.id, locations_time_id: locations_time.id )
+			if @order.update_attributes(
+					total: current_user.cart_balance_after_tax, 
+					user_id: current_user.id,
+					delivery_location: locations_time.pickup_location.name,
+					delivery_instruction: locations_time.pickup_location.description,
+					delivery_time: locations_time.pickup_time_datetime
+				)
 				process_payment(@order, token)
 			else
 				render 'new'

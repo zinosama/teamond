@@ -108,7 +108,7 @@ class OrderCreateTest < ActionDispatch::IntegrationTest
 		assert_equal "123456", order.recipient_phone
 		assert_equal "abcdefg", order.recipient_wechat
 		assert_equal 1, order.payment_method
-		assert_equal @locations_time.id, order.locations_time.id
+		assert_equal @locations_time.pickup_time_datetime, order.delivery_time
 		assert_equal @user.id, order.user.id
 
 		#orderables are reassigned to belong to the new order instead of user

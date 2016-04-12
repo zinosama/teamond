@@ -17,9 +17,11 @@ class CreateOrders < ActiveRecord::Migration
       t.string :recipient_name, null: false
       t.string :recipient_phone, null: false
       t.string :recipient_wechat
+      t.string :delivery_location, null: false
+      t.string :delivery_instruction
+      t.datetime :delivery_time, null: false
     	
       t.references :user, index:true, null: false
-      t.references :locations_time, index: true, null: false
 
       t.timestamps null: false
     end

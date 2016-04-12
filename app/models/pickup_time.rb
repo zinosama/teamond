@@ -10,6 +10,10 @@ class PickupTime < ActiveRecord::Base
 	def pickup_time
 		format_time(self.pickup_hour, self.pickup_minute)
 	end	
+	
+	def pickup_time_parse_str
+		format_time_parse(self.pickup_hour, self.pickup_minute)
+	end
 
 	def cutoff_time
 		format_time(self.cutoff_hour, self.cutoff_minute)
@@ -21,5 +25,11 @@ class PickupTime < ActiveRecord::Base
 		formated_hour = "%02d" % hour
 		formated_minute = "%02d" % minute
 		"#{formated_hour} : #{formated_minute}"
+	end
+
+	def format_time_parse(hour, minute)
+		formated_hour = "%02d" % hour
+		formated_minute = "%02d" % minute
+		"#{formated_hour}:#{formated_minute}:00"
 	end
 end

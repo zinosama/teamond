@@ -5,7 +5,7 @@ class RecipesControllerTest < ActionController::TestCase
 	def setup
 		@admin = users(:zino)
 		@user = users(:ed)
-		@new_category = DishCategory.create(name: "new category", description: "description")
+		@new_category = DishCategory.create(name: "new category")
 		@recipe = Recipe.create(name: "tea", price: 1.23, type: "Milktea", image: File.open(File.join(Rails.root, '/test/fixtures/images/salad.jpg')), description: "description")
 	end
 

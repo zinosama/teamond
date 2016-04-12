@@ -3,7 +3,7 @@ require 'test_helper'
 class RecipeTest < ActiveSupport::TestCase
 
 	def setup
-		fried_rice = DishCategory.new(name: "Rice", description: "all kinds of rice")
+		fried_rice = DishCategory.new(name: "Rice")
 		@dish = fried_rice.dishes.build(name: "Fried Rice", description: "fried rice with little nutrition.", price: 12.11, image: File.open(File.join(Rails.root, '/test/fixtures/images/salad.jpg')) )
 	end
 

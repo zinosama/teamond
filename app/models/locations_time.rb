@@ -2,11 +2,22 @@ class LocationsTime < ActiveRecord::Base
 	DOWs = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 	belongs_to :pickup_time
 	belongs_to :pickup_location
-	has_many :orders
 
 	validates :day_of_week, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 6 }
 	validates :pickup_time, presence: true
 	validates :pickup_location, presence: true
+
+	def pickup_time_datetime
+		now = DateTime.now
+		if now.strftime("%w").to_i == self.day_of_week
+			pickup_date_str = now.strftime("%Y-%m-%d")
+		else
+			pickup_date_str = now.tomorrow.strftime("%Y-%m-%d")
+		end
+		pickup_time_str = "#{pickup_date_str} #{pickup_time.pickup_time_parse_str}"
+		zone = "Eastern Time (US & Canada)"
+		ActiveSupport::TimeZone[zone].parse(pickup_time_str)
+	end	
 
 	def before_cutoff?(current_day, current_hr, current_min)
 		current_day == self.day_of_week ? valid_for_today?(current_hr, current_min) : true

@@ -24,11 +24,9 @@ ActiveRecord::Schema.define(version: 20160329122646) do
   add_index "addons_orderables", ["milktea_orderable_id"], name: "index_addons_orderables_on_milktea_orderable_id"
 
   create_table "dish_categories", force: :cascade do |t|
-    t.string   "name",        null: false
-    t.string   "description"
-    t.string   "image"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "feedbacks", force: :cascade do |t|
@@ -91,27 +89,28 @@ ActiveRecord::Schema.define(version: 20160329122646) do
   add_index "orderables", ["ownable_type", "ownable_id"], name: "index_orderables_on_ownable_type_and_ownable_id"
 
   create_table "orders", force: :cascade do |t|
-    t.decimal  "total",                          null: false
-    t.integer  "payment_status",     default: 0
-    t.integer  "payment_method",                 null: false
+    t.decimal  "total",                            null: false
+    t.integer  "payment_status",       default: 0
+    t.integer  "payment_method",                   null: false
     t.string   "payment_id"
     t.string   "refund_id"
-    t.integer  "fulfillment_status", default: 0
-    t.integer  "issue_status",       default: 0
-    t.integer  "satisfaction",       default: 0
+    t.integer  "fulfillment_status",   default: 0
+    t.integer  "issue_status",         default: 0
+    t.integer  "satisfaction",         default: 0
     t.string   "issue"
     t.string   "solution"
     t.string   "note"
-    t.string   "recipient_name",                 null: false
-    t.string   "recipient_phone",                null: false
+    t.string   "recipient_name",                   null: false
+    t.string   "recipient_phone",                  null: false
     t.string   "recipient_wechat"
-    t.integer  "user_id",                        null: false
-    t.integer  "locations_time_id",              null: false
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.string   "delivery_location",                null: false
+    t.string   "delivery_instruction"
+    t.datetime "delivery_time",                    null: false
+    t.integer  "user_id",                          null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
   end
 
-  add_index "orders", ["locations_time_id"], name: "index_orders_on_locations_time_id"
   add_index "orders", ["user_id"], name: "index_orders_on_user_id"
 
   create_table "pickup_locations", force: :cascade do |t|
