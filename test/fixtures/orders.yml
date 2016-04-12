@@ -8,13 +8,15 @@ order1:
   user: zino
   total: 10
   payment_method: 1
-  locations_time: one
   recipient_name: zinosama
-  recipient_phone: 3248738
+  recipient_phone: 248738
+  delivery_location: location 1
+  delivery_time: <%= DateTime.now %>
 two:
   user: ed
   total: 10
   payment_method: 1
-  locations_time: one
   recipient_name: zinosama
   recipient_phone: 3248738
+  delivery_location: location 2
+  delivery_time: <%= DateTime.now %>

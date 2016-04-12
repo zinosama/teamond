@@ -4,8 +4,7 @@ class OrderTest < ActiveSupport::TestCase
 
 	def setup
 		@user = users(:zino)
-		@locations_time = locations_times(:one)
-		@order = Order.new( total: 2.12, payment_method: 1, recipient_name: "zino", recipient_phone: "4329423", recipient_wechat: "213dfds", locations_time: @locations_time, user: @user, satisfaction: 0 )
+		@order = Order.new( total: 2.12, payment_method: 1, recipient_name: "zino", recipient_phone: "4329423", recipient_wechat: "213dfds", delivery_location: "location", delivery_time: DateTime.now, user: @user, satisfaction: 0 )
 	end
 
 	test 'should be valid' do
@@ -64,11 +63,6 @@ class OrderTest < ActiveSupport::TestCase
 		assert_not @order.valid?
 	end
 
-	test 'should have a locations_time' do
-		@order.locations_time_id = 11111
-		assert_not @order.valid?
-	end
-
 	test 'should have user' do
 		@order.user = nil
 		assert_not @order.valid?
@@ -85,4 +79,14 @@ class OrderTest < ActiveSupport::TestCase
 		@order.issue = "a" * 256
 		assert_not @order.valid?
 	end	
+
+	test 'should have a delivery location' do
+		@order.delivery_location = ""
+		assert_not @order.valid?
+	end
+
+	test 'should have a delivery time' do
+		@order.delivery_time = nil
+		assert_not @order.valid?
+	end
 end
