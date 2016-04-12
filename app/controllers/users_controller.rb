@@ -35,33 +35,6 @@ class UsersController < ApplicationController
 			render 'edit'
 		end
 	end
-	
-	def leave #needs testing
-		@user = User.find(params[:id])
-	end 
-
-	#needs testing
-	def destroy #only admin or self can delete account. Admin needs to use his own password
-		@user = User.find(params[:id])
-		if params[:confirm].chomp == "I Understand"
-			if current_user == @user && @user.authenticate(params[:password])
-				log_out
-				@user.destroy
-				flash[:success] = "Your account has been deleted. We hope to see you again."
-				redirect_to root_url
-			elsif current_user.admin? && current_user.authenticate(params[:password])
-				@user.destroy #what about user's cookie and session?
-				flash[:success] = "The user has been removed."
-				redirect_to users_url
-			else
-				flash.now[:error] = "Invalid Password."
-				render 'leave'
-			end
-		else
-			flash.now[:error] = "Please type in 'I Understand' to confirm"
-			render 'leave'
-		end
-	end
 
 	private
 
