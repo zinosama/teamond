@@ -87,9 +87,9 @@
 						<div class="header">Delivery</div>
 						<div class="description">
 							<% if order.fulfillment_status == 0 %>
-								<p>Scheduled for delivery:<br> <b><%= semantic_icon :wait %> <%= order.delivery_time.strftime("%H : %M, %B %e, %Y (%A)") %></b></p>
+								<p>Scheduled for delivery:<br> <b><%= semantic_icon :wait %> <%= order.delivery_time_to_min %></b></p>
 							<% else %>
-								<p>Delivered on:<br> <b><%= semantic_icon :wait %> <%= order.delivery_time.strftime("%H : %M, %B %e, %Y (%A)") %></b></p>
+								<p>Delivered on:<br> <b><%= semantic_icon :wait %> <%= order.delivery_time_to_min %></b></p>
 							<% end %>
 							<p>Delivery Location:<br> <b><%= semantic_icon :marker %> <%= order.delivery_location %></b></p>
 							<p>Delivery Instruction:<br> <b><%= semantic_icon "info circle" %><%= order.delivery_instruction %></b></p>

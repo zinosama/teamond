@@ -26,6 +26,10 @@ class Order < ActiveRecord::Base
 		self.created_at.utc.in_time_zone("Eastern Time (US & Canada)").strftime("%H : %M, %B %e, %Y (%A)")
 	end
 
+	def delivery_time_to_min
+		self.delivery_time.in_time_zone("Eastern Time (US & Canada)").strftime("%H : %M, %B %e, %Y (%A)")
+	end
+
 	def num_of_items
 		self.orderables.count
 	end
