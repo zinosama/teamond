@@ -1,4 +1,9 @@
 $(document).ready(function(){
+  if($('p.error').length > 0 && $('div.ui.error.message.column').length > 0){
+    $('#checkoutButton').addClass('disabled');
+  };
+
+
   $('div.ui.label.browse').popup({
     on : 'hover'
   });
@@ -7,7 +12,6 @@ $(document).ready(function(){
     $('#categoryListing').slideToggle(function(){
       $('.categoryButton').toggle();
     });
-    // console.log($(e.target).find('i').removeClass('dropdown').addClass('caret up'));
   });
 
   $('#showAddon').on('click', function(e){

@@ -1,7 +1,7 @@
 <% provide(:title, "Cart") %>
 
 <h1 class="ui title header">Shopping Cart</h1>
-<div class="row">
+<div class="row" id="cartView">
 	<table class="ui very basic table" id="shoppingCartTable">
 		<thead>
 			<tr>
@@ -28,7 +28,7 @@
 	    Estimate for Total: $ <%= current_user.cart_balance_before_tax %>
 	  </div>
 
-    <%= link_to summary_url, class: "ui right labeled icon button" do %>
+    <%= link_to summary_url, class: "ui right labeled icon button", id: "checkoutButton" do %>
 	    Continue to Checkout
 	    <%= semantic_icon "right chevron" %>
 	  <% end %>

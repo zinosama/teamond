@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
 	before_action :logged_in_user
-	before_action :cart_not_empty, only: [:new, :create]
+	before_action :valid_cart, only: [:new, :create]
 	before_action :correct_user_or_admin_order, only: [:show, :update]
 	before_action :correct_user_index, only: [:index]
 
@@ -75,7 +75,7 @@ class OrdersController < ApplicationController
 
 	def show 
 		@order = Order.find_by(id: params[:id])
-		redirect_and_flash( user_url(current_user), :error, "Unidentified order" ) unless @order
+		redirect_and_flash( user_orders_url(current_user), :error, "Unidentified order" ) unless @order
 	end 
 
 	def update
@@ -222,10 +222,22 @@ class OrdersController < ApplicationController
 		new_order
 	end	
 
-	def cart_not_empty
+	def contains_inactive_item?(orderables)
+		orderables.each do |orderable| 
+			if orderable.buyable_type == "MilkteaOrderable"
+				return true unless orderable.buyable.milktea.active
+			else
+				return true unless orderable.buyable.active
+			end
+		end
+		false
+	end
+
+	def valid_cart
 		if current_user.orderables.empty?
-			redirect_to menu_url
-			flash[:error] = "Your cart is empty. Please add items before check out."
+			redirect_and_flash(menu_url, :error, "Your cart is empty. Please add items before checkout.")
+		elsif contains_inactive_item?(current_user.orderables)
+			redirect_and_flash(cart_url, :error, "Please remove unavailable items before checkout")
 		end
 	end
 

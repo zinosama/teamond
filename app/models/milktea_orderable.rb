@@ -36,7 +36,7 @@ class MilkteaOrderable < ActiveRecord::Base
 
 	def active_milktea
 		milktea = Milktea.find_by(id: self.milktea_id)
-		errors.add(:milktea_id, "Milktea selected is not active.") unless milktea && milktea.active
+		errors.add(:milktea_id, "selected is not active.") unless milktea && milktea.active
 	end
 
 	def trim_addons
