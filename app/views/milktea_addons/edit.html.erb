@@ -1,7 +1,7 @@
 <% provide(:title, "Edit Milktea Addon") %>
 <% provide(:addon_button_text, "Update Add-on") %>
 <% provide(:addon_label_name, "Milktea Add-on Name") %>
-
+<% provide(:addon_button_color, "red") %>
 <div class="row">
 	<div class="ui breadcrumb">
 	  <%= link_to "Menu Management", manage_recipes_url, class: "section" %>
@@ -10,8 +10,14 @@
 	</div>
 </div>
 
-<div class="row">
+<div class="one column row">
 	<div class="fluid column">
 		<%= render 'form' %>
+	</div>
+	<div class="fluid column">
+		<small>**Extreme Caution: Changing addon information can affect existing orders!</small>
+	</div>
+	<div class="fuild column">
+		<%= render 'shared/toggle_active_button', object: @milktea_addon, name: "Addon" %>
 	</div>
 </div>
