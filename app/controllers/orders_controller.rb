@@ -226,6 +226,7 @@ class OrdersController < ApplicationController
 		orderables.each do |orderable| 
 			if orderable.buyable_type == "MilkteaOrderable"
 				return true unless orderable.buyable.milktea.active
+				return true if orderable.buyable.milktea_addons.where("active = ?", false).size > 0
 			else
 				return true unless orderable.buyable.active
 			end

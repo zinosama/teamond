@@ -3,7 +3,11 @@
 </td>
 <td>
 	<div class="centerBlock">
-		<p><%= link_to dish.name, recipe_url(dish), class: "title" %></p>
+		<%= link_to dish.name, recipe_url(dish), class: "title" %>
+		<% unless dish.active %>
+			<p class="error">(NO LONGER AVAILABLE)</p>
+			<% flash.now[:error]="Some item(s) in your cart is no longer available. Please remove to continue." %>
+		<% end %>
 		<%= link_to semantic_icon("trash outline"), orderable_url(orderable), method: :delete , class:"ui icon button" %>
 	</div>
 </td>
@@ -11,10 +15,6 @@
 	<p class="cartItemPrice">$ <%= dish.price * orderable.quantity %></p>
 </td>
 <td>
-	<% unless dish.active %>
-		<p class="error"><b>THIS ITEM IS NO LONGER AVAILABLE</b></p>
-		<% flash.now[:error]="Some item(s) in your cart is no longer available. Please remove to continue." %>
-	<% end %>
 	<%= form_for orderable, html: { class: ["ui", "form"] } do |f| %>
 		<div class="field">
 			<%= f.label :quantity  %>
