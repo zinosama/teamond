@@ -27,6 +27,14 @@ class OrderableCreateTest < ActionDispatch::IntegrationTest
 		get cart_url
 		assert_select 'a', text: @dish.name, count: 1
 		assert_select 'div.ui.button.active', text: "Estimate for Total: $ #{@dish.price.to_f}", count: 1
+
+		@dish.update_attribute(:active, false)
+		get cart_url
+		assert_not flash[:error].empty?
+		assert_select 'p.error b', text: "THIS ITEM IS NO LONGER AVAILABLE", count: 1
+		get summary_url
+		assert_redirected_to cart_url
+		assert_not flash[:error].empty?
 	end
 
 	test 'invalid orderable' do
