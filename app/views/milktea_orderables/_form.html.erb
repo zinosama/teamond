@@ -11,7 +11,7 @@
 				<div class="field">
 					<%= f.label :milktea_addon_ids, 'Toppings ($0.5/each):' %>
 					<small>Caution: We recommend adding less than 3 toppings. Otherwise, you may not have much room for milktea</small>
-					<%= f.collection_select(:milktea_addon_ids, MilkteaAddon.all, :id, :name, { include_blank: "No Topping" }, { multiple: true, class: "ui fluid dropdown addonSelect"} ) %>
+					<%= f.collection_select(:milktea_addon_ids, MilkteaAddon.where("active = ?", true), :id, :name, { include_blank: "No Topping" }, { multiple: true, class: "ui fluid dropdown addonSelect"} ) %>
 				</div>
 
 				<div class="field">
