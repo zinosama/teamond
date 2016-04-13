@@ -9,7 +9,12 @@
 			<p>Toppings:</p>
 			<ol class="ui list">
 				<% orderable.buyable.milktea_addons.each do |addon| %>
-					<li value=""><%= semantic_icon :checkmark %> <%= addon.name %></li>
+					<% if addon.active %>
+						<li value=""><%= semantic_icon :checkmark %> <%= addon.name %></li>
+					<% else %>
+						<li value="" class="error"><%= semantic_icon :remove %> <%= addon.name %><br>(NO LONGER AVAILABLE)</li>
+						<% flash.now[:error]="Some item(s) in your cart is no longer available. Please remove to continue." %>
+					<% end %>
 				<% end %>
 			</ol>
 		<% end %>

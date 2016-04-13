@@ -1,6 +1,7 @@
 <%-# This view is controlled by RecipeController and rendered through recipes/manage view %> 
 <% provide(:addon_button_text, "Create New Add-on") %>
 <% provide(:addon_label_name, "New Milktea Add-on") %>
+<% provide(:addon_button_color, "blue") %>
 
 <div class="ui fluid card">
 	<div class="content">
@@ -8,11 +9,11 @@
 			<%= render 'milktea_addons/form' %>
 		</div>
 
-		<div class="row" id="addonListing" style="margin-top: 1em; margin-bottom: 0.5em;">
+		<div class="row" id="addonListing">
 			<div class="ui fluid card">
 				<div class="content">
 					<% @addons.each do |addon| %>
-						<%= link_to addon.name, edit_milktea_addon_url(addon), class:"ui orange tag label" %>
+						<%= link_to addon.name, edit_milktea_addon_url(addon), class:"ui #{addon.active ? "orange" : "red"} tag label" %>
 					<% end %>
 				</div>
 			</div>

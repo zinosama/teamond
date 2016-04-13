@@ -7,11 +7,16 @@
 bubble:
   name: bubble
   price: 0.5
-
+  active: true
 red_bean:
   name: red_bean
   price: 0.5
-
+  active: true
 green_bean:
   name: green_bean
   price: 0.5
+  active: true
+inactive_addon:
+  name: inactive
+  price: 0.5
+  active: false

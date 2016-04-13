@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  if($('p.error').length > 0 && $('div.ui.error.message.column').length > 0){
+  if($('.error').length > 0 && $('div.ui.error.message.column').length > 0){
     $('#checkoutButton').addClass('disabled');
   };
 

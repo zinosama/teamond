@@ -1,4 +1,4 @@
-<% if @recipe.active %>
+<% if object.active %>
 	<div class="ui segment">
 	  <div class="field">
 	    <div class="ui toggle checkbox">
@@ -8,16 +8,16 @@
 	  </div>
 	</div>
 
-	<%= form_for @recipe, html: { class: ["ui", "form"] } do |f| %>
+	<%= form_for object, html: { class: ["ui", "form"] } do |f| %>
 		<%= f.hidden_field :active, value: 0 %> 
-		<%= f.submit "Disable Item", class:"ui disabled inverted red button deleteButton" %>
+		<%= f.submit "Disable #{name}", class:"ui disabled inverted red button deleteButton" %>
 	<% end %>
 
 <% else %>
 
-	<%= form_for @recipe, html: { class: ["ui", "form", "toggleActiveForm"] } do |f| %>
+	<%= form_for object, html: { class: ["ui", "form", "toggleActiveForm"] } do |f| %>
 		<%= f.hidden_field :active, value: 1 %> 
-		<%= f.submit "Activate Item", class:"ui inverted orange button" %>
+		<%= f.submit "Activate #{name}", class:"ui inverted orange button" %>
 	<% end %>
 
 <% end %>

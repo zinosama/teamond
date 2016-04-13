@@ -19,7 +19,7 @@
 			<div class="ten wide column">
 					<%= render 'form' %>
 					<small>**Extreme Caution: changing item information can affect existing orders!</small>
-					<%= render 'toggle_active_button' %>
+					<%= render 'shared/toggle_active_button', object: @recipe, name: "Item" %>
 			</div>
 		</div>
 	</div>

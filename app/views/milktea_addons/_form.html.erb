@@ -11,5 +11,5 @@
 		<%= icon_input_wrapper(f, :price, :dollar, { placeholder: "Enter numbers only!" }) %>
 	</div>
 
-	<%= f.submit yield(:addon_button_text), class: "ui inverted blue button" %>
+	<%= f.submit yield(:addon_button_text), class: "ui inverted #{yield(:addon_button_color)} button" %>
 <% end %>
