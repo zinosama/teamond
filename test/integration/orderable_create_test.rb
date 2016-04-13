@@ -31,7 +31,7 @@ class OrderableCreateTest < ActionDispatch::IntegrationTest
 		@dish.update_attribute(:active, false)
 		get cart_url
 		assert_not flash[:error].empty?
-		assert_select 'p.error b', text: "THIS ITEM IS NO LONGER AVAILABLE", count: 1
+		assert_select 'p.error', text: "(NO LONGER AVAILABLE)", count: 1
 		get summary_url
 		assert_redirected_to cart_url
 		assert_not flash[:error].empty?
