@@ -19,7 +19,7 @@
 
 	<div class="field" id="<%= 'newRecipeDishCategory' unless @recipe.type == 'Dish' %>">
 		<%= f.label :dish_category_id %>
-		<%= f.collection_select(:dish_category_id, DishCategory.all, :id, :name, { prompt: "Select Category" }, { class: "ui dropdown" }) %>
+		<%= f.collection_select(:dish_category_id, DishCategory.where("active = ?", true), :id, :name, { prompt: "Select Category" }, { class: "ui dropdown" }) %>
 	</div>
 	
 	<div class="field">
