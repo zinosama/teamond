@@ -8,6 +8,7 @@
 		</div>
 		<div class="ten wide column">
 			<h2 class="ui title header"><%= @recipe.name %></h2>
+			<% unless @recipe.active %><p class="error">THIS ITEM IS NO LONGER AVAILABLE</p><% end %>
 			<p>$ <%= @recipe.price %></p>
 			<p><%= @recipe.description %></p>
 		</div>
