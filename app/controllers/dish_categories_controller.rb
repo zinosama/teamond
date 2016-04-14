@@ -23,19 +23,17 @@ class DishCategoriesController < ApplicationController
 
 	def update
 		@dish_category = DishCategory.find(params[:id])
-		if @dish_category && @dish_category.update_attributes(dish_category_params)
-			flash[:success] = "Category Updated."
-			redirect_to manage_recipes_url
+		if params[:dish_category][:active]
+			params[:dish_category][:active] == "0" ? @dish_category.update_attribute(:active, false) : @dish_category.update_attribute(:active, true)
+			@dish_category.dishes.update_all(active: false) unless @dish_category.active
+			redirect_and_flash(manage_recipes_url, :success, "Category Updated")
 		else
-			render 'edit'
-		end 
-	end
-
-	def destroy
-		dish_category = DishCategory.find(params[:id])
-		dish_category.destroy
-		flash[:success] = "Category Deleted."
-		redirect_to manage_recipes_url
+			if @dish_category && @dish_category.update_attributes(dish_category_params)
+				redirect_and_flash(manage_recipes_url, :success, "Category Updated")
+			else
+				render 'edit'
+			end 
+		end
 	end
 
 	private

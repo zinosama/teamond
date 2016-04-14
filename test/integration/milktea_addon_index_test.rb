@@ -21,7 +21,7 @@ class MilkteaAddonIndexTest < ActionDispatch::IntegrationTest
 		end
 	end
 
-	test 'should list all addons in milktea orderable create' do
+	test 'should list active addons in milktea orderable create' do
 		log_in_as @user
 		get new_milktea_orderable_path(@milktea.id)
 		assert_template 'milktea_orderables/new'

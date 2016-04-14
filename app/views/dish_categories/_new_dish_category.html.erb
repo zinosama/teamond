@@ -1,17 +1,12 @@
 <%-# This view is controlled by RecipeController and rendered through recipes/manage view %> 
+
+<% provide(:category_button_text, "Create New Category") %>
+<% provide(:category_button_color, "blue") %>
+
 <div class="ui fluid card">
 	<div class="content">
 		<div class="row">
-			<%= form_for @dish_category, html: { class: ["ui", "form"] } do |f| %>
-				<%= render 'shared/error_msgs', object: f.object %>
-				
-				<div class="field">
-					<%= f.label :name, "New Category" %>
-					<%= icon_input_wrapper(f, :name, :write, { placeholder: "Fried Rice" }) %>
-				</div>
-
-				<%= f.submit "Create New Category", class: "ui inverted blue button" %>
-			<% end %>
+			<%= render 'dish_categories/form' %>
 		</div>
 
 		<div class="row" id="categoryListing" style="margin-top: 1em; margin-bottom: 0.5em;">
@@ -19,7 +14,7 @@
 				<div class="content">
 					<a class="ui orange tag label">Taichi Milktea</a>
 					<% @dish_categories.each do |category| %>
-						<%= link_to category.name, edit_dish_category_url(category), class: "ui orange tag label" %>
+						<%= link_to category.name, edit_dish_category_url(category), class: "ui #{category.active ? "orange" : "red"} tag label" %>
 					<% end %>
 				</div>
 			</div>

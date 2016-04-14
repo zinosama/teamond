@@ -6,6 +6,7 @@
 #
 cate1:
   name: cate1
-
+  active: true
 cate2:
   name: cate2
+  active: true

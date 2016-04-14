@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     get 'manage', on: :collection
   end
 
-  resources :dish_categories, only: [:create, :edit, :update, :destroy]
+  resources :dish_categories, only: [:create, :edit, :update]
   resources :milktea_addons, only: [:create, :edit, :update]
 
   get 'cart' => 'orderables#index'

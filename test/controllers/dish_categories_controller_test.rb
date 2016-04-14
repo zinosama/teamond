@@ -50,16 +50,5 @@ class DishCategoriesControllerTest < ActionController::TestCase
 		assert_not flash.empty?
 	end
 
-	test 'should redirect delete when not logged in' do
-		delete :destroy, id: @dish_cate
-		assert_redirected_to login_url
-		assert_not flash.empty?
-	end
-
-	test 'should redirect delete when logged in as non-admin' do
-		delete :destroy, id: @dish_cate
-		assert_redirected_to login_url
-		assert_not flash.empty?
-	end
 end
 	
