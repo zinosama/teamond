@@ -28,6 +28,16 @@ class OrderCreateTest < ActionDispatch::IntegrationTest
 		StripeMock.stop
 	end
 
+	test 'order with inactive milktea addons' do
+		log_in_as @user
+		@milktea_orderable.buyable.milktea_addons.push(milktea_addons(:inactive_addon))
+		assert_no_difference 'Order.count' do
+			post locations_time_orders_url(@locations_time), order: { recipient_name: "zino sama", recipient_phone: "123456", recipient_wechat: "abcdefg", payment_method: 1 }
+		end
+		assert_redirected_to cart_url
+		assert_not flash[:error].empty?
+	end
+
 	test 'valid order creation work flow (cash payment)' do
 		log_in_as @user
 		
