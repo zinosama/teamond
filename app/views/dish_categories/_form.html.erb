@@ -1,11 +1,11 @@
-<%= form_for @dish_category, html: { class: ["ui", "form", "fluid", "column"] } do |f| %>
+<%= form_for @dish_category, html: { class: ["ui", "form"] } do |f| %>
 	<%= render 'shared/error_msgs', object: f.object %>
 	<div class="field">
 		<%= f.label :name, "Category Name" %>
-		<%= icon_input_wrapper(f, :name, :spoon, { placeholder: "dukbokki" }) %>
+		<%= icon_input_wrapper(f, :name, :write, { placeholder: "dukbokki" }) %>
 	</div>
 	
 	<div class="field">
-		<%= f.submit yield(:button_text), class: "ui inverted blue button" %>
+		<%= f.submit yield(:category_button_text), class: "ui inverted #{yield(:category_button_color)} button" %>
 	</div>
 <% end %>

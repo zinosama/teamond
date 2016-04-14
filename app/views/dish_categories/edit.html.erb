@@ -1,5 +1,7 @@
 <% provide(:title, "Edit Dish Category") %>
-<% provide(:button_text, "Update Dish Category") %>
+<% provide(:category_button_text, "Update Dish Category") %>
+<% provide(:category_button_color, "red") %>
+
 <div class="row">
 	<div class="ui breadcrumb">
 	  <%= link_to "Menu Management", manage_recipes_url, class: "section" %>
@@ -8,11 +10,14 @@
 	</div>
 </div>
 
-<div class="row">
-	<%= render 'form' %>
-</div>
-<div class="row">
+<div class="one column row">
 	<div class="fluid column">
-		<%= render 'delete_button' %>
+		<%= render 'form' %>
+	</div>
+	<div class="fluid column">
+		<%= render 'shared/toggle_active_button', object: @dish_category, name: "Category" %>
+	</div>
+	<div class="fluid column">
+		<small>**Extreme Caution: Changing category status will affect all belonging menu items!</small>
 	</div>
 </div>
