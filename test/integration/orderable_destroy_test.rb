@@ -37,7 +37,7 @@ class OrderableDestroyTest < ActionDispatch::IntegrationTest
 
 	test 'successfully destroy associated addons_orderables' do
 		log_in_as @user
-		assert_difference 'AddonsOrderable.count', -4 do
+		assert_difference 'AddonsOrderable.count', -3 do
 			delete orderable_url(@orderable) 
 		end
 	end
