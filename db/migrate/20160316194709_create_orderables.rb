@@ -6,6 +6,7 @@ class CreateOrderables < ActiveRecord::Migration
 
     	t.decimal :unit_price, null: false
     	t.integer :quantity, default: 1, null: false
+    	t.integer :status, default: 0, null: false
 
       t.timestamps null: false
     end
