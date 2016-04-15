@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(version: 20160329122646) do
     t.string   "ownable_type"
     t.decimal  "unit_price",               null: false
     t.integer  "quantity",     default: 1, null: false
+    t.integer  "status",       default: 0, null: false
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
   end

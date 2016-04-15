@@ -52,14 +52,20 @@ class RecipesController < ApplicationController
 	def update
 		@recipe = Recipe.find(params[:id])
 		if params[:recipe][:active]
-			params[:recipe][:active] == "0" ? @recipe.update_attribute(:active, false) : @recipe.update_attribute(:active, true)
+			params[:recipe][:active] == "0" ? @recipe.disable : @recipe.activate
 			redirect_and_flash(manage_recipes_url, :success, "Menu item updated")
 		else
 			if @recipe.type == "Dish"
 				dish_category = DishCategory.find_by(id: params[:recipe][:dish_category_id])
 				@recipe.dish_category = dish_category if dish_category
 			end
-			@recipe.update_attributes(recipe_params) ? redirect_and_flash(manage_recipes_url, :success, "Menu item updated") : render('edit')
+
+			if @recipe.update_attributes(recipe_params)
+				@recipe.update_associated_orderables(:modified)
+				redirect_and_flash(manage_recipes_url, :success, "Menu item updated")
+			else
+				render 'edit'
+			end
 		end
 	end
 

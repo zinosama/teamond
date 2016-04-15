@@ -9,4 +9,13 @@ class Milktea < Recipe
 	def self.model_name
 		Recipe.model_name
 	end
+
+	def update_associated_orderables(status)
+		if status == :active || status == :modified
+			self.milktea_orderables.each{ |milktea_orderable| milktea_orderable.orderable.update_attribute(:status, 1) }
+		else
+			self.milktea_orderables.each{ |milktea_orderable| milktea_orderable.orderable.update_attribute(:status, 2) }
+		end
+	end
+	
 end
