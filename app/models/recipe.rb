@@ -8,9 +8,20 @@ class Recipe < ActiveRecord::Base
 	mount_uploader :image, PictureUploader
 	validate :picture_size
 
+	def activate
+		self.update_attribute(:active, true)
+		self.update_associated_orderables(:active)
+	end
+
+	def disable
+		self.update_attribute(:active, false)
+		self.update_associated_orderables(:disabled)
+	end
+
 	private
 
 	def picture_size
 		errors.add(:image, "should be less than 1MB") if image.size > 1.megabytes
 	end
+
 end

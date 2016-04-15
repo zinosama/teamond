@@ -6,7 +6,8 @@ class Orderable < ActiveRecord::Base
 	validates :unit_price, presence: true
 	validates :buyable_id, presence: true
 	validates :ownable_id, presence: true
-
+	validates :status, presence: true, numericality: true
+	
 	after_destroy :destroy_milktea
 
 	private 
