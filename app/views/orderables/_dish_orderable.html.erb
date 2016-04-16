@@ -4,9 +4,12 @@
 <td>
 	<div class="centerBlock">
 		<%= link_to dish.name, recipe_url(dish), class: "title" %>
-		<% unless dish.active %>
+		<% if orderable.status == 2 %>
 			<p class="error">(NO LONGER AVAILABLE)</p>
 			<% flash.now[:error]="Some item(s) in your cart is no longer available. Please remove to continue." %>
+		<% elsif orderable.status == 1 %>
+			<p class="warning">(ITEM INFO HAS CHANGED)</p>
+			<% flash.now[:warning] = "We have updated some item(s) in your cart. Please verify before purchasing." %>
 		<% end %>
 		<%= link_to semantic_icon("trash outline"), orderable_url(orderable), method: :delete , class:"ui icon button" %>
 	</div>
