@@ -24,7 +24,7 @@ class MilkteaAddonsController < ApplicationController
 	def update
 		@milktea_addon = MilkteaAddon.find(params[:id])
 		if params[:milktea_addon][:active]
-			params[:milktea_addon][:active] == "0" ? @milktea_addon.update_attribute(:active, false) : @milktea_addon.update_attribute(:active, true)
+			params[:milktea_addon][:active] == "0" ? @milktea_addon.disable : @milktea_addon.activate
 			redirect_and_flash(manage_recipes_url, :success, "Add-on Updated")
 		else
 			if @milktea_addon.update_attributes(milktea_addon_params)
