@@ -32,4 +32,8 @@ class MilkteaAddonTest < ActiveSupport::TestCase
 		assert_not @milktea_addon.valid?
 	end
 
+	test 'should have association with milktea orderable' do
+		@milktea_addon.save
+		assert_equal 0, @milktea_addon.milktea_orderables.size
+	end
 end
