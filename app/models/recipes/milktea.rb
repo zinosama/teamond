@@ -12,9 +12,9 @@ class Milktea < Recipe
 
 	def update_associated_orderables(status)
 		if status == :active || status == :modified
-			self.milktea_orderables.each{ |milktea_orderable| milktea_orderable.orderable.update_attribute(:status, 1) }
+			self.milktea_orderables.each{ |milktea_orderable| milktea_orderable.orderable.to_modified_status }
 		else
-			self.milktea_orderables.each{ |milktea_orderable| milktea_orderable.orderable.update_attribute(:status, 2) }
+			self.milktea_orderables.each{ |milktea_orderable| milktea_orderable.orderable.disable }
 		end
 	end
 	
