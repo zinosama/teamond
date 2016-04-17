@@ -3,7 +3,25 @@ class OrderablesController < ApplicationController
 	before_action :correct_user, only: [:update, :destroy]
 
 	def index
-		@orderables = current_user.orderables
+		@items = []
+		current_user.orderables.each do |orderable|
+			if orderable.status == 0
+				item = { orderable: orderable }
+			elsif orderable.status == 1
+				item = { orderable: orderable, msg: { msg: "Item info has changed!", class: "warning" } }
+				flash.now[:warning] = "We have updated some item(s) in your cart. Please verify before purchasing."
+			else
+				if orderable.buyable.is_a? Dish
+					item = { orderable: orderable, msg: { msg: "Item no longer available!", class: "error" } }
+				else
+					msg = orderable.buyable.milktea.active ? "One or more toppings is no longer available!" : "Item no longer available!"
+					item = { orderable: orderable, msg: { msg: msg, class: "error" } }
+				end
+				flash.now[:error] = "Some item(s) in your cart is no longer available. Please remove to continue."
+			end
+			@items.push(item)
+		end
+
 	end
 
 	def create
@@ -24,13 +42,16 @@ class OrderablesController < ApplicationController
 	end
 
 	def update
-		@orderable = Orderable.find(params[:id])
-		if @orderable.update( quantity: params[:orderable][:quantity] )
+		orderable = Orderable.find(params[:id])
+		if params[:status]
+			orderable.update_attribute(:status, 0) if orderable.status == 1
 			redirect_to cart_url
-			flash[:success] = "Quantity updated."
 		else
-			redirect_to cart_url
-			flash[:error] = "Quantity cannot be larger than 20"
+			if orderable.update( quantity: params[:orderable][:quantity] )
+				redirect_and_flash(cart_url, :success, "Quantity updated")
+			else
+				redirect_and_flash(cart_url, :error, "Quantity cannot be larger than 20")
+			end
 		end
 	end
 

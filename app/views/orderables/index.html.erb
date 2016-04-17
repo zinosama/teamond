@@ -1,36 +1,38 @@
 <% provide(:title, "Cart") %>
-
-<h1 class="ui title header">Shopping Cart</h1>
-<div class="row" id="cartView">
-	<table class="ui very basic table" id="shoppingCartTable">
-		<thead>
-			<tr>
-				<th class="four wide"></th>
-				<th class="five wide"></th>
-				<th class="three wide"></th>
-				<th class="four wide"></th>
-			</tr>
-		</thead>
-		<tbody>
-			<%= render @orderables %>
-		<tbody>
-	</table>
+<div class="centered row">
+	<div class="categoryTitle">Shopping Cart</div>
 </div>
-<div class="row">
-	<div class="ui buttons fluid">
-		<%= link_to menu_url, class: "ui labeled icon button" do %>
-	    Back to Shopping
-	    <%= semantic_icon "left chevron" %>
-	  <% end %>
 
-	  <div class="ui button active">
-	  	<%= semantic_icon :cocktail %>
-	    Estimate for Total: $ <%= current_user.cart_balance_before_tax %>
-	  </div>
+<div class="row" id="cartView">
+	<div class="ui container stackable grid" id="cartListing">
+		<% @items.each do |item| %>
+			<%= render 'orderable', item: item %>
+		<% end %>
+	</div>
+</div>
 
-    <%= link_to summary_url, class: "ui right labeled icon button", id: "checkoutButton" do %>
-	    Continue to Checkout
-	    <%= semantic_icon "right chevron" %>
-	  <% end %>
+
+<div class="centered row" style="margin-top: 1em; border-top: 1px solid #D4D4D4;">
+	<div class="ui tiny statistic">
+		<div class="label">
+			Subtotal Estimate:
+		</div>
+		<div class="value">
+			$ <%= current_user.cart_balance_before_tax %>
+		</div>	
+	</div>
+</div>
+
+<div class="row" id="cartCheckoutRow">
+	<div class="right aligned column">
+			<%= link_to menu_url, class: "ui labeled icon button" do %>
+		    Back to Shopping
+		    <%= semantic_icon "left chevron" %>
+		  <% end %>
+
+	    <%= link_to summary_url, class: "ui right labeled blue inverted icon button", id: "checkoutButton" do %>
+		    Continue to Checkout
+		    <%= semantic_icon "right chevron" %>
+		  <% end %>
 	</div>
 </div>

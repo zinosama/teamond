@@ -1,8 +1,7 @@
 $(document).ready(function(){
-  if($('.error').length > 0 && $('div.ui.error.message.column').length > 0){
+  if(($('.ui.error.message').length > 0 || $('.ui.warning.message').length > 0) && $('div.ui.message.column').length > 0){
     $('#checkoutButton').addClass('disabled');
   };
-
 
   $('div.ui.label.browse').popup({
     on : 'hover'

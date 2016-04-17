@@ -130,18 +130,11 @@ p.unactivatedUser, .unactivatedUser a{
 }
 
 /* shopping cart */
-#cartView{
-  min-height: 60vh;
-}
-#shoppingCartTable a.title{
-  color: #696969;
-  font-size: 1.2em;
-}
 
-#shoppingCartTable a + p {
-    margin-top: 0.5em;
-    font-size: 1.1em;
-    letter-spacing: 0.3px;
+#cartListing a.title{
+  color: #007EF1;
+  font-size: 1.1em;
+  letter-spacing: 0.05em;
 }
 
 .ui.input button input.linkInButton{
@@ -160,13 +153,22 @@ button a:hover{
 .ui.small.rounded.image.center{
   margin: 0 auto;
 }
-.centerBlock{
-  padding-left: 30%;
-}
+
 p.cartItemPrice{
-  font-size: 1.2em;
+    font-weight: 600;
+    font-size: 1.1em;
+    letter-spacing: 0.1em;
 }
 
+.ui.grid > div.row.itemRow{
+  border-top: 1px solid #D4D4D4;
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
+
+#cartCheckoutRow{
+  border-top: 1px solid #D4D4D4;
+}
 /* summary page */
 #paymentSummary p{
   width: 100%;
