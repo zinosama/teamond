@@ -223,14 +223,7 @@ class OrdersController < ApplicationController
 	end	
 
 	def contains_inactive_item?(orderables)
-		orderables.each do |orderable| 
-			if orderable.buyable_type == "MilkteaOrderable"
-				return true unless orderable.buyable.milktea.active
-				return true if orderable.buyable.milktea_addons.where("active = ?", false).size > 0
-			else
-				return true unless orderable.buyable.active
-			end
-		end
+		orderables.each{ |orderable| return true unless orderable.status == 0 }
 		false
 	end
 
