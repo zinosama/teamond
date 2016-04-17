@@ -14,7 +14,7 @@ class OrderablesController < ApplicationController
 				if orderable.buyable.is_a? Dish
 					item = { orderable: orderable, msg: { msg: "Item no longer available!", class: "error" } }
 				else
-					msg = orderable.buyable.milktea.active ? "One or more toppings is no longer available!" : "Item no longer available!"
+					msg = orderable.buyable.milktea.active ? "One or more toppings is no longer available! You can remove highlighted topping below." : "Item no longer available!"
 					item = { orderable: orderable, msg: { msg: msg, class: "error" } }
 				end
 				flash.now[:error] = "Some item(s) in your cart is no longer available. Please remove to continue."

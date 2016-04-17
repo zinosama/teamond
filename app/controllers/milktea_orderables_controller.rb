@@ -43,6 +43,7 @@ class MilkteaOrderablesController < ApplicationController
 		@milktea_orderable = MilkteaOrderable.find(params[:id])
 		if @milktea_orderable.update_attributes(milktea_orderable_params)
 			@milktea_orderable.orderable.update_attribute(:unit_price, @milktea_orderable.unit_price)
+			@milktea_orderable.orderable.to_modified_status(:skip_status_1_check)
 			redirect_to cart_url
 			flash[:success] = "Changes saved"
 		else
