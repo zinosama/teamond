@@ -1,42 +1,42 @@
-<td>
+<div class="four wide column">
 	<%= link_to image_tag( milktea.image, alt: "#{milktea.name} image", class: "ui small rounded image center"), recipe_url(milktea) %>
-</td>
-<td>
-	<div class="centerBlock">
-		<%= link_to(milktea.name, recipe_url(milktea), class: "title") %>
-		<p><%= "#{orderable.buyable.display_size} size, #{orderable.buyable.display_sweet_scale} sweet, #{orderable.buyable.display_temp_scale}" %></p>
+</div>
+
+<div class="five wide middle aligned column">
+		<div class="row" style="margin-bottom: 0.6em;">
+			<%= link_to(milktea.name, recipe_url(milktea), class: "title") %>
+		</div>
+		
+		<div class="row" style="margin-bottom: 0.7em;">
+			<span class="ui label"><%= "#{orderable.buyable.display_size} size" %></span>
+			<span class="ui label"><%= "#{orderable.buyable.display_sweet_scale} sweet"%></span>
+			<span class="ui label"><%= "#{orderable.buyable.display_temp_scale}" %></span>
+		</div>
+
 		<% if orderable.buyable.milktea_addons.any? %>
-			<p>Toppings:</p>
-			<ol class="ui list">
+			<div class="row" style="margin-bottom: 0.4em;">
+				Toppings:
+			</div>
+			<div class="row" style="margin-bottom: 0.7em;">
 				<% orderable.buyable.milktea_addons.each do |addon| %>
-					<% if addon.active %>
-						<li value=""><%= semantic_icon :checkmark %> <%= addon.name %></li>
-					<% else %>
-						<li value="" class="error"><%= semantic_icon :remove %> <%= addon.name %><br>(NO LONGER AVAILABLE)</li>
-						<% flash.now[:error]="Some item(s) in your cart is no longer available. Please remove to continue." %>
-					<% end %>
+					<div class="ui <%= 'red' unless addon.active %> label"> <%= addon.name %> </div>
 				<% end %>
-			</ol>
+			</div>
 		<% end %>
 		<%= link_to semantic_icon("write"), edit_milktea_orderable_url(orderable.buyable), class: "ui icon button" %>
 		<%= link_to semantic_icon("trash outline"), orderable_url(orderable), method: :delete , class:"ui icon button" %>
-	</div>
-</td>
-<td class="center aligned">
+</div>
+
+<div class="three wide middle aligned column">
 	<p class="cartItemPrice">$ <%= orderable.unit_price * orderable.quantity %></p>
-</td>
-<td>
-	<% unless milktea.active %>
-		<p class="error"><b>THIS ITEM IS NO LONGER AVAILABLE</b></p>
-		<% flash.now[:error]="Some item(s) in your cart is no longer available. Please remove to continue." %>
-	<% end %>
+</div>
+
+<div class="four wide middle aligned column">
+	<p>Quantity:</p>
 	<%= form_for orderable, html: { class: ["ui", "form"] } do |f| %>
-		<div class="field">
-			<%= f.label :quantity  %>
-			<div class="ui action input">
+			<div class="ui action input" style="width: 60px;">
 				<%= f.text_field :quantity %>
 				<button class="ui button"><%= f.submit "Update", class: "linkInButton" %></button>
 			</div>
-		</div>
 	<% end %>
-</td>
+</div>

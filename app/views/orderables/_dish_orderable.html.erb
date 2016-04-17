@@ -1,30 +1,24 @@
-<td>
+<div class="four wide column">
 	<%= link_to image_tag( dish.image, alt: "#{dish.name} image", class: "ui small rounded image center "), recipe_url(dish) %>
-</td>
-<td>
-	<div class="centerBlock">
+</div>
+
+<div class="five wide middle aligned column">
+	<div class="row" style="margin-bottom: 0.5em;">
 		<%= link_to dish.name, recipe_url(dish), class: "title" %>
-		<% if orderable.status == 2 %>
-			<p class="error">(NO LONGER AVAILABLE)</p>
-			<% flash.now[:error]="Some item(s) in your cart is no longer available. Please remove to continue." %>
-		<% elsif orderable.status == 1 %>
-			<p class="warning">(ITEM INFO HAS CHANGED)</p>
-			<% flash.now[:warning] = "We have updated some item(s) in your cart. Please verify before purchasing." %>
-		<% end %>
-		<%= link_to semantic_icon("trash outline"), orderable_url(orderable), method: :delete , class:"ui icon button" %>
 	</div>
-</td>
-<td class="center aligned">
-	<p class="cartItemPrice">$ <%= dish.price * orderable.quantity %></p>
-</td>
-<td>
+	<%= link_to semantic_icon("trash outline"), orderable_url(orderable), method: :delete , class:"ui icon button" %>
+</div>
+
+<div class="three wide middle aligned column">
+		<p class="cartItemPrice">$ <%= dish.price * orderable.quantity %></p>
+</div>
+
+<div class="four wide middle aligned column">
+	<p>Quantity:</p>
 	<%= form_for orderable, html: { class: ["ui", "form"] } do |f| %>
-		<div class="field">
-			<%= f.label :quantity  %>
-			<div class="ui action input">
+			<div class="ui action input" style="width: 60px;">
 				<%= f.text_field :quantity %>
 				<button class="ui button"><%= f.submit "Update", class: "linkInButton" %></button>
 			</div>
-		</div>
 	<% end %>
-</td>
+</div>

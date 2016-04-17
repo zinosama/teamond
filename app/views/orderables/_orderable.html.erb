@@ -1,9 +1,19 @@
-<% if orderable.buyable.is_a? Dish %>
-	<tr>
-		<%= render 'dish_orderable', dish: orderable.buyable, orderable: orderable %>
-	</tr>
-<% elsif orderable.buyable.is_a? MilkteaOrderable %>
-	<tr>
-		<%= render 'milktea_orderable', orderable: orderable, milktea: orderable.buyable.milktea %>
-	</tr>
-<% end %>
+<div class="row itemRow">
+	<% if item[:msg] %>
+		<div class="sixteen wide column" style="margin-bottom: 1em;">
+			<div class="ui <%=item[:msg][:class]%> message">
+				<% if item[:msg][:class] == "error" %>
+					<%= item[:msg][:msg] %> Please <%= link_to "click here", orderable_url(item[:orderable]), method: :delete %> to remove..
+				<% else %>
+					<%= item[:msg][:msg] %> Please <%= link_to "click here", orderable_url(item[:orderable], status: "0"), method: :patch %> to continue..
+				<% end %>
+			</div>
+		</div>
+	<% end %>
+
+	<% if item[:orderable].buyable.is_a? Dish %>
+			<%= render 'dish_orderable', dish: item[:orderable].buyable, orderable: item[:orderable], msg: item[:msg] %>
+	<% elsif item[:orderable].buyable.is_a? MilkteaOrderable %>
+			<%= render 'milktea_orderable', milktea: item[:orderable].buyable.milktea, orderable: item[:orderable], msg: item[:msg] %>
+	<% end %>
+</div>
