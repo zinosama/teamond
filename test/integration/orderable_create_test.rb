@@ -13,7 +13,7 @@ class OrderableCreateTest < ActionDispatch::IntegrationTest
 		get cart_url
 		assert_template 'orderables/index'
 		assert_select 'a', text: @dish.name, count: 0
-		assert_select 'div.ui.button.active', text: "Estimate for Total: $ 0.0", count: 1
+		assert_select 'div.value', text: "$ 0.0", count: 1
 
 		assert_difference 'Orderable.count', 1 do
 			post orderables_url, type: "dish", buyable_id: @dish.id
@@ -26,7 +26,7 @@ class OrderableCreateTest < ActionDispatch::IntegrationTest
 		#go to cart again
 		get cart_url
 		assert_select 'a', text: @dish.name, count: 1
-		assert_select 'div.ui.button.active', text: "Estimate for Total: $ #{@dish.price.to_f}", count: 1
+		assert_select 'div.value', text: "$ #{@dish.price.to_f}", count: 1
 
 		@dish.update_attribute(:active, false)
 		get cart_url

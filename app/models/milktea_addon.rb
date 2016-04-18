@@ -7,11 +7,11 @@ class MilkteaAddon < ActiveRecord::Base
 
 	def activate
 		self.update_attribute(:active, true)
-		self.milktea_orderables.each{ |milktea_orderable| milktea_orderable.orderable.to_modified_status }
+		self.milktea_orderables.each{ |milktea_orderable| milktea_orderable.orderable.to_modified_status if milktea_orderable.orderable }
 	end
 
 	def disable
 		self.update_attribute(:active, false)
-		self.milktea_orderables.each{ |milktea_orderable| milktea_orderable.orderable.disable }
+		self.milktea_orderables.each{ |milktea_orderable| milktea_orderable.orderable.disable if milktea_orderable.orderable }
 	end
 end

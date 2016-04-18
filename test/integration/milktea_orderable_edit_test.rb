@@ -17,7 +17,9 @@ class MilkteaOrderableEditTest < ActionDispatch::IntegrationTest
 		get cart_url
 		assert_select 'li', count: 0
 		assert_select 'p', text: "Toppings:", count: 0
-		assert_select 'p', text: "regular size, half sweet, less ice", count: 1
+		assert_select 'span.ui.label', text: "regular size", count: 1
+		assert_select 'span.ui.label', text: "half sweet", count: 1
+		assert_select 'span.ui.label', text: "less ice", count: 1
 		
 		#edit
 		get edit_milktea_orderable_url(@milktea_orderable)
@@ -34,9 +36,13 @@ class MilkteaOrderableEditTest < ActionDispatch::IntegrationTest
 		assert_equal(total.to_f, @milktea_orderable.orderable.reload.unit_price.to_f)
 
 		#after edit, in cart
-		assert_select 'li', count: 3
-		assert_select 'p', text: "Toppings:", count: 1
-		assert_select 'p', text: "large size, zero sweet, chill", count: 1
+		MilkteaAddon.where("active = ?", true).each do |addon|
+			assert_select 'div.ui.label', text: addon.name, count: 1
+		end
+		assert_select 'div.row', text: "Toppings:", count: 1
+		assert_select 'span.ui.label', text: "large size", count: 1
+		assert_select 'span.ui.label', text: "zero sweet", count: 1
+		assert_select 'span.ui.label', text: "chill", count: 1
 
 		#test destroy dependency for addons_orderable
 		assert_difference 'AddonsOrderable.count', -3 do
