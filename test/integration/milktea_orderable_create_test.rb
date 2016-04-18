@@ -62,8 +62,10 @@ class MilkteaOrderableCreateTest < ActionDispatch::IntegrationTest
 		assert_select 'a[href=?]', recipe_url(milktea_orderable.milktea), count: 2
 		assert_select 'a', text: milktea_orderable.milktea.name, count: 1
 		assert_select 'p', text: "$ #{total}", count: 1
-		assert_select 'li', count: 3
-		assert_select 'div.ui.button.active', text: "Estimate for Total: $ #{total}", count: 1
+		MilkteaAddon.where("active = ?", true).each do |addon|
+			assert_select 'div.ui.label', text: addon.name, count: 1
+		end
+		assert_select 'div.value', text: "$ #{total}", count: 1
 	end
 
 end

@@ -19,7 +19,7 @@
 			</div>
 			<div class="row" style="margin-bottom: 0.7em;">
 				<% orderable.buyable.milktea_addons.each do |addon| %>
-					<div class="ui <%= 'red' unless addon.active %> label"> <%= addon.name %> </div>
+					<div class="ui <%= 'red ' unless addon.active %>label"> <%= addon.name %> </div>
 				<% end %>
 			</div>
 		<% end %>
