@@ -31,7 +31,7 @@ class MilkteaOrderablesController < ApplicationController
 	end
 
 	def edit
-		@milktea_orderable = MilkteaOrderable.find_by(params[:id])
+		@milktea_orderable = MilkteaOrderable.find_by(id: params[:id])
 		unless @milktea_orderable
 			redirect_to menu_url
 			flash[:error] = "Unidentified item"
