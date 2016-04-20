@@ -28,7 +28,12 @@ class OrderablesController < ApplicationController
 		if params[:type] == "dish"
 			buyable = Dish.find_by(id: params[:buyable_id])
 			if buyable && buyable.active
-				Orderable.create!(buyable: buyable, ownable: current_user, quantity: 1, unit_price: buyable.price)
+				if orderable = Orderable.find_by(buyable: buyable, ownable: current_user)
+					quantity = orderable.quantity
+					orderable.update_attribute(:quantity, quantity + 1)
+				else
+					Orderable.create!(buyable: buyable, ownable: current_user, unit_price: buyable.price)
+				end
 				flash[:success] = "Item Added to Cart."
 				redirect_to menu_url
 			else
