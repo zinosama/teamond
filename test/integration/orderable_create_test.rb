@@ -18,15 +18,29 @@ class OrderableCreateTest < ActionDispatch::IntegrationTest
 		assert_difference 'Orderable.count', 1 do
 			post orderables_url, type: "dish", buyable_id: @dish.id
 		end
-
 		assert_redirected_to menu_url
 		follow_redirect!
-		assert_not flash.empty?
+		assert_not flash[:success].empty?
 
 		#go to cart again
 		get cart_url
-		assert_select 'a', text: @dish.name, count: 1
+		assert_select 'a.title', text: @dish.name, count: 1
+		assert_select 'input[value=?]', "1", count: 1
+		assert_select 'input[value=?]', "2", count: 0
 		assert_select 'div.value', text: "$ #{@dish.price.to_f}", count: 1
+
+		#add same item to cart again
+		assert_no_difference 'Orderable.count' do 
+			post orderables_url, type: "dish", buyable_id: @dish.id
+		end
+		assert_redirected_to menu_url
+		follow_redirect!
+		assert_not flash[:success].empty?
+
+		get cart_url
+		assert_select 'input[value=?]', "1", count: 0
+		assert_select 'input[value=?]', "2", count: 1
+		assert_select 'div.value', text: "$ #{2 * @dish.price.to_f}", count: 1
 	end
 
 	test 'invalid orderable' do
