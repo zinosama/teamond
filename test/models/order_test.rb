@@ -89,4 +89,20 @@ class OrderTest < ActiveSupport::TestCase
 		@order.delivery_time = nil
 		assert_not @order.valid?
 	end
+
+	test 'should have an issue status' do
+		@order.issue_status = nil
+		assert_not @order.valid?
+	end
+
+	test 'issue status should be larger than 0' do
+		@order.issue_status = -1
+		assert_not @order.valid?
+	end
+
+	test 'issue status should be less than 3' do
+		@order.issue_status = 4
+		assert_not @order.valid?
+	end
 end
+
