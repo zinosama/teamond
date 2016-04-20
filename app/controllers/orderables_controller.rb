@@ -47,7 +47,10 @@ class OrderablesController < ApplicationController
 			orderable.update_attribute(:status, 0) if orderable.status == 1
 			redirect_to cart_url
 		else
-			if orderable.update( quantity: params[:orderable][:quantity] )
+			if params[:orderable][:quantity] == "0"
+				orderable.destroy
+				redirect_and_flash(cart_url, :success, "Item removed")
+			elsif orderable.update( quantity: params[:orderable][:quantity] )
 				redirect_and_flash(cart_url, :success, "Quantity updated")
 			else
 				redirect_and_flash(cart_url, :error, "Quantity cannot be larger than 20")
