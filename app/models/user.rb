@@ -12,9 +12,11 @@ class User < ActiveRecord::Base
 	validates :password, presence: true, length: { minimum: 6 }, allow_nil: true #allows nil so that user can update without password. nil is checked in has_secure_password.
 	validates :wechat, allow_nil: true, length: { maximum: 50 }
 	validates :phone, allow_nil: true, length: { maximum: 25 }
-
+	validates :role, presence: true
+	
 	has_many :orders, dependent: :destroy
 	has_many :orderables, as: :ownable
+	belongs_to :role, :polymorphic => true
 
 	def item_count
 		self.orderables.count
