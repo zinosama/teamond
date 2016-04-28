@@ -19,6 +19,22 @@ class User < ActiveRecord::Base
 	has_many :orderables, as: :ownable
 	belongs_to :role, :polymorphic => true
 
+	def admin?
+		role_type == "Admin"
+	end
+
+	def shopper?
+		role_type == "Shopper"
+	end
+
+	def driver?
+		role_type == "Driver"
+	end
+
+	def provider?
+		role_type == "Provider"
+	end
+
 	def item_count
 		self.orderables.count
 	end
@@ -85,6 +101,7 @@ class User < ActiveRecord::Base
 	end
 	
 	private
+
 		def default_role
 			self.role = Shopper.create() unless role
 		end
