@@ -92,4 +92,22 @@ class UserTest < ActiveSupport::TestCase
 		assert @user.role.is_a? Shopper
 	end
 
+	test 'can be admin' do
+		@user.role = Admin.create
+		@user.save
+		assert @user.role.is_a? Admin
+	end
+
+	test 'can be driver' do
+		@user.role = Driver.create
+		@user.save
+		assert @user.role.is_a? Driver
+	end
+
+	test 'can be provider' do
+		store = Store.create(name: "store1", address: "address")
+		@user.role = Provider.create(store: store)
+		@user.save
+		assert @user.role.is_a? Provider
+	end
 end
