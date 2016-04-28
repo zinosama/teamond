@@ -24,12 +24,9 @@ ActiveRecord::Schema.define(version: 20160427195701) do
   add_index "addons_orderables", ["milktea_orderable_id"], name: "index_addons_orderables_on_milktea_orderable_id"
 
   create_table "admins", force: :cascade do |t|
-    t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
-
-  add_index "admins", ["user_id"], name: "index_admins_on_user_id"
 
   create_table "dish_categories", force: :cascade do |t|
     t.string   "name",                       null: false
@@ -39,12 +36,9 @@ ActiveRecord::Schema.define(version: 20160427195701) do
   end
 
   create_table "drivers", force: :cascade do |t|
-    t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
-
-  add_index "drivers", ["user_id"], name: "index_drivers_on_user_id"
 
   create_table "feedbacks", force: :cascade do |t|
     t.string   "title",                      null: false
@@ -152,13 +146,11 @@ ActiveRecord::Schema.define(version: 20160427195701) do
 
   create_table "providers", force: :cascade do |t|
     t.integer  "store_id"
-    t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   add_index "providers", ["store_id"], name: "index_providers_on_store_id"
-  add_index "providers", ["user_id"], name: "index_providers_on_user_id"
 
   create_table "recipes", force: :cascade do |t|
     t.string   "name",                             null: false
@@ -175,12 +167,9 @@ ActiveRecord::Schema.define(version: 20160427195701) do
   add_index "recipes", ["dish_category_id"], name: "index_recipes_on_dish_category_id"
 
   create_table "shoppers", force: :cascade do |t|
-    t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
-
-  add_index "shoppers", ["user_id"], name: "index_shoppers_on_user_id"
 
   create_table "stores", force: :cascade do |t|
     t.string   "name",       null: false
