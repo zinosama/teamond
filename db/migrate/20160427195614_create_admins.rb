@@ -1,7 +1,7 @@
 class CreateAdmins < ActiveRecord::Migration
   def change
     create_table :admins do |t|
-    	t.reference :user, index: true
+    	t.references :user, index: true
     	
       t.timestamps null: false
     end
