@@ -11,6 +11,7 @@ zino:
   activated: true
   activated_at: <%= Time.zone.now %>
   role: admin_one
+  role_type: "Admin"
 
 ed:
   name: edward han

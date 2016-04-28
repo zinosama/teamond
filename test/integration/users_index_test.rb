@@ -3,12 +3,11 @@ require 'test_helper'
 class UsersIndexTest < ActionDispatch::IntegrationTest
 
 	def setup
-		@user = users(:zino)
+		@admin = users(:zino)
 	end
 
 	test 'when admin, index including pagination' do
-		@user.update_attribute(:admin, true)
-		log_in_as @user
+		log_in_as @admin
 		get users_path
 		assert_template 'users/index'
 		assert_select "div.pagination"
