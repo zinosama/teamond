@@ -8,9 +8,9 @@ zino:
   email: zino@gmail.com
   phone: 378-42-78
   password_digest: <%= User.digest('password') %>
-  admin: true
   activated: true
   activated_at: <%= Time.zone.now %>
+  role: admin_one
 
 ed:
   name: edward han

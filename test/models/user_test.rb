@@ -85,4 +85,11 @@ class UserTest < ActiveSupport::TestCase
 		@user.wechat = "a" * 51
 		assert_not @user.valid?
 	end 
+
+	test 'role is default to shopper' do
+		@user.role = nil
+		@user.save
+		assert @user.role.is_a? Shopper
+	end
+
 end
