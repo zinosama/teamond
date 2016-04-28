@@ -1,5 +1,3 @@
 class Admin < ActiveRecord::Base
-	has_one :user, as: :role
-
-	validates :user, presence: true
+	include Roleable
 end

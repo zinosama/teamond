@@ -1,7 +1,6 @@
 class Provider < ActiveRecord::Base
-	has_one :user, as: :role
-	belongs_to :store
-
+	include Roleable
+	
 	validates :store, presence: true
-	validates :user, presence: true
+	belongs_to :store
 end

@@ -13,11 +13,12 @@ class User < ActiveRecord::Base
 	validates :password, presence: true, length: { minimum: 6 }, allow_nil: true #allows nil so that user can update without password. nil is checked in has_secure_password.
 	validates :wechat, allow_nil: true, length: { maximum: 50 }
 	validates :phone, allow_nil: true, length: { maximum: 25 }
-	validates :role, presence: true
-
+	validate :immutable_role
+	
 	has_many :orders, dependent: :destroy
 	has_many :orderables, as: :ownable
-	belongs_to :role, :polymorphic => true
+	belongs_to :role, :polymorphic => true, dependent: :destroy
+
 
 	def admin?
 		role_type == "Admin"
@@ -102,8 +103,12 @@ class User < ActiveRecord::Base
 	
 	private
 
+		def immutable_role
+			errors.add(:role_id, "Change of user role not allowed!") if (role_id_changed? || role_type_changed?) && persisted?
+		end
+
 		def default_role
-			self.role = Shopper.create() unless role
+			self.role = Shopper.create(user: self) unless role
 		end
 
 		def cart_balance
