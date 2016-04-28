@@ -86,9 +86,7 @@ class User < ActiveRecord::Base
 	
 	private
 		def default_role
-			unless role
-				self.role = Shopper.create()
-			end
+			self.role = Shopper.create() unless role
 		end
 
 		def cart_balance
