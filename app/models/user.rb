@@ -4,8 +4,7 @@ class User < ActiveRecord::Base
 	VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
 	has_secure_password
 
-	before_validation :default_role
-	before_save :downcase_email
+	before_save :downcase_email, :default_role
 	before_create :create_activation_digest
 
 	validates :name, presence: true, length: { maximum: 50 }
@@ -13,8 +12,8 @@ class User < ActiveRecord::Base
 	validates :password, presence: true, length: { minimum: 6 }, allow_nil: true #allows nil so that user can update without password. nil is checked in has_secure_password.
 	validates :wechat, allow_nil: true, length: { maximum: 50 }
 	validates :phone, allow_nil: true, length: { maximum: 25 }
-	validate :immutable_role
-	
+	validate :immutable_role?
+
 	has_many :orders, dependent: :destroy
 	has_many :orderables, as: :ownable
 	belongs_to :role, :polymorphic => true, dependent: :destroy
@@ -103,12 +102,15 @@ class User < ActiveRecord::Base
 	
 	private
 
-		def immutable_role
-			errors.add(:role_id, "Change of user role not allowed!") if (role_id_changed? || role_type_changed?) && persisted?
+		def immutable_role?
+			if persisted? && (role_id_changed? || role_type_changed?)
+				errors.add(:role_id, "Change of user role not allowed!")
+				false
+			end
 		end
 
 		def default_role
-			self.role = Shopper.create(user: self) unless role
+			self.role = Shopper.create!(user: self) if new_record? && role.nil? 
 		end
 
 		def cart_balance
