@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160329122646) do
+ActiveRecord::Schema.define(version: 20160427195701) do
 
   create_table "addons_orderables", force: :cascade do |t|
     t.integer  "milktea_orderable_id", null: false
@@ -23,11 +23,21 @@ ActiveRecord::Schema.define(version: 20160329122646) do
   add_index "addons_orderables", ["milktea_addon_id"], name: "index_addons_orderables_on_milktea_addon_id"
   add_index "addons_orderables", ["milktea_orderable_id"], name: "index_addons_orderables_on_milktea_orderable_id"
 
+  create_table "admins", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "dish_categories", force: :cascade do |t|
     t.string   "name",                       null: false
     t.boolean  "active",     default: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+  end
+
+  create_table "drivers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "feedbacks", force: :cascade do |t|
@@ -134,6 +144,14 @@ ActiveRecord::Schema.define(version: 20160329122646) do
     t.datetime "updated_at",    null: false
   end
 
+  create_table "providers", force: :cascade do |t|
+    t.integer  "store_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "providers", ["store_id"], name: "index_providers_on_store_id"
+
   create_table "recipes", force: :cascade do |t|
     t.string   "name",                             null: false
     t.string   "description",                      null: false
@@ -148,6 +166,18 @@ ActiveRecord::Schema.define(version: 20160329122646) do
 
   add_index "recipes", ["dish_category_id"], name: "index_recipes_on_dish_category_id"
 
+  create_table "shoppers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "stores", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.string   "address",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "name",                              null: false
     t.string   "email",                             null: false
@@ -155,16 +185,18 @@ ActiveRecord::Schema.define(version: 20160329122646) do
     t.string   "wechat"
     t.string   "password_digest",                   null: false
     t.string   "remember_digest"
-    t.boolean  "admin",             default: false
     t.string   "activation_digest"
     t.boolean  "activated",         default: false
     t.datetime "activated_at"
     t.string   "reset_digest"
     t.datetime "reset_sent_at"
+    t.integer  "role_id"
+    t.string   "role_type"
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["role_type", "role_id"], name: "index_users_on_role_type_and_role_id"
 
 end

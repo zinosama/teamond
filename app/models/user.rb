@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
 	VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
 	has_secure_password
 
+	before_validation :default_role
 	before_save :downcase_email
 	before_create :create_activation_digest
 
@@ -12,9 +13,27 @@ class User < ActiveRecord::Base
 	validates :password, presence: true, length: { minimum: 6 }, allow_nil: true #allows nil so that user can update without password. nil is checked in has_secure_password.
 	validates :wechat, allow_nil: true, length: { maximum: 50 }
 	validates :phone, allow_nil: true, length: { maximum: 25 }
+	validates :role, presence: true
 
 	has_many :orders, dependent: :destroy
 	has_many :orderables, as: :ownable
+	belongs_to :role, :polymorphic => true
+
+	def admin?
+		role_type == "Admin"
+	end
+
+	def shopper?
+		role_type == "Shopper"
+	end
+
+	def driver?
+		role_type == "Driver"
+	end
+
+	def provider?
+		role_type == "Provider"
+	end
 
 	def item_count
 		self.orderables.count
@@ -83,19 +102,23 @@ class User < ActiveRecord::Base
 	
 	private
 
-	def cart_balance
-		@sum ||= 0
-		self.orderables.each{ |orderable| @sum += orderable.unit_price * orderable.quantity } if @sum == 0
-		@sum
-	end
+		def default_role
+			self.role = Shopper.create() unless role
+		end
 
-	def downcase_email
-		self.email.downcase!
-	end
+		def cart_balance
+			@sum ||= 0
+			self.orderables.each{ |orderable| @sum += orderable.unit_price * orderable.quantity } if @sum == 0
+			@sum
+		end
 
-	def create_activation_digest
-		self.activation_token = User.new_token
-		self.activation_digest = User.digest(activation_token)
-	end
+		def downcase_email
+			self.email.downcase!
+		end
+
+		def create_activation_digest
+			self.activation_token = User.new_token
+			self.activation_digest = User.digest(activation_token)
+		end
 
 end
