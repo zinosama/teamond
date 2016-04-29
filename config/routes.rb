@@ -5,17 +5,31 @@ Rails.application.routes.draw do
   get 'questions' => 'static_pages#questions'
   get 'career' => 'static_pages#career'
 
+######User System#######
+  get 'login' => 'sessions#new'
+  post 'login' => 'sessions#create'
+  delete 'logout' => 'sessions#destroy'
+
   get 'signup' => 'users#new'
+  resources :account_activations, only: [:edit]
+  resources :password_resets, only: [:new, :create, :edit, :update]
   resources :users, except: [:new, :show, :destroy] do
     resources :orders, only: [:index]
   end
 
-  resources :account_activations, only: [:edit]
-  resources :password_resets, only: [:new, :create, :edit, :update]
+  resources :shoppers, only: [] do
+    resources :orderables, only: [:create]
+    resources :orders, only: [:create]
+    get 'cart' => 'orderables#index'
+    get 'checkout' => 'orders#new'
+  end
 
-  get 'login' => 'sessions#new'
-  post 'login' => 'sessions#create'
-  delete 'logout' => 'sessions#destroy'
+  resources :orderables, only: [:update, :destroy]
+  resources :orders, only: [:show, :update]
+  
+######Menu System#####
+  get 'milktea_orderables/new/:milktea_id' => 'milktea_orderables#new', as: :new_milktea_orderable
+  resources :milktea_orderables, only: [:create, :edit, :update]
 
   get 'menu' => 'recipes#index'
   resources :recipes, only: [:create, :show, :edit, :update] do 
@@ -25,15 +39,7 @@ Rails.application.routes.draw do
   resources :dish_categories, only: [:create, :edit, :update]
   resources :milktea_addons, only: [:create, :edit, :update]
 
-  get 'cart' => 'orderables#index'
-  resources :orderables, only: [:create, :update, :destroy]
-  
-  get 'milktea_orderables/new/:milktea_id' => 'milktea_orderables#new', as: :new_milktea_orderable
-  resources :milktea_orderables, only: [:create, :edit, :update]
-
-  get 'summary' => 'orders#new'
-  resources :orders, only: [:create, :show, :update]
-
+######Delivery System#####
   resources :pickup_locations, only: [:index, :create, :show, :edit, :update, :destroy] do
     resources :locations_times, only: [:create]  
     resources :orders, only: [:new, :create]
