@@ -1,7 +1,7 @@
 class OrderablesController < ApplicationController
 	before_action :logged_in_user
 	before_action :correct_user, only: [:update, :destroy]
-
+	# after_action :verify_authorized
 	def index
 		@items = []
 		current_user.orderables.each do |orderable|
@@ -25,6 +25,7 @@ class OrderablesController < ApplicationController
 	end
 
 	def create
+		authorize Orderable
 		if params[:type] == "dish"
 			buyable = Dish.find_by(id: params[:buyable_id])
 			if buyable && buyable.active
@@ -32,7 +33,7 @@ class OrderablesController < ApplicationController
 					quantity = orderable.quantity
 					orderable.update_attribute(:quantity, quantity + 1)
 				else
-					Orderable.create!(buyable: buyable, ownable: current_user, unit_price: buyable.price)
+					Orderable.create!(buyable: buyable, ownable: current_user.role, unit_price: buyable.price)
 				end
 				flash[:success] = "Item Added to Cart."
 				redirect_to menu_url

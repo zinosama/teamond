@@ -1,25 +1,32 @@
 <%= nav_link("Teamond", root_path) %>
 <%= nav_link("Menu", menu_path) %>
 <%= nav_link("Delivery", schedule_path) %>
+
 <% if is_computer %><div class="right menu"><% end %>
 	<% if logged_in? %>
-		
-		<%= link_to cart_path, class: "item #{ 'active' if request.env['PATH_INFO'].match(/\/cart/) }" do %>
-			Cart<div class="ui teal label"><%= current_user.item_count %></div>
-		<% end %>
-		
-		<% if current_user.admin? %>
-			<%= nav_link("Account", edit_user_path(current_user)) %>
+		<% case current_user.role_type %>
+		<% when "Admin" %>
 			<%= nav_link("Admin", user_orders_path(current_user)) %>
-		<% else %>
+			<%= nav_link("Account", edit_user_path(current_user)) %>
+
+		<% when "Shopper" %>
+			<%= link_to shopper_cart_path, class: "item #{ 'active' if request.env['PATH_INFO'].match(/\/cart/) }" do %>
+				Cart<div class="ui teal label"><%= current_user.role.item_count %></div>
+			<% end %>
 			<%= nav_link("Account", user_orders_path(current_user)) %>
+		
+		<% when "Provider" %>
+			<%= nav_link("Store Orders", "#") %>
+			<%= nav_link("Account", "#") %>
+		
+		<% when "Driver" %>
+			<%= nav_link("Deliveries", "#") %>
+			<%= nav_link("Account", "#") %>
 		<% end %>
+
 		<%= link_to "Log Out", logout_path, method: "delete", class: "item" %>
-
 	<% else %>
-
 		<%= nav_link("Sign Up", signup_path) %>
 		<%= nav_link("Log In", login_path) %>
-
 	<% end %>
 <% if is_computer %></div><% end %>

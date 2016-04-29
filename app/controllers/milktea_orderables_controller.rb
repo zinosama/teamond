@@ -13,7 +13,7 @@ class MilkteaOrderablesController < ApplicationController
 	def create
 		@milktea_orderable = MilkteaOrderable.new(milktea_orderable_params)
 		if @milktea_orderable.save
-			orderable = Orderable.new(ownable: current_user, buyable: @milktea_orderable, unit_price: @milktea_orderable.unit_price, quantity: 1)
+			orderable = Orderable.new(ownable: current_user.role, buyable: @milktea_orderable, unit_price: @milktea_orderable.unit_price, quantity: 1)
 			redirect_to menu_url
 			if orderable.save	
 				flash[:success] = "Milktea Added to Cart"
