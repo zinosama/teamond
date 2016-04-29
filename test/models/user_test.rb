@@ -109,4 +109,13 @@ class UserTest < ActiveSupport::TestCase
 		@user.save
 		assert @user.role.is_a? Provider
 	end
+
+	test 'role cannot be changed' do 
+		@user.save
+		assert @user.role.is_a? Shopper
+		assert_no_difference 'Admin.count' do
+			@user.role = Admin.create(user: @user)
+		end
+		assert_not @user.save
+	end
 end
