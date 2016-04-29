@@ -33,10 +33,6 @@ class User < ActiveRecord::Base
 		role_type == "Provider"
 	end
 
-	def item_count
-		self.orderables.count
-	end
-
 	def cart_balance_before_tax
 		cart_balance.round(2)
 	end
