@@ -1,6 +1,7 @@
 class Order < ActiveRecord::Base
-	belongs_to :user
-	has_many :orderables, as: :ownable
+	belongs_to :shopper
+	belongs_to :driver
+	has_many :orderables, as: :ownable, dependent: :destroy
 
 	validates :total, presence: true, numericality: { greater_than: 0 }
 	validates :payment_method, presence: true, numericality: { less_than_or_equal_to: 1, greater_than_or_equal_to: 0 }
@@ -9,7 +10,8 @@ class Order < ActiveRecord::Base
 	validates :recipient_wechat, length: { maximum: 50 }
 	validates :delivery_location, presence: true
 	validates :delivery_time, presence: true
-	validates :user, presence: true
+	validates :shopper, presence: true
+	validates :driver, presence: true
 	validates :satisfaction, numericality: { less_than_or_equal_to: 5, greater_than_or_equal_to: 0 }
 	validates :issue, length: { maximum: 255 }
 	validates :issue_status, presence: true, numericality: { less_than_or_equal_to: 3, greater_than_or_equal_to: 0 }

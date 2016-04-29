@@ -14,8 +14,6 @@ class User < ActiveRecord::Base
 	validates :phone, allow_nil: true, length: { maximum: 25 }
 	validate :immutable_role?
 
-	has_many :orders, dependent: :destroy
-	has_many :orderables, as: :ownable
 	belongs_to :role, :polymorphic => true, dependent: :destroy
 
 
