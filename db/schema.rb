@@ -119,12 +119,14 @@ ActiveRecord::Schema.define(version: 20160427195701) do
     t.string   "delivery_location",                null: false
     t.string   "delivery_instruction"
     t.datetime "delivery_time",                    null: false
-    t.integer  "user_id",                          null: false
+    t.integer  "shopper_id",                       null: false
+    t.integer  "driver_id",                        null: false
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
   end
 
-  add_index "orders", ["user_id"], name: "index_orders_on_user_id"
+  add_index "orders", ["driver_id"], name: "index_orders_on_driver_id"
+  add_index "orders", ["shopper_id"], name: "index_orders_on_shopper_id"
 
   create_table "pickup_locations", force: :cascade do |t|
     t.string   "name",                        null: false

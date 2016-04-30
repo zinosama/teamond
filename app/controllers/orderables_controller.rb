@@ -1,88 +1,80 @@
 class OrderablesController < ApplicationController
 	before_action :logged_in_user
-	before_action :correct_user, only: [:update, :destroy]
+	before_action :valid_user_param, only: [:index, :create]
+	before_action :verify_active_item, only: [:create]
 
+	before_action :valid_orderable, only: [:update, :destroy]
+	before_action :valid_quantity, only: [:update]
+
+	after_action :verify_policy_scoped, only: :index
+	after_action :verify_authorized, except: :index
+	
 	def index
-		@items = []
-		current_user.orderables.each do |orderable|
-			if orderable.status == 0
-				item = { orderable: orderable }
-			elsif orderable.status == 1
-				item = { orderable: orderable, msg: { msg: "Item info has changed!", class: "warning" } }
-				flash.now[:warning] = "We have updated some item(s) in your cart. Please verify before purchasing."
-			else
-				if orderable.buyable.is_a? Dish
-					item = { orderable: orderable, msg: { msg: "Item no longer available!", class: "error" } }
-				else
-					msg = orderable.buyable.milktea.active ? "One or more toppings is no longer available! You can remove highlighted topping below." : "Item no longer available!"
-					item = { orderable: orderable, msg: { msg: msg, class: "error" } }
-				end
-				flash.now[:error] = "Some item(s) in your cart is no longer available. Please remove to continue."
-			end
-			@items.push(item)
-		end
-
+		@items = policy_scope(Orderable)
 	end
 
 	def create
-		if params[:type] == "dish"
-			buyable = Dish.find_by(id: params[:buyable_id])
-			if buyable && buyable.active
-				if orderable = Orderable.find_by(buyable: buyable, ownable: current_user)
-					quantity = orderable.quantity
-					orderable.update_attribute(:quantity, quantity + 1)
-				else
-					Orderable.create!(buyable: buyable, ownable: current_user, unit_price: buyable.price)
-				end
-				flash[:success] = "Item Added to Cart."
-				redirect_to menu_url
-			else
-				flash[:error] = "Invalid Item. Please contact customer service for support."
-				redirect_to menu_url
-			end
+		raise InvalidBuyableForOrderableError unless params[:type] == "dish"
+		authorize Orderable
+		if orderable = Orderable.find_by(buyable: @buyable, ownable: @shopper)
+			orderable.increment!(:quantity)
 		else
-			flash[:error] = "Invalid request. Please contact customer service."
-			redirect_to menu_url
+			Orderable.create!(buyable: @buyable, ownable: @shopper, unit_price: @buyable.price)
 		end
+		redirect_and_flash(menu_url, :success, "Item Added to Cart")
+	rescue Exceptions::InvalidBuyableForOrderableError
+		redirect_and_flash(menu_url, :error, "Invalid request. Please contact customer service")
 	end
 
 	def update
-		orderable = Orderable.find(params[:id])
+		authorize @orderable
 		if params[:status]
-			orderable.update_attribute(:status, 0) if orderable.status == 1
-			redirect_to cart_url
+			@orderable.update_attribute(:status, 0) if @orderable.status == 1
+			redirect_to shopper_cart_url(@orderable.ownable)
 		else
-			if params[:orderable][:quantity] == "0"
-				orderable.destroy
-				redirect_and_flash(cart_url, :success, "Item removed")
-			elsif orderable.update( quantity: params[:orderable][:quantity] )
-				redirect_and_flash(cart_url, :success, "Quantity updated")
-			else
-				redirect_and_flash(cart_url, :error, "Quantity cannot be larger than 20")
+			if @quantity <= 0
+				@orderable.destroy
+				redirect_and_flash(shopper_cart_url(@orderable.ownable), :success, "Item removed")
+			else @orderable.update_attribute(:quantity, @quantity)
+				redirect_and_flash(shopper_cart_url(@orderable.ownable), :success, "Quantity updated")
 			end
 		end
 	end
 
 	def destroy
-		orderable = Orderable.find(params[:id])
-		orderable.destroy
-		redirect_to cart_url
-		flash[:success] = "Item removed"
+		authorize @orderable
+		@orderable.destroy
+		redirect_and_flash(shopper_cart_url(@orderable.ownable), :success, "Item removed")
 	end
 
 	private 
 
-	def correct_user
-		orderable = Orderable.find(params[:id])
-		if orderable.ownable.is_a? User
-			user = orderable.ownable
-			unless user == current_user
-				redirect_to cart_url
-				flash[:error] = "Unauthorized request"
-			end
-		else
-			redirect_to cart_url
-			flash[:error] = "Unauthorized request."
+		def valid_user_param
+			@shopper = Shopper.find(params[:shopper_id])
+			redirect_and_flash(menu_url, :error, "Unauthorized request") unless current_user.role == @shopper
+		rescue ActiveRecord::RecordNotFound
+			redirect_and_flash(menu_url, :error, "Invalid request")
 		end
-	end
+
+		def verify_active_item
+			@buyable = Dish.find(params[:buyable_id])
+			raise Exceptions::InactiveRecipe unless @buyable.active
+		rescue ActiveRecord::RecordNotFound
+			redirect_and_flash(menu_url, :error, "Invalid item. Please contact customer service")
+		rescue Exceptions::InactiveRecipeError
+			redirect_and_flash(menu_url, :error, "Inactive item. Please contact customer service")
+		end
+
+		def valid_orderable
+			@orderable = Orderable.find(params[:id])
+		rescue ActiveRecord::RecordNotFound
+			redirect_and_flash(menu_url, :error, "Invalid request")
+		end
+
+		def valid_quantity
+			shopper = @orderable.ownable
+			@quantity = params[:orderable][:quantity].to_i if params[:orderable][:quantity]
+			redirect_and_flash(shopper_cart_url(shopper), :error, "Quantity cannot be larger than 20") if (@quantity && @quantity > 20)
+		end
+
 end

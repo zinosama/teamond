@@ -18,7 +18,7 @@
 			Subtotal Estimate:
 		</div>
 		<div class="value">
-			$ <%= current_user.cart_balance_before_tax %>
+			$ <%= @shopper.cart_balance_before_tax %>
 		</div>	
 	</div>
 </div>
@@ -30,7 +30,7 @@
 		    <%= semantic_icon "left chevron" %>
 		  <% end %>
 
-	    <%= link_to summary_url, class: "ui right labeled blue inverted icon button", id: "checkoutButton" do %>
+	    <%= link_to shopper_checkout_url(@shopper), class: "ui right labeled blue inverted icon button", id: "checkoutButton" do %>
 		    Continue to Checkout
 		    <%= semantic_icon "right chevron" %>
 		  <% end %>

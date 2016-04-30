@@ -14,8 +14,6 @@ class User < ActiveRecord::Base
 	validates :phone, allow_nil: true, length: { maximum: 25 }
 	validate :immutable_role?
 
-	has_many :orders, dependent: :destroy
-	has_many :orderables, as: :ownable
 	belongs_to :role, :polymorphic => true, dependent: :destroy
 
 
@@ -33,26 +31,6 @@ class User < ActiveRecord::Base
 
 	def provider?
 		role_type == "Provider"
-	end
-
-	def item_count
-		self.orderables.count
-	end
-
-	def cart_balance_before_tax
-		cart_balance.round(2)
-	end
-
-	def cart_balance_tax
-		(cart_balance_before_tax * 0.08).round(2)
-	end	
-
-	def cart_balance_after_tax
-		cart_balance_before_tax + cart_balance_tax
-	end
-
-	def cart_balance_after_tax_in_penny
-		cart_balance_after_tax * 100.to_i
 	end
 
 	def self.digest(input_string)
@@ -111,12 +89,6 @@ class User < ActiveRecord::Base
 
 		def default_role
 			self.role = Shopper.create!(user: self) if new_record? && role.nil? 
-		end
-
-		def cart_balance
-			@sum ||= 0
-			self.orderables.each{ |orderable| @sum += orderable.unit_price * orderable.quantity } if @sum == 0
-			@sum
 		end
 
 		def downcase_email

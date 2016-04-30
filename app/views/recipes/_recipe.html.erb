@@ -9,6 +9,6 @@
 	<% if recipe.is_a? Milktea %>
 		<%= link_to semantic_icon("add to cart circular"), new_milktea_orderable_path(recipe), class: "menuButton" %>
 	<% else %>
-		<%= link_to semantic_icon("add to cart circular"), orderables_path(type: "dish", buyable_id: recipe.id), class: "menuButton", method: :post %>
+		<%= link_to semantic_icon("add to cart circular"), shopper_orderables_path(shopper_id: current_user.role_id, type: "dish", buyable_id: recipe.id), class: "menuButton", method: :post %>
 	<% end %>
 </div>
