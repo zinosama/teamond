@@ -1,7 +1,7 @@
 class OrderablesController < ApplicationController
 	before_action :logged_in_user
 	before_action :valid_user_param, only: [:index, :create]
-	before_action :verify_active_item, only: [:create]
+	before_action :valid_buyable, only: [:create]
 
 	before_action :valid_orderable, only: [:update, :destroy]
 	before_action :valid_quantity, only: [:update]
@@ -14,7 +14,6 @@ class OrderablesController < ApplicationController
 	end
 
 	def create
-		raise InvalidBuyableForOrderableError unless params[:type] == "dish"
 		authorize Orderable
 		if orderable = Orderable.find_by(buyable: @buyable, ownable: @shopper)
 			orderable.increment!(:quantity)
@@ -56,9 +55,12 @@ class OrderablesController < ApplicationController
 			redirect_and_flash(menu_url, :error, "Invalid request")
 		end
 
-		def verify_active_item
+		def valid_buyable
+			raise Exceptions::InvalidBuyableForOrderableError unless params[:type] == "dish"
 			@buyable = Dish.find(params[:buyable_id])
-			raise Exceptions::InactiveRecipe unless @buyable.active
+			raise Exceptions::InactiveRecipeError unless @buyable.active
+		rescue Exceptions::InvalidBuyableForOrderableError
+			redirect_and_flash(menu_url, :error, "Invalid request. Please contact customer service")
 		rescue ActiveRecord::RecordNotFound
 			redirect_and_flash(menu_url, :error, "Invalid item. Please contact customer service")
 		rescue Exceptions::InactiveRecipeError

@@ -13,6 +13,24 @@ zino:
   role: admin_one
   role_type: "Admin"
 
+driver:
+  name: driver
+  email: driver@gmail.com
+  password_digest: <%= User.digest('password') %>
+  activated: true
+  activated_at: <%= Time.zone.now %>
+  role: driver_one
+  role_type: "Driver"
+
+provider:
+  name: provider
+  email: provider@gmail.com
+  password_digest: <%= User.digest('password') %>
+  activated: true
+  activated_at: <%= Time.zone.now %>
+  role: provider_one
+  role_type: "Provider"
+
 ed:
   name: edward han
   email: edward@gmail.com
@@ -20,6 +38,8 @@ ed:
   password_digest: <%= User.digest('password') %>
   activated: true
   activated_at: <%= Time.zone.now %>
+  role: shopper_one
+  role_type: "Shopper"
 
 lana:
   name: Lana Kane
