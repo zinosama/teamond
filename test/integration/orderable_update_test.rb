@@ -3,18 +3,19 @@ require 'test_helper'
 class OrderableUpdateTest < ActionDispatch::IntegrationTest
 
 	def setup
-		@user = users(:zino)
+		@shopper = users(:ed)
+
 		@orderable = orderables(:orderable1)
 		@milktea_orderable = milktea_orderables(:milktea_orderable1)
 		
-		@orderable.ownable = @user
+		@orderable.ownable = @shopper.role
 		@orderable.buyable = @milktea_orderable
 		@orderable.save
 	end
 
 	test 'successful update' do
-		log_in_as @user
-		get cart_url
+		log_in_as @shopper
+		get shopper_cart_url(@shopper.role)
 		assert_template 'orderables/index'
 
 		assert_select 'a.title', text: @milktea_orderable.milktea.name, count: 1
@@ -26,9 +27,9 @@ class OrderableUpdateTest < ActionDispatch::IntegrationTest
 		assert_select 'div.value', text: "$ #{@orderable.unit_price}", count: 1
 
 		patch orderable_url(@orderable), orderable: { quantity: "2" }
-		assert_redirected_to cart_url
-		assert_not flash[:success].empty?
+		assert_redirected_to shopper_cart_url(@shopper.role)
 		follow_redirect!
+		assert_not flash[:success].empty?
 
 		assert_equal 2, @orderable.reload.quantity
 		assert_select 'input[value = "2"]', count: 1
@@ -39,7 +40,7 @@ class OrderableUpdateTest < ActionDispatch::IntegrationTest
 
 		#set quantity to 0
 		patch orderable_url(@orderable), orderable: { quantity: "0" }
-		assert_redirected_to cart_url
+		assert_redirected_to shopper_cart_url(@shopper.role)
 		follow_redirect!
 		assert_not flash[:success].empty?
 		assert_select 'a.title', text: @milktea_orderable.milktea.name, count: 0
@@ -47,19 +48,29 @@ class OrderableUpdateTest < ActionDispatch::IntegrationTest
 	end
 
 	test 'unsuccessful update' do
-		log_in_as @user
-		get cart_url
+		log_in_as @shopper
+		get shopper_cart_url(@shopper.role)
 
 		assert_select 'input[value="1"]', count: 1
 		assert_select 'input[value = "2"]', count: 0
 
 		patch orderable_url(@orderable), orderable: { quantity: 21 }
-		assert_redirected_to cart_url
+		assert_redirected_to shopper_cart_url(@shopper.role)
 		follow_redirect!
 
-		assert_not flash.empty?
+		assert_equal "Quantity cannot be larger than 20", flash[:error]
 		assert_equal 1, @orderable.reload.quantity
-		assert_select 'input[value = "2"]', count: 0
 		assert_select 'input[value="1"]', count: 1
+		assert_select 'input[value = "2"]', count: 0
+	end
+
+	test 'cannot update orderable of other shoppers' do
+		shopper2 = users(:shopper2)
+		log_in_as shopper2
+
+		patch orderable_url(@orderable), orderable: { quantity: 2 }
+		assert_redirected_to menu_url
+		follow_redirect!
+		assert_equal "Access denied", flash[:error]
 	end
 end
