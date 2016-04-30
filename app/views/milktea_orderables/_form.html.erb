@@ -5,7 +5,7 @@
 			<p><%= @milktea.name %> - $<%= @milktea.price %> (standard)</p>
 		</div>
 		<div class="sixteen wide column">
-			<%= form_for @milktea_orderable, html: { class: ["ui", "form"], id: "newMilkteaOrderableForm" } do |f| %>
+			<%= form_for @milktea_orderable, url: yield("form_route"), html: { class: ["ui", "form"], id: "newMilkteaOrderableForm" } do |f| %>
 				<%= render 'shared/error_msgs', object: f.object %>
 
 				<div class="field">
