@@ -4,9 +4,9 @@ class OrderableCreateTest < ActionDispatch::IntegrationTest
 
 	def setup
 		@admin = users(:zino)
+		@shopper = users(:ed)
 		@provider = users(:provider)
 		@driver = users(:driver)
-		@shopper = users(:ed)
 
 		@dish = recipes(:dish1)
 		@milktea = recipes(:milktea1)
@@ -78,6 +78,17 @@ class OrderableCreateTest < ActionDispatch::IntegrationTest
 		assert_redirected_to menu_url
 		follow_redirect!
 		assert_equal "Inactive item. Please contact customer service", flash[:error]
+	end
+
+	test 'cannot add to cart of other shopper' do
+		shopper2 = users(:shopper2)
+		log_in_as shopper2
+		assert_no_difference 'Orderable.count' do 
+			post shopper_orderables_url(@shopper.role), type: "dish", buyable_id: @dish.id
+		end
+		assert_redirected_to menu_url
+		follow_redirect!
+		assert_equal "Unauthorized request", flash[:error]
 	end
 
 	private
