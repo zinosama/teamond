@@ -1,51 +1,40 @@
 class MilkteaOrderablesController < ApplicationController
+	include ShopperValidations #contains valid_user
 	before_action :logged_in_user
-	before_action :correct_user, only: [:edit, :update]
+	before_action :valid_milktea, only: [:new, :create]
+	before_action :valid_user, only: [:create]
+	
+	before_action :valid_milktea_orderable, only: [:edit, :update]
+	after_action :verify_authorized
 
 	def new
-		@milktea = Milktea.find_by(id: params[:milktea_id])
-		unless @milktea && @milktea.active
-			redirect_and_flash(menu_url, :error, "Error loading selected milktea")
-		end
+		authorize MilkteaOrderable
 		@milktea_orderable = MilkteaOrderable.new
 	end
 
 	def create
+		authorize MilkteaOrderable
 		@milktea_orderable = MilkteaOrderable.new(milktea_orderable_params)
+		@milktea_orderable.milktea = @milktea
 		if @milktea_orderable.save
-			orderable = Orderable.new(ownable: current_user.role, buyable: @milktea_orderable, unit_price: @milktea_orderable.unit_price, quantity: 1)
-			redirect_to menu_url
-			if orderable.save	
-				flash[:success] = "Milktea Added to Cart"
-			else
-				flash[:error] = "Error! Please login again. Contact customer service if error persists!"
-			end
-		else
-			@milktea = Milktea.find_by(id: params[:milktea_orderable][:milktea_id])
-			if @milktea && @milktea.active
-				render "new"
-			else
-				redirect_and_flash(menu_url, :error, "Invalid milktea submitted")
-			end
+			orderable = Orderable.create!(ownable: @shopper, buyable: @milktea_orderable, unit_price: @milktea_orderable.unit_price, quantity: 1)
+			redirect_and_flash(menu_url, :success, "Milktea added to cart")
+		else 
+			render 'new'
 		end
 	end
 
 	def edit
-		@milktea_orderable = MilkteaOrderable.find_by(id: params[:id])
-		unless @milktea_orderable
-			redirect_to menu_url
-			flash[:error] = "Unidentified item"
-		end
+		authorize @milktea_orderable
 		@milktea = @milktea_orderable.milktea
 	end
 
 	def update
-		@milktea_orderable = MilkteaOrderable.find(params[:id])
+		authorize @milktea_orderable
 		if @milktea_orderable.update_attributes(milktea_orderable_params)
 			@milktea_orderable.orderable.update_attribute(:unit_price, @milktea_orderable.unit_price)
 			@milktea_orderable.orderable.to_modified_status(:skip_status_1_check)
-			redirect_to cart_url
-			flash[:success] = "Changes saved"
+			redirect_and_flash(shopper_cart_url(@milktea_orderable.orderable.ownable), :success, "Changes saved")
 		else
 			@milktea = @milktea_orderable.milktea
 			render 'edit'
@@ -54,22 +43,23 @@ class MilkteaOrderablesController < ApplicationController
 
 	private
 
-	def milktea_orderable_params
-		params.require(:milktea_orderable).permit(:sweet_scale, :temp_scale, :size, :milktea_id, milktea_addon_ids: [])
-	end
-
-	def correct_user
-		orderable = MilkteaOrderable.find(params[:id]).orderable
-		if orderable.ownable.is_a? User
-			user = orderable.ownable
-			unless user == current_user
-				redirect_to cart_url
-				flash[:error] = "Unauthorized request"
-			end
-		else
-			redirect_to cart_url
-			flash[:error] = "Unauthorized request."
+		def milktea_orderable_params
+			params.require(:milktea_orderable).permit(:sweet_scale, :temp_scale, :size, milktea_addon_ids: [])
 		end
-	end
+
+		def valid_milktea
+			@milktea = Milktea.find(params[:milktea_id])
+			raise Exceptions::InactiveRecipeError unless @milktea.active
+		rescue ActiveRecord::RecordNotFound
+			redirect_and_flash(menu_url, :error, "Invalid milktea. Please contact customer service")
+		rescue Exceptions::InactiveRecipeError
+			redirect_and_flash(menu_url, :error, "Inactive milktea. Please contact customer service")
+		end
+
+		def valid_milktea_orderable
+			@milktea_orderable = MilkteaOrderable.find(params[:id])
+		rescue ActiveRecord::RecordNotFound
+			redirect_and_flash(menu_url, :error, "Invalid milktea item. Please contact customer service")
+		end
 
 end

@@ -1,6 +1,7 @@
 class OrderablesController < ApplicationController
+	include ShopperValidations #contains valid_user
 	before_action :logged_in_user
-	before_action :valid_user_param, only: [:index, :create]
+	before_action :valid_user, only: [:index, :create]
 	before_action :valid_buyable, only: [:create]
 
 	before_action :valid_orderable, only: [:update, :destroy]
@@ -47,13 +48,6 @@ class OrderablesController < ApplicationController
 	end
 
 	private 
-
-		def valid_user_param
-			@shopper = Shopper.find(params[:shopper_id])
-			redirect_and_flash(menu_url, :error, "Unauthorized request") unless current_user.role == @shopper
-		rescue ActiveRecord::RecordNotFound
-			redirect_and_flash(menu_url, :error, "Invalid request")
-		end
 
 		def valid_buyable
 			raise Exceptions::InvalidBuyableForOrderableError unless params[:type] == "dish"

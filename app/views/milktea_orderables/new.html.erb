@@ -1,5 +1,6 @@
 <% provide(:title, "Customize Milktea") %>
 <% provide(:button_text, "Add to cart") %>
+<% provide(:form_route, shopper_milktea_orderables_path(current_user.role)) %>
 
 <h1 class="ui header title">Customize Your Milktea</h1>
 <%= render 'form' %>

@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   end
 
   resources :shoppers, only: [] do
+    resources :milktea_orderables, only: [:create]
     resources :orderables, only: [:create]
     resources :orders, only: [:create]
     get 'cart' => 'orderables#index'
@@ -28,8 +29,12 @@ Rails.application.routes.draw do
   resources :orders, only: [:show, :update]
   
 ######Menu System#####
-  get 'milktea_orderables/new/:milktea_id' => 'milktea_orderables#new', as: :new_milktea_orderable
-  resources :milktea_orderables, only: [:create, :edit, :update]
+  # get 'milkteas/:milktea_id/milktea_orderables/new' => 'milktea_orderables#new', as: :new_milktea_orderable
+  resources :milkteas, only: [] do
+    resources :milktea_orderables, only: [:new]
+  end
+  
+  resources :milktea_orderables, only: [:edit, :update]
 
   get 'menu' => 'recipes#index'
   resources :recipes, only: [:create, :show, :edit, :update] do 
