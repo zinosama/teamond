@@ -29,5 +29,6 @@ module Teamond
 
     config.autoload_paths += %W(#{config.root}/app/models/recipes)
     config.autoload_paths += %W(#{config.root}/app/models/roles)
+    config.autoload_paths += %W(#{config.root}/lib/assets)
   end
 end
