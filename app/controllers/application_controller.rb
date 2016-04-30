@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
 
   def user_not_authorized
   	flash[:error] = "Access denied"
-  	redirect_to (request.referrer || root_url)
+  	redirect_to (request.referrer || menu_url)
   end
 
 	def logged_in_user
