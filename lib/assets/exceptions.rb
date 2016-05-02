@@ -12,4 +12,9 @@ module Exceptions
 		end
 	end
 	
+	class InactiveDeliveryLocationError < StandardError
+		def initialize(msg = "Delivery location is not active.")
+			super
+		end
+	end
 end

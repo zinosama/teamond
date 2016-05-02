@@ -4,14 +4,22 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-orderable1:
-  ownable: zino
-  buyable: dish1
-  quantity: 1
-  unit_price: 2.1
+# orderable1:
+#   ownable: zino
+#   buyable: dish1
+#   quantity: 1
+#   unit_price: 2.1
 
-orderable2:
-  ownable: zino
-  buyable: milktea_orderable1
+# orderable2:
+#   ownable: zino
+#   buyable: milktea_orderable1
+#   quantity: 1
+#   unit_price: 2.3
+
+one:
+  ownable: shopper_one
+  ownable_type: "Shopper"
+  buyable: milktea_orderable2
+  buyable_type: "MilkteaOrderable"
   quantity: 1
   unit_price: 2.3

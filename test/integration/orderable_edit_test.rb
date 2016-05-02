@@ -1,16 +1,11 @@
 require 'test_helper'
 
-class OrderableUpdateTest < ActionDispatch::IntegrationTest
+class OrderableEditTest < ActionDispatch::IntegrationTest
 
 	def setup
 		@shopper = users(:ed)
-
-		@orderable = orderables(:orderable1)
-		@milktea_orderable = milktea_orderables(:milktea_orderable1)
-		
-		@orderable.ownable = @shopper.role
-		@orderable.buyable = @milktea_orderable
-		@orderable.save
+		@orderable = orderables(:one)
+		@milktea_orderable = @orderable.buyable
 	end
 
 	test 'successful update' do

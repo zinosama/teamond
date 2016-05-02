@@ -9,3 +9,9 @@ milktea_orderable1:
   temp_scale: 1
   size: 0
   milktea: milktea1
+
+milktea_orderable2:
+  sweet_scale: 2
+  temp_scale: 1
+  size: 0
+  milktea: milktea1
