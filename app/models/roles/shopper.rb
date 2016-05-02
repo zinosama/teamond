@@ -16,6 +16,10 @@ class Shopper < ActiveRecord::Base
 		user.wechat
 	end
 
+	def email
+		user.email
+	end
+
 	def invalid_orderables?
 		orderables.where.not(status: 0).any?
 	end
