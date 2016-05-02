@@ -48,9 +48,9 @@ class OrdersController < ApplicationController #this controller uses current_use
 	def create
 		case @instruction
 		when "ready to place order"
-			order_generator = OrderGenerator.new(??)
+			order_generator = OrderGenerator.new(order_params_create, @locations_time, params[:stripeToken], @shopper)
 			if order_generator.place_order
-				redirect_to #order_url(order_generator.order)
+				redirect_to order_url(order_generator.order)
 			else
 				@template = "orders/checkout_templates/recipient_info"
 				flash.now[:error] = order_generator.payment_error if order_generator.cause_of_failure == "payment failure"
@@ -60,41 +60,9 @@ class OrdersController < ApplicationController #this controller uses current_use
 		when "locations_time posted"
 			redirect_to new_locations_time_order_url(@locations_time)
 		when "pickup_location posted"
-			redirect_to new_pickup_location_order_url(@location)
+			redirect_to new_pickup_location_order_url(@pickup_location)
 		end
 	end
-
-	
-	# 	if params[:pickup_location_id]
-	# 		location = PickupLocation.find(params[:pickup_location_id])
-	# 		raise Exceptions::InactiveDeliveryLocationError unless location.active?
-	# 		redirect_to new_pickup_location_order_url(location)
-	# 	rescue ActiveRecord::RecordNotFound
-	# 		redirect_and_flash(shopper_checkout_url(@shopper), :error, "Invalid location")
-	# 	rescue Exceptions::InactiveDeliveryLocationError
-	# 		redirect_and_flash(shopper_checkout_url(@shopper), :error, "Inactive location")
-	# 	end
-
-
-	# 	elsif got_all_info?(params[:locations_time_id], params[:order])
-
-	# 		@locations_time = LocationsTime.find_by(id: params[:locations_time_id])
-	# 		@template = 'orders/checkout_templates/recipient_info'
-	# 		verify_info_and_create_order(@locations_time, params[:stripeToken])
-
-	# 	elsif got_time?(params[:locations_time_id])
-
-	# 		association_id = params[:locations_time_id]
-	# 		route_params = {
-	# 			object: LocationsTime.find_by(id: association_id),
-	# 			from_url: new_pickup_location_order_url(association_id),
-	# 			to_url: new_locations_time_order_url(association_id),
-	# 			error_msg: "Unidentified delivery time"
-	# 		}
-	# 		verify_and_redirect(route_params)
-		
-	# 	end 
-	# end
 
 	def show 
 		@order = Order.find_by(id: params[:id])
@@ -147,17 +115,27 @@ class OrdersController < ApplicationController #this controller uses current_use
 			elsif params[:locations_time_id]
 				@instruction = request.get? ? "recipient info needed" : "locations_time posted"
 				@locations_time = LocationsTime.find(params[:locations_time_id])
+				raise Exceptions::InactiveDeliveryLocationError unless @locations_time.pickup_location.active?
 			elsif params[:pickup_location_id]
 				@instruction = request.get? ? "locations_time needed" : "pickup_location posted"
 				@pickup_location = PickupLocation.find(params[:pickup_location_id])
+				raise Exceptions::InactiveDeliveryLocationError unless @pickup_location.active?
 			else
 				@instruction = "pickup_location needed"
 			end	
 		rescue ActiveRecord::RecordNotFound
 			redirect_and_flash(shopper_checkout_url(@shopper), :error, "Invalid delivery location or time")
+		rescue Exceptions::InactiveDeliveryLocationError
+			redirect_and_flash(shopper_checkout_url(@shopper), :error, "Inactive delivery location")
 		end
 
-
+		def valid_cart
+			if @shopper.item_count == 0
+				redirect_and_flash(menu_url, :error, "Your cart is empty. Please add items before checkout.")
+			elsif @shopper.invalid_orderables?
+				redirect_and_flash(shopper_cart_url(@shopper), :error, "Please remove unavailable or verify changed items before checkout")
+			end
+		end
 		# def order_params_update_user
 		# 	params.require(:order).permit(:satisfaction, :issue)
 		# end
@@ -166,9 +144,9 @@ class OrdersController < ApplicationController #this controller uses current_use
 		# 	params.require(:order).permit(:fulfillment_status, :solution, :note, :payment_status)
 		# end
 
-		def order_params_create
-			params.require(:order).permit(:payment_method, :recipient_name, :recipient_phone, :recipient_wechat)
-		end
+		# def order_params_create
+		# 	params.require(:order).permit(:payment_method, :recipient_name, :recipient_phone, :recipient_wechat)
+		# end
 
 		def correct_user_index
 			user = User.find_by(id: params[:user_id])
@@ -187,85 +165,5 @@ class OrdersController < ApplicationController #this controller uses current_use
 				redirect_and_flash(root_url, :error, "Unidentified order")
 			end
 		end
-
-		def verify_info_and_create_order(locations_time, token)
-			if locations_time
-				@order = Order.new(order_params_create)
-				if @order.update_attributes(
-						total: current_user.cart_balance_after_tax, 
-						user_id: current_user.id,
-						delivery_location: locations_time.pickup_location.name,
-						delivery_instruction: locations_time.pickup_location.description,
-						delivery_time: locations_time.pickup_time_datetime
-					)
-					process_payment(@order, token)
-				else
-					render 'new'
-				end
-			else
-				redirect_and_flash( new_locations_time_order_url(locations_time), :error, "Unidentified time and location")
-			end
-		end
-
-		# def got_location?(incoming_url)
-		# 	incoming_url == orders_url
-		# end
-
-		# def got_time?(time_info)
-		# 	time_info
-		# end
-
-		# def got_all_info?(locations_time, order_info)
-		# 	locations_time && order_info
-		# end
-
-		def reassign_orderables(order)
-			current_user.orderables.update_all(ownable_id: order.id, ownable_type: "Order")
-		end
-
-		def process_payment(order, token)
-			if order.paying_cash?
-				reassign_orderables(order)
-				redirect_and_flash( order_url(order), :success, "Your order has been successfully created." )
-			else
-				process_online_payment(order, token)
-			end
-		end
-
-		def process_online_payment(order, token)
-			payment_info = {
-				amount: (order.total * 100).to_i,
-				currency: "usd",
-				source: token,
-				receipt_email: current_user.email,
-				metadata: { "order_id" => order.id, "customer_name" => current_user.name }
-			}
-			payment = Payment.new(payment_info)
-
-			if charge = payment.charge
-				@order.update_attributes( payment_id: charge.id, payment_status: 1 )
-				reassign_orderables(@order)
-				redirect_and_flash( order_url(@order), :success, "Your order has been successfully created." )
-			else
-				flash.now[:error] = payment.error_msg
-				@order = destroy_and_recreate(@order)
-				render 'orders/new'
-			end
-		end
-
-		def destroy_and_recreate(order)
-			new_order = Order.new( recipient_name: order.recipient_name, recipient_phone: order.recipient_phone, recipient_wechat: order.recipient_wechat)
-			order.destroy
-			new_order
-		end	
-
-		def valid_cart
-			if @shopper.item_count == 0
-				redirect_and_flash(menu_url, :error, "Your cart is empty. Please add items before checkout.")
-			elsif @shopper.invalid_orderables?
-				redirect_and_flash(shopper_cart_url(@shopper), :error, "Please remove unavailable items before checkout")
-			end
-		end
-
 
 end
