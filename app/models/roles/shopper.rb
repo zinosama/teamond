@@ -4,6 +4,22 @@ class Shopper < ActiveRecord::Base
 	has_many :orders, dependent: :destroy
 	has_many :orderables, as: :ownable, dependent: :destroy
 
+	def name
+		user.name
+	end
+
+	def phone
+		user.phone
+	end
+
+	def wechat
+		user.wechat
+	end
+
+	def invalid_orderables?
+		orderables.where.not(status: 0).any?
+	end
+
 	def item_count
 		self.orderables.count
 	end
