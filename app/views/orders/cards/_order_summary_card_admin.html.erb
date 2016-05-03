@@ -42,17 +42,10 @@
 							<div class="description">
 								<%= form_for order, html: { class: ["ui", "form"] } do |f| %>
 									<%= hidden_field_tag :query, params[:query] %>
-									<%= hidden_field_tag :admin_form, "1" %>
 									<% if order.issue %>
 										<div class="field">
 											<%= f.label :solution %>
 											<%= f.text_area :solution, rows: 1 %>
-										</div>
-										<div class="field">
-											<div class="ui toggle checkbox">
-												<%= f.check_box :issue_status, {}, "2", "100" %>
-												<%= f.label :issue_status, "Solution offered" %>	
-											</div>
 										</div>
 									<% end %>
 									<div class="field">

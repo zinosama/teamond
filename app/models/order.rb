@@ -14,7 +14,15 @@ class Order < ActiveRecord::Base
 	validates :driver, presence: true
 	validates :satisfaction, numericality: { less_than_or_equal_to: 5, greater_than_or_equal_to: 0 }
 	validates :issue, length: { maximum: 255 }
-	validates :issue_status, presence: true, numericality: { less_than_or_equal_to: 3, greater_than_or_equal_to: 0 }
+	validates :solution, length: { maximum: 255 }
+	validates :note, length: { maximum: 255 }
+	validates :issue_status, presence: true, numericality: { less_than_or_equal_to: 2, greater_than_or_equal_to: 0 }
+
+	before_validation :update_issue_status
+
+	def no_issue?
+		issue_status == 0
+	end
 
 	def paying_cash?
 		self.payment_method == 1
@@ -60,8 +68,6 @@ class Order < ActiveRecord::Base
 		elsif status == 1
 			{ msg: "Feedback has been submitted", status: :error }
 		elsif status == 2
-			{ msg: (source == :admin ? "Solution has been offered" : "Issue is being resolved"), status: :warning }
-		elsif status == 3
 			{ msg: "Issue has been resolved", status: :pending }
 		end				
 	end
@@ -95,4 +101,9 @@ class Order < ActiveRecord::Base
 		end
 	end
 
+	private
+
+		def update_issue_status
+			self.issue_status = 1 if issue_status == 0 && (issue.nil? || issue.empty?)
+		end
 end

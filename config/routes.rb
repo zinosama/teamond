@@ -10,19 +10,21 @@ Rails.application.routes.draw do
   post 'login' => 'sessions#create'
   delete 'logout' => 'sessions#destroy'
 
-  get 'signup' => 'users#new'
   resources :account_activations, only: [:edit]
   resources :password_resets, only: [:new, :create, :edit, :update]
-  resources :users, except: [:new, :show, :destroy] do
-    resources :orders, only: [:index]
-  end
+  get 'signup' => 'users#new'
+  resources :users, except: [:new, :show, :destroy]
 
   resources :shoppers, only: [] do
     resources :milktea_orderables, only: [:create]
     resources :orderables, only: [:create]
-    resources :orders, only: [:create]
+    resources :orders, only: [:create, :index]
     get 'cart' => 'orderables#index'
     get 'checkout' => 'orders#new'
+  end
+
+  resources :admins, only: [] do
+    resources :orders, only: [:index]
   end
 
   resources :orderables, only: [:update, :destroy]

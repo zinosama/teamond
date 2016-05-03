@@ -8,27 +8,27 @@
 			<div class="ui container stackable grid">
 				<div class="five column center aligned row">
 					<div class="column">
-						<%= link_to user_orders_url(current_user, query: "unpaid"), class: "linkNoColor"  do %>
+						<%= link_to admin_orders_url(current_user.role, query: "unpaid"), class: "linkNoColor"  do %>
 							 UNPAID<br> ORDERS<br> <%= @num_unpaid %>
 						<% end %>
 					</div>
 					<div class="column">
-						<%= link_to user_orders_url(current_user, query: "unfulfilled"), class: "linkNoColor"  do %>
+						<%= link_to admin_orders_url(current_user.role, query: "unfulfilled"), class: "linkNoColor"  do %>
 							 UNFULFILLED<br> ORDERS<br> <%= @num_unfulfilled %>
 						<% end %>
 					</div>
 					<div class="column">
-						<%= link_to user_orders_url(current_user, query: "fulfilled"), class: "linkNoColor"  do %>
+						<%= link_to admin_orders_url(current_user.role, query: "fulfilled"), class: "linkNoColor"  do %>
 							 FULFILLED<br> ORDERS<br> <%= @num_fulfilled %>
 						<% end %>
 					</div>
 					<div class="column">
-						<%= link_to user_orders_url(current_user, query: "complained"), class: "linkNoColor"  do %>
+						<%= link_to admin_orders_url(current_user.role, query: "complained"), class: "linkNoColor"  do %>
 							 PENDING<br> ISSUES<br> <%= @num_problem %>
 						<% end %>
 					</div>
 					<div class="column">
-						<%= link_to user_orders_url(current_user, query: "resolved"), class: "linkNoColor"  do %>
+						<%= link_to admin_orders_url(current_user.role, query: "resolved"), class: "linkNoColor"  do %>
 							 RESOLVED<br> ISSUES<br> <%= @num_feedback %>
 						<% end %>
 					</div>

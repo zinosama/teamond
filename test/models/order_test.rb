@@ -100,8 +100,18 @@ class OrderTest < ActiveSupport::TestCase
 		assert_not @order.valid?
 	end
 
-	test 'issue status should be less than 3' do
-		@order.issue_status = 4
+	test 'issue status should be less than 2' do
+		@order.issue_status = 3
+		assert_not @order.valid?
+	end
+
+	test 'solution should not be too long' do
+		@order.solution = "a" * 256
+		assert_not @order.valid?
+	end
+
+	test 'note should not be too long' do
+		@order.note = "a" * 256
 		assert_not @order.valid?
 	end
 end
