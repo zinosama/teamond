@@ -1,7 +1,7 @@
 <div class="row">
 	<div class="ui teal stackable <%= @user.admin? ? "two" : "three" %> item menu">
 		<% unless @user.admin? %>
-			<%= nav_link("Orders", user_orders_url(@user)) %>
+			<%= nav_link("Orders", shopper_orders_url(@user.role)) %>
 		<% end %>
 		<%= nav_link("Messages", "#") %>
 		<%= nav_link("Edit Profile", edit_user_url(@user)) %>

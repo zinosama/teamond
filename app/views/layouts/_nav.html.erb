@@ -6,14 +6,14 @@
 	<% if logged_in? %>
 		<% case current_user.role_type %>
 		<% when "Admin" %>
-			<%= nav_link("Admin", user_orders_path(current_user)) %>
+			<%= nav_link("Admin", admin_orders_path(current_user.role)) %>
 			<%= nav_link("Account", edit_user_path(current_user)) %>
 
 		<% when "Shopper" %>
 			<%= link_to shopper_cart_path(current_user.role), class: "item #{ 'active' if request.env['PATH_INFO'].match(/\/cart/) }" do %>
 				Cart<div class="ui teal label"><%= current_user.role.item_count %></div>
 			<% end %>
-			<%= nav_link("Account", user_orders_path(current_user)) %>
+			<%= nav_link("Account", shopper_orders_path(current_user.role)) %>
 		
 		<% when "Provider" %>
 			<%= nav_link("Store Orders", "#") %>
