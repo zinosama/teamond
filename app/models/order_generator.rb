@@ -10,11 +10,11 @@ class OrderGenerator
 	end
 
 	def place_order
-		raise Exceptions::InvalidRecipientInfo unless @order.valid?
+		raise Exceptions::InvalidRecipientInfoError unless @order.valid?
 		@order.paying_cash? ? @order.save :	process_online_payment
 		reassign_orderables
 		return true
-	rescue Exceptions::InvalidRecipientInfo
+	rescue Exceptions::InvalidRecipientInfoError
 		@cause_of_failure = "invalid recipient info"
 		return false		
 	rescue Exceptions::OnlinePaymentError => e

@@ -17,4 +17,17 @@ module Exceptions
 			super
 		end
 	end
+
+	class InvalidRecipientInfoError < StandardError
+		def initialize(msg = "Invalid recipient info.")
+			super
+		end
+	end
+
+	class OnlinePaymentError < StandardError
+		def initialize(msg = "Online payment error.")
+			super
+		end
+	end
+	
 end
