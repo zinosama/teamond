@@ -6,28 +6,22 @@ class OrdersController < ApplicationController #this controller uses current_use
 	before_action :order_generation_router, only: [:new, :create]
 
 	before_action :valid_order, only: [:show, :update]
+	before_action :valid_shopper_or_admin, only: [:index]
 
-	# before_action :correct_user_index, only: [:index]
+	after_action :verify_authorized, only: [:show, :update]
 
 	def index
-		if current_user.admin?
-			query_hash = {
-				"unpaid" => {payment_status: 0},
-				"unfulfilled" => {fulfillment_status: 0},
-				"fulfilled" => {fulfillment_status: 1},
-				"complained" => {issue_status: [1, 2]},
-				"resolved" => {issue_status: 3}
-			}
-			@num_unpaid = Order.where(query_hash["unpaid"]).count
-			@num_unfulfilled = Order.where(query_hash["unfulfilled"]).count
-			@num_fulfilled = Order.where(query_hash["fulfilled"]).count
-			@num_problem = Order.where(query_hash["complained"]).count
-			@num_feedback = Order.where(query_hash["resolved"]).count
+		if @owner.is_a? Admin
+			@num_unpaid = Order.where(Order.get_query("unpaid")).count
+			@num_unfulfilled = Order.where(Order.get_query("unfulfilled")).count
+			@num_fulfilled = Order.where(Order.get_query("fulfilled")).count
+			@num_problem = Order.where(Order.get_query("complained")).count
+			@num_feedback = Order.where(Order.get_query("resolved")).count
 
-			@orders = Order.where(query_hash[params[:query]]).order(created_at: :desc)
+			@orders = Order.where(Order.get_query(params[:query])).order(created_at: :desc)
 			render('orders/index/admin') 
 		else
-			@orders = current_user.role.orders.order(created_at: :desc)
+			@orders = @owner.orders.order(created_at: :desc)
 			render('orders/index/user')
 		end
 	end
@@ -91,6 +85,13 @@ class OrdersController < ApplicationController #this controller uses current_use
 			@shopper = current_user.role
 		end
 
+		def valid_shopper_or_admin
+			@owner = params[:shopper_id] ? Shopper.find(params[:shopper_id]) : Admin.find(params[:admin_id])
+			redirect_and_flash(menu_url, :error, "Unauthorized access") unless current_user.role == @owner 
+		rescue ActiveRecord::RecordNotFound
+			redirect_and_flash(menu_url, :error, "Access denied")
+		end
+
 		def order_generation_router
 			if params[:order]
 				@instruction = "ready to place order"
@@ -129,8 +130,8 @@ class OrdersController < ApplicationController #this controller uses current_use
  			params.require(:order).permit(policy(@order).permitted_update_attributes)
  		end
 
-		# def order_params_create
-		# 	params.require(:order).permit(:payment_method, :recipient_name, :recipient_phone, :recipient_wechat)
-		# end
+		def order_create_params
+			params.require(:order).permit(policy(Order).permitted_create_attributes)
+		end
 
 end

@@ -20,6 +20,21 @@ class Order < ActiveRecord::Base
 
 	before_validation :update_issue_status
 
+	def self.get_query(query_param)
+		case query_param
+		when "unpaid"
+			{ payment_status: 0 }
+		when "unfulfilled"
+			{ fulfillment_status: 0 }
+		when "fulfilled"
+			{ fulfillment_status: 1 }
+		when "complained"
+			{ issue_status: 1 }
+		when "resolved"
+			{ issue_status: 2 }
+		end
+	end
+
 	def no_issue?
 		issue_status == 0
 	end

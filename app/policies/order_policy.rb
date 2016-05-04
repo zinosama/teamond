@@ -24,4 +24,8 @@ class OrderPolicy < ApplicationPolicy
 		end
 	end
 
+	def permitted_create_attributes
+		[:payment_method, :recipient_name, :recipient_phone, :recipient_wechat]
+	end
+
 end
