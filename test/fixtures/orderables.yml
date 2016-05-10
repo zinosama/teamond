@@ -23,3 +23,19 @@ one:
   buyable_type: "MilkteaOrderable"
   quantity: 1
   unit_price: 2.3
+
+two:
+  ownable: shopper_two
+  ownable_type: "Shopper"
+  buyable: dish1
+  buyable_type: "Dish"
+  quantity: 1
+  unit_price: 1.23
+
+three:
+  ownable: shopper_two
+  ownable_type: "Shopper"
+  buyable: milktea_orderable3
+  buyable_type: "MilkteaOrderable"
+  quantity: 1
+  unit_price: 2.3

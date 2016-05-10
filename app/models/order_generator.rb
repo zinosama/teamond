@@ -19,7 +19,7 @@ class OrderGenerator
 		return false		
 	rescue Exceptions::OnlinePaymentError => e
 		@cause_of_failure = "payment failure"
-		@payment_error = e.msg
+		@payment_error = e.message
 		return false
 	end
 

@@ -43,11 +43,12 @@ class OrdersController < ApplicationController #this controller uses current_use
 		when "ready to place order"
 			order_generator = OrderGenerator.new(order_create_params, @locations_time, params[:stripeToken], @shopper)
 			if order_generator.place_order
-				redirect_to order_url(order_generator.order)
+				@order = order_generator.order
+				redirect_to order_url(@order)
 			else
 				@template = "orders/checkout_templates/recipient_info"
 				flash.now[:error] = order_generator.payment_error if order_generator.cause_of_failure == "payment failure"
-				@order = order_generator.order if order_generator.cause_of_failure == "invalid recipient info"
+				@order = order_generator.order
 				render "new"
 			end
 		when "locations_time posted"
