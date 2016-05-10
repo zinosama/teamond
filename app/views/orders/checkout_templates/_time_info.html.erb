@@ -4,7 +4,7 @@
 		  <div class="step">
 		    <i class="truck icon"></i>
 		    <div class="content">
-		      <div class="title"><%= link_to "Shipping", summary_url, class: "linkNoColor" %></div>
+		      <div class="title"><%= link_to "Shipping", shopper_checkout_url(@shopper), class: "linkNoColor" %></div>
 		      <div class="description">Choose your delivery location</div>
 		    </div>
 		  </div>
@@ -29,10 +29,10 @@
 </div>
 
 <div class="row">
-	<%= form_tag pickup_location_orders_url(@location), class: "ui form column" do %>
+	<%= form_tag pickup_location_orders_url(@pickup_location), class: "ui form column" do %>
 		<div class="field">
 			<%= label_tag :locations_time_id, "Delivery Time" %>
-			<%= select_tag(:locations_time_id, options_from_collection_for_select(@location.valid_associations, :id, :associated_pickup_time), { include_blank: "Select delivery time", class: "ui fluid dropdown" }) %>
+			<%= select_tag(:locations_time_id, options_from_collection_for_select(@pickup_location.valid_associations, :id, :associated_pickup_time), { include_blank: "Select delivery time", class: "ui fluid dropdown" }) %>
 			<small>Didn't find the time you like? Check out our delivery schedule and see delivery times for other locations!</small>
 		</div>
 		<div class="field">

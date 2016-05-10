@@ -29,7 +29,7 @@
 </div>
 
 <div class="row">
-	<%= form_tag orders_url, class: "ui form column" do %>
+	<%= form_tag shopper_orders_url(@shopper), class: "ui form column" do %>
 		<div class="field">
 			<%= label_tag :pickup_location_id, "Delivery Location" %>
 			<%= select_tag(:pickup_location_id, options_from_collection_for_select(PickupLocation.where(active: true), :id, :name), { include_blank: "Select delivery location", class: "ui fluid dropdown" }) %>

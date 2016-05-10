@@ -3,7 +3,7 @@ class OrderPolicy < ApplicationPolicy
 
 	def initialize(current_user, model)
 		@current_user = current_user
-		@model = model
+		@order = model
 	end
 
 	def show?

@@ -1,9 +1,9 @@
 <div class="row">
 	<div class="ui breadcrumb">
 		<% if current_user.admin? %>
-			<%= link_to "Order Management", user_orders_url(current_user), class: "section" %>
+			<%= link_to "Order Management", admin_orders_url(current_user.role), class: "section" %>
 		<% else %>
-		  <%= link_to "Your Orders", user_orders_url(current_user), class: "section" %>
+		  <%= link_to "Your Orders", shopper_orders_url(current_user.role), class: "section" %>
 		<% end %>
 	  <i class="right angle icon divider"></i>
 	  <div class="active section">Current Order</div>
@@ -30,7 +30,7 @@
 				<div class="centered row">
 					<div class="ten wide center aligned column">
 						<%= form_for @order, html: { class: ["ui", "form"], id: "orderShowFeedbackFrom" } do |f| %>
-							<% if @order.issue_status == 0 || @order.issue_status == 3 %>
+							<% if @order.issue_status == 0 || @order.issue_status == 2 %>
 								<div class="field">
 									<%= f.label :satisfaction,"Did we make you smile?" %>
 									<%= f.hidden_field :satisfaction %>

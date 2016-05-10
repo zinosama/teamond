@@ -94,8 +94,8 @@
 					<div class="content">
 						<div class="header">People</div>
 						<div class="description">
-							<p>Email:<br> <b><%= order.user.email %></b></p>
-							<p>Name:<br> <b><%= order.user.name.capitalize %></b></p>
+							<p>Email:<br> <b><%= order.shopper.email %></b></p>
+							<p>Name:<br> <b><%= order.shopper.name.capitalize %></b></p>
 							<p>Recipient:<br> <b><%= order.recipient_name.capitalize %></b></p>
 							<p>Recipient Phone:<br> <b><%= order.recipient_phone %></b></p>
 							<% if order.recipient_wechat && !order.recipient_wechat.empty? %><p>Recipient WeChat: <b><%= order.recipient_wechat %></b></p><% end %>				

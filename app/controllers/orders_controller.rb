@@ -41,7 +41,7 @@ class OrdersController < ApplicationController #this controller uses current_use
 	def create
 		case @instruction
 		when "ready to place order"
-			order_generator = OrderGenerator.new(order_params_create, @locations_time, params[:stripeToken], @shopper)
+			order_generator = OrderGenerator.new(order_create_params, @locations_time, params[:stripeToken], @shopper)
 			if order_generator.place_order
 				redirect_to order_url(order_generator.order)
 			else
@@ -63,7 +63,7 @@ class OrdersController < ApplicationController #this controller uses current_use
 
 	def update
 		authorize @order		
-		@order.assign_attributes( order_update_params )
+		@order.assign_attributes( order_update_params ) if params[:order]
 		@order.issue = params[:order][:issue] if @order.no_issue?
 		@order.issue_status = 2 if params[:solved] == "1"
 		raise Exceptions::InvalidOrderAttrsError unless @order.valid?
@@ -73,7 +73,7 @@ class OrdersController < ApplicationController #this controller uses current_use
 	else
 		@order.save
 		admin_route = admin_orders_url(current_user.role, query: params[:query])
-		shopper_route = order_url(@order)
+		shopper_route = request.referrer || order_url(@order)
 		msg = "Updated successfully"
 		redirect_and_flash( (current_user.admin? ? admin_route : shopper_route), :success, msg)
 	end
@@ -95,6 +95,8 @@ class OrdersController < ApplicationController #this controller uses current_use
 		def order_generation_router
 			if params[:order]
 				@instruction = "ready to place order"
+				@locations_time = LocationsTime.find(params[:locations_time_id])
+				raise Exceptions::InactiveDeliveryLocationError unless @locations_time.pickup_location.active?
 			elsif params[:locations_time_id]
 				@instruction = request.get? ? "recipient info needed" : "locations_time posted"
 				@locations_time = LocationsTime.find(params[:locations_time_id])
