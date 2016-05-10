@@ -65,7 +65,7 @@ class OrdersController < ApplicationController #this controller uses current_use
 	def update
 		authorize @order		
 		@order.assign_attributes( order_update_params ) if params[:order]
-		@order.issue = params[:order][:issue] if @order.no_issue?
+		@order.issue = params[:order][:issue] if @order.no_issue? && current_user.shopper?
 		@order.issue_status = 2 if params[:solved] == "1"
 		raise Exceptions::InvalidOrderAttrsError unless @order.valid?
 	rescue Exceptions::InvalidOrderAttrsError
