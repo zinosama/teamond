@@ -3,8 +3,8 @@ require 'test_helper'
 class OrderTest < ActiveSupport::TestCase
 
 	def setup
-		@user = users(:zino)
-		@order = Order.new( total: 2.12, payment_method: 1, recipient_name: "zino", recipient_phone: "4329423", recipient_wechat: "213dfds", delivery_location: "location", delivery_time: DateTime.now, user: @user, satisfaction: 0 )
+		@shopper = users(:ed).role
+		@order = Order.new( total: 2.12, payment_method: 1, recipient_name: "zino", recipient_phone: "4329423", recipient_wechat: "213dfds", delivery_location: "location", delivery_time: DateTime.now, shopper: @shopper, satisfaction: 0 )
 	end
 
 	test 'should be valid' do
@@ -63,8 +63,8 @@ class OrderTest < ActiveSupport::TestCase
 		assert_not @order.valid?
 	end
 
-	test 'should have user' do
-		@order.user = nil
+	test 'should have shopper' do
+		@order.shopper = nil
 		assert_not @order.valid?
 	end
 

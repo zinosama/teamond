@@ -22,7 +22,7 @@ class CreateOrders < ActiveRecord::Migration
       t.datetime :delivery_time, null: false
     	
       t.references :shopper, index: true, null: false
-      t.references :driver, index: true, null: false
+      t.references :driver, index: true
 
       t.timestamps null: false
     end

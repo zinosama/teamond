@@ -11,7 +11,7 @@ class Order < ActiveRecord::Base
 	validates :delivery_location, presence: true
 	validates :delivery_time, presence: true
 	validates :shopper, presence: true
-	validates :driver, presence: true
+	# validates :driver, presence: true
 	validates :satisfaction, numericality: { less_than_or_equal_to: 5, greater_than_or_equal_to: 0 }
 	validates :issue, length: { maximum: 255 }
 	validates :solution, length: { maximum: 255 }
@@ -119,6 +119,6 @@ class Order < ActiveRecord::Base
 	private
 
 		def update_issue_status
-			self.issue_status = 1 if issue_status == 0 && (issue.nil? || issue.empty?)
+			self.issue_status = 1 if issue_status == 0 && !(issue.nil? || issue.empty?)
 		end
 end

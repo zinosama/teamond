@@ -12,3 +12,8 @@ two:
   name: itc
   address: 500 joseph
   description: the second location
+three:
+  name: active_location
+  address: 500 joseph
+  description: active location
+  active: true

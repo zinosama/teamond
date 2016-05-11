@@ -4,7 +4,7 @@
 		  <div class="step">
 		    <i class="truck icon"></i>
 		    <div class="content">
-		      <div class="title"><%= link_to "Shipping", summary_url, class: "linkNoColor" %></div>
+		      <div class="title"><%= link_to "Shipping", shopper_checkout_url(@shopper), class: "linkNoColor" %></div>
 		      <div class="description">Choose your delivery location</div>
 		    </div>
 		  </div>
@@ -82,9 +82,9 @@
 			    data-image="https://stripe.com/img/open-graph/logo.png?2"
 			    data-name="Teamond"
 			    data-description="secure checkout"
-			    data-amount="<%= current_user.cart_balance_after_tax_in_penny %>"
+			    data-amount="<%= @shopper.cart_balance_after_tax_in_penny %>"
 			    data-locale="auto"
-			    data-email="<%= current_user.email %>">
+			    data-email="<%= @shopper.email %>">
 			  </script>
 			</div>
 

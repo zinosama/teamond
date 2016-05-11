@@ -1,5 +1,6 @@
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
+Dir[Rails.root.join('test/concerns/*')].each{ |f| require f } #require all concerns files
 require 'rails/test_help'
 require 'minitest/reporters'
 Minitest::Reporters.use!

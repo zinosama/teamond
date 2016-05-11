@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="ui breadcrumb">
-	  <%= link_to "Shopping Cart", cart_url, class: "section" %>
+	  <%= link_to "Shopping Cart", shopper_checkout_url(@shopper), class: "section" %>
 	  <i class="right angle icon divider"></i>
 	  <div class="active section">Order Summery</div>
 	</div>
@@ -15,7 +15,7 @@
 
 <div class="row">
 	<div class="ui cards">
-		<% current_user.orderables.each do |orderable| %>
+		<% @shopper.orderables.each do |orderable| %>
 			<%= render 'orders/cards/item_card_checkout', orderable: orderable %>
 		<% end %>
 	</div>
@@ -24,11 +24,11 @@
 <div class="centered row" id="paymentSummary">
 	<div class="ui fluid card" id="checkoutPriceSummary">
 		<div class="content">
-			<p>Total before Tax: $ <%= current_user.cart_balance_before_tax %></p>
-			<p>Sales Tax (8%): $ <%= current_user.cart_balance_tax %></p> 
+			<p>Total before Tax: $ <%= @shopper.cart_balance_before_tax %></p>
+			<p>Sales Tax (8%): $ <%= @shopper.cart_balance_tax %></p> 
 		</div>
 		<div class="extra content">
-			<p>Total Payment: $ <%= current_user.cart_balance_after_tax %></p>
+			<p>Total Payment: $ <%= @shopper.cart_balance_after_tax %></p>
 		</div>
 	</div>
 </div>

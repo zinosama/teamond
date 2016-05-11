@@ -1,24 +1,17 @@
 require 'test_helper'
 
 class OrderCreateTest < ActionDispatch::IntegrationTest
+	using TimeRefinement
 	DOWs = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 	###!!! StripeMock requires Stripe gem version 1.31.0, which needs to be uncommented in Gemfile
 
 	def setup
-		@user = users(:zino)
+		@shopper = users(:shopper2)
+		@dish_orderable = orderables(:two)
+		@milktea_orderable = orderables(:three)
+		@pickup_location = pickup_locations(:three)
 
-		@dish_orderable = orderables(:orderable1)
-		@dish_orderable.buyable = recipes(:dish1)
-
-		@milktea_orderable = orderables(:orderable2)
-		@milktea_orderable.buyable = milktea_orderables(:milktea_orderable1)
-		
-		@location = pickup_locations(:one)
-		@location.update_attribute(:active, true)
-		@locations_time = locations_times(:one)
-
-		@user.orderables = [@dish_orderable, @milktea_orderable]
-		@user.save
+		create_delivery_times(@pickup_location)
 
 		StripeMock.start
 		@token = StripeMock.generate_card_token(number: "4242424242424242", exp_month: 12, exp_year: 2017, cvc: '123')
@@ -29,10 +22,10 @@ class OrderCreateTest < ActionDispatch::IntegrationTest
 	end
 
 	test 'valid order creation work flow (cash payment)' do
-		log_in_as @user
+		log_in_as @shopper
 		
 		#############################Location##############
-		get summary_url
+		get shopper_checkout_url(@shopper.role)
 		assert_template 'orders/new'
 		template = assigns(:template)
 		assert_equal 'orders/checkout_templates/location_info', template
@@ -42,42 +35,40 @@ class OrderCreateTest < ActionDispatch::IntegrationTest
 		assert_select 'div.header', text: @milktea_orderable.buyable.milktea.name.capitalize, count: 1
 		assert_select 'p', text: "Quantity: #{@dish_orderable.quantity}"
 		assert_select 'p', text: "Quantity: #{@milktea_orderable.quantity}"
-		assert_select 'div.extra.content p', text: "Total Payment: $ #{(4.4*1.08).round(2)}", count: 1
+		assert_select 'div.extra.content p', text: "Total Payment: $ #{(3.53*1.08).round(2)}", count: 1
 
 		#location form and select field present
-		assert_select 'form[action=?]', orders_url, count: 1
+		assert_select 'form[action=?]', shopper_orders_url(@shopper.role), count: 1
 		assert_select 'select[name=?]', "pickup_location_id", count: 1
 		
 		#only active pickup locations are selectable 
-		assert_select 'option', count: 2
+		assert_select 'option', count: 3
 		assert_select 'option', text: "Select delivery location", count: 1
-		assert_select 'option', text: @location.name, count: 1
-
-		create_delivery_times(@location)
+		assert_select 'option', text: @pickup_location.name, count: 1
 
 		#orders create action correctly redirects
-		post orders_url, pickup_location_id: @location.id
-		assert_redirected_to new_pickup_location_order_url(@location)
+		post shopper_orders_url(@shopper.role), pickup_location_id: @pickup_location.id
+		assert_redirected_to new_pickup_location_order_url(@pickup_location)
 		follow_redirect!
 
 
 		###############################LocationsTime###############
 		template = assigns(:template)
 		assert_equal 'orders/checkout_templates/time_info', template
-		location = assigns(:location)
-		assert_equal @location, location
+		location = assigns(:pickup_location)
+		assert_equal @pickup_location, location
 
 		#time form and select field present
-		assert_select 'form[action=?]', pickup_location_orders_url(@location), count: 1
+		assert_select 'form[action=?]', pickup_location_orders_url(@pickup_location), count: 1
 		assert_select 'select[name=?]', "locations_time_id", count: 1
 
 		#correct listing of selectable times
 		assert_select 'option', count: 3
-		assert_select 'option', text: "#{@today_before_cutoff.pickup_time}, #{DOWs[Time.now.strftime('%w').to_i]}"
+		assert_select 'option', text: "#{@before_cutoff.pickup_time}, #{DOWs[Time.now.strftime('%w').to_i]}"
 		assert_select 'option', text: "#{@tomorrow.pickup_time}, #{DOWs[(Time.now.strftime('%w').to_i + 1) % 7]}"
 
 		#orders create action correctly redirects
-		post pickup_location_orders_url(@location), locations_time_id: @locations_time.id
+		post pickup_location_orders_url(@pickup_location), locations_time_id: @locations_time.id
 		assert_redirected_to new_locations_time_order_url(@locations_time)
 		follow_redirect!
 
@@ -109,7 +100,7 @@ class OrderCreateTest < ActionDispatch::IntegrationTest
 		assert_equal "abcdefg", order.recipient_wechat
 		assert_equal 1, order.payment_method
 		assert_equal @locations_time.pickup_time_datetime, order.delivery_time
-		assert_equal @user.id, order.user.id
+		assert_equal @shopper.role.id, order.shopper.id
 
 		#orderables are reassigned to belong to the new order instead of user
 		assert_equal order, @dish_orderable.reload.ownable
@@ -118,7 +109,7 @@ class OrderCreateTest < ActionDispatch::IntegrationTest
 	end
 
 	test 'valid order creation (online payment)' do
-		log_in_as @user
+		log_in_as @shopper
 
 		assert_difference 'Order.count', 1 do post_charge end
 
@@ -131,8 +122,8 @@ class OrderCreateTest < ActionDispatch::IntegrationTest
 	test 'invalid online payment' do
 		error_msg_body = "Ooops! Looks like our payment service is down. Please contact customer service and provide them with error message:"
 
-		log_in_as @user
-		
+		log_in_as @shopper
+
 		StripeMock.prepare_card_error(:card_declined)
 		assert_no_difference 'Order.count' do post_charge end
 		verify_error 'orders/new', 'The card was declined'
@@ -163,8 +154,8 @@ class OrderCreateTest < ActionDispatch::IntegrationTest
 	end
 
 	test 'invalid recipient information' do
-		log_in_as @user
-		
+		log_in_as @shopper
+
 		assert_no_difference 'Order.count' do
 			post locations_time_orders_url(@locations_time), order: { recipient_name: "", recipient_phone: "", recipient_wechat: "" }
 		end
@@ -189,33 +180,34 @@ class OrderCreateTest < ActionDispatch::IntegrationTest
 	end
 
 	def post_charge
-		post locations_time_orders_url(@locations_time), order: { recipient_name: "zino sama", recipient_phone: "123456", recipient_wechat: "abcdefg", payment_method: 0, }, stripeToken: @token
+		post locations_time_orders_url(@locations_time), order: { recipient_name: "zino sama", recipient_phone: "123456", recipient_wechat: "abcdefg", payment_method: 0 }, stripeToken: @token
 	end
 
 	#creates six scenarioes, each representing one of the possible cases. Two of them should be selectable.
 	def create_delivery_times(location) 
-		now = Time.now
-		current_hr = now.strftime('%k').to_i
-		current_min = now.strftime('%M').to_i
-		current_day = now.strftime('%w').to_i
+		past_t 						=		Time.now - 1.day
+		after_cutoff_t  	=		Time.now - 1.hour
+		before_cutoff_t 	= 	Time.now + 1.hour
+		tomorrow_t 				=	 	Time.now + 1.day
+		after_tomorrow_t 	= 	Time.now + 2.day
 
-		past = PickupTime.create!( pickup_hour: current_hr - 1, pickup_minute: current_min, cutoff_hour: current_hr - 2, cutoff_minute: current_min )
-		location.locations_times.create!( pickup_time: past, day_of_week: current_day )
+		times = [ past_t, after_cutoff_t, before_cutoff_t, tomorrow_t, after_tomorrow_t ]
+		
+		pickup_times = times.map do |time|
+			param = { cutoff_hour: time.get_hour, cutoff_minute: time.get_minute, pickup_hour: 23, pickup_minute: 59 }
+			PickupTime.create! param
+		end
 
-		today_after_cutoff = PickupTime.create!( pickup_hour: current_hr + 1, pickup_minute: current_min, cutoff_hour: current_hr - 1, cutoff_minute: current_min)
-		location.locations_times.create!( pickup_time: today_after_cutoff, day_of_week: current_day )
+		@before_cutoff = pickup_times[2]
+		@tomorrow = pickup_times[3]
 
-		@today_before_cutoff = PickupTime.create!( pickup_hour: current_hr + 2, pickup_minute: current_min, cutoff_hour: current_hr + 1, cutoff_minute: current_min)
-		location.locations_times.create!( pickup_time: @today_before_cutoff, day_of_week: current_day )
+		pickup_times.each_with_index do |pickup_time, index|
+			locations_time = location.locations_times.create!( pickup_time: pickup_time, day_of_week: times[index].get_dow )
+			@locations_time = locations_time if index == 3	
+		end
 
-		@tomorrow = PickupTime.create!( pickup_hour: current_hr + 1, pickup_minute: current_min, cutoff_hour: current_hr - 1, cutoff_minute: current_min)
-		location.locations_times.create!( pickup_time: @tomorrow, day_of_week: ((current_day + 1) % 7) )
-
-		day_after_tomorrow = PickupTime.create!( pickup_hour: current_hr + 2, pickup_minute: current_min, cutoff_hour: current_hr + 2, cutoff_minute: current_min)
-		location.locations_times.create!( pickup_time: day_after_tomorrow, day_of_week: ((current_day + 2) % 7) )
-	
 		location2 = pickup_locations(:two)
 		location2.update_attribute(:active, true)
-		location2.locations_times.create!( pickup_time: @tomorrow, day_of_week: ((current_day + 1) % 7) )
+		location2.locations_times.create!( pickup_time: @tomorrow, day_of_week: times[3].get_dow )
 	end
 end

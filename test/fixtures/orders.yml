@@ -5,7 +5,7 @@
 # below each fixture, per the syntax in the comments below
 #
 order1:
-  shopper: ed
+  shopper: shopper_one
   total: 10
   payment_method: 1
   recipient_name: zinosama
@@ -15,7 +15,7 @@ order1:
   driver: driver_one
 
 two:
-  shopper: ed
+  shopper: shopper_one
   total: 10
   payment_method: 1
   recipient_name: zinosama

@@ -24,6 +24,12 @@ module Exceptions
 		end
 	end
 
+ 	class InvalidOrderAttrsError < StandardError
+ 		def initialize(msg = "Invalid Order Attributes.")
+ 			super
+		end
+ 	end
+
 	class OnlinePaymentError < StandardError
 		def initialize(msg = "Online payment error.")
 			super
