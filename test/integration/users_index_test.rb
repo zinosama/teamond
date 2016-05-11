@@ -12,7 +12,7 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
 		assert_template 'users/index'
 		assert_select "div.pagination"
 		User.paginate(page: 1).each do |user|
-			assert_select "a[href=?]", user_orders_url(user), text: user.name
+			assert_select "a[href=?]", shopper_orders_url(user.role), text: user.name if user.shopper?
 		end
 	end
 end

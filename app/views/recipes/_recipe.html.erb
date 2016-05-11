@@ -7,8 +7,12 @@
 <div class="row menuButtonRow">
 	<%= link_to semantic_icon("list circular"), recipe_path(recipe), class: "menuButton" %>
 	<% if recipe.is_a? Milktea %>
-		<%= link_to semantic_icon("add to cart circular"), new_milktea_milktea_orderable_path(recipe), class: "menuButton" %>
+		<%= link_to semantic_icon("add to cart circular"), (logged_in? ? new_milktea_milktea_orderable_path(recipe) : login_path), class: "menuButton" %>
 	<% else %>
-		<%= link_to semantic_icon("add to cart circular"), shopper_orderables_path(shopper_id: current_user.role_id, type: "dish", buyable_id: recipe.id), class: "menuButton", method: :post %>
+		<% if logged_in? %>
+			<%= link_to semantic_icon("add to cart circular"), shopper_orderables_path(shopper_id: current_user.role_id, type: "dish", buyable_id: recipe.id), class: "menuButton", method: :post %>
+		<% else %>
+			<%= link_to semantic_icon("add to cart circular"), login_path, class: "menuButton" %>
+		<% end %>
 	<% end %>
 </div>

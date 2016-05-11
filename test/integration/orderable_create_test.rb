@@ -10,6 +10,8 @@ class OrderableCreateTest < ActionDispatch::IntegrationTest
 
 		@dish = recipes(:dish1)
 		@milktea = recipes(:milktea1)
+
+		@shopper.role.orderables.destroy_all
 	end
 
 	test 'valid orderable' do

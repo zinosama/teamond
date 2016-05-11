@@ -1,1 +1,5 @@
-<p class="<%= 'unactivatedUser' if !user.activated? %>"><%= user.email %> | <%= link_to user.name, user_orders_url(user) %></p>
+<% if user.shopper? %>
+	<p class="<%= 'unactivatedUser' if !user.activated? %>"><%= user.email %> | <%= link_to user.name, shopper_orders_url(user.role) %></p>
+<% else %>
+	<p class="<%= 'unactivatedUser' if !user.activated? %>"><%= user.email %> | <%= user.name %> | <%= user.role_type %></p>
+<% end %>

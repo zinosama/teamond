@@ -5,7 +5,7 @@ class OrdersControllerTest < ActionController::TestCase
 	def setup 
 		@admin = users(:zino)
 		@shopper = users(:ed)
-		@shopper2 = users(:shopper2)
+		@shopper2 = users(:shopper_empty)
 	end
 
 	test 'should redirect new if not logged in' do

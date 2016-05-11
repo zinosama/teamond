@@ -4,7 +4,7 @@ class MilkteaAddonIndexTest < ActionDispatch::IntegrationTest
 
 	def setup
 		@admin = users(:zino)
-		@user = users(:ed)
+		@shopper = users(:ed)
 		@milktea = recipes(:milktea1)
 	end
 
@@ -22,8 +22,8 @@ class MilkteaAddonIndexTest < ActionDispatch::IntegrationTest
 	end
 
 	test 'should list active addons in milktea orderable create' do
-		log_in_as @user
-		get new_milktea_orderable_path(@milktea.id)
+		log_in_as @shopper
+		get new_milktea_milktea_orderable_path(@milktea)
 		assert_template 'milktea_orderables/new'
 	
 		assert_select 'form[id=?]',"newMilkteaOrderableForm", count: 1		
