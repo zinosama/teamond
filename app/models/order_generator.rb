@@ -38,6 +38,7 @@ class OrderGenerator
 		end
 
 		def process_online_payment
+			@order.save
 			payment_info = {
 				amount: (@order.total.to_f * 100).to_i,
 				currency: "usd",
@@ -51,6 +52,7 @@ class OrderGenerator
 				@order.payment_status = 1
 				@order.save
 			else
+				@order.destroy
 				raise Exceptions::OnlinePaymentError, payment.error_msg
 			end
 		end
