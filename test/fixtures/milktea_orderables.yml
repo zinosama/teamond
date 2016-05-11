@@ -10,12 +10,14 @@ milktea_orderable1:
   size: 0
   milktea: milktea1
 
+#belongs to ed
 milktea_orderable2:
   sweet_scale: 2
   temp_scale: 1
   size: 0
   milktea: milktea1
 
+#belongs to shopper2
 milktea_orderable3:
   sweet_scale: 2
   temp_scale: 1

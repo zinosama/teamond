@@ -51,6 +51,16 @@ shopper2:
   role: shopper_two
   role_type: "Shopper"
 
+shopper_empty:
+  name: shopper_empty
+  email: shopper_empty@gmail.com
+  phone: 3478-238
+  password_digest: <%= User.digest('password') %>
+  activated: true
+  activated_at: <%= Time.zone.now %>
+  role: shopper_empty
+  role_type: "Shopper"
+
 lana:
   name: Lana Kane
   email: hands@example.gov

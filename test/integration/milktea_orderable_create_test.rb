@@ -62,13 +62,13 @@ class MilkteaOrderableCreateTest < ActionDispatch::IntegrationTest
 		#appears in shopping cart correctly
 		get shopper_cart_url(@shopper.role)
 		assert_select 'a[href=?]', edit_milktea_orderable_url(milktea_orderable)
-		assert_select 'a[href=?]', recipe_url(milktea_orderable.milktea), count: 2
-		assert_select 'a', text: milktea_orderable.milktea.name, count: 1
+		assert_select 'a[href=?]', recipe_url(milktea_orderable.milktea), count: 4
+		assert_select 'a', text: milktea_orderable.milktea.name, count: 2
 		assert_select 'p', text: "$ #{total}", count: 1
 		MilkteaAddon.where("active = ?", true).each do |addon|
 			assert_select 'div.ui.label', text: addon.name, count: 1
 		end
-		assert_select 'div.value', text: "$ #{total}", count: 1
+		assert_select 'div.value', text: "$ #{total.to_f + 2.3}", count: 1
 	end
 
 	test 'only shopper can create milktea orderable' do
