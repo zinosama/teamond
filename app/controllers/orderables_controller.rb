@@ -7,11 +7,10 @@ class OrderablesController < ApplicationController
 	before_action :valid_orderable, only: [:update, :destroy]
 	before_action :valid_quantity, only: [:update]
 
-	after_action :verify_policy_scoped, only: :index
 	after_action :verify_authorized, except: :index
 	
 	def index
-		@items = policy_scope(Orderable)
+		get_orderables
 	end
 
 	def create
@@ -69,8 +68,28 @@ class OrderablesController < ApplicationController
 
 		def valid_quantity
 			shopper = @orderable.ownable
-			@quantity = params[:orderable][:quantity].to_i if params[:orderable][:quantity]
+			@quantity = params[:orderable][:quantity].to_i if params[:orderable] && params[:orderable][:quantity]
 			redirect_and_flash(shopper_cart_url(shopper), :error, "Quantity cannot be larger than 20") if (@quantity && @quantity > 20)
+		end
+
+		def get_orderables
+			@items = []
+			@shopper.orderables.each do |orderable|
+				if orderable.status == 0
+					@items << { orderable: orderable }
+				elsif orderable.status == 1
+					@items << { orderable: orderable, msg: { msg: "Item info has changed!", class: "warning" } }
+					flash.now[:warning] = "We have updated some item(s) in your cart. Please verify before purchasing."
+				else
+					if orderable.buyable.is_a? Dish
+						@items << { orderable: orderable, msg: { msg: "Item no longer available!", class: "error" } }
+					else
+						msg = orderable.buyable.milktea.active ? "One or more toppings is no longer available! You can remove highlighted topping below." : "Item no longer available!"
+						@items << { orderable: orderable, msg: { msg: msg, class: "error" } }
+					end
+					flash.now[:error] = "Some item(s) in your cart is no longer available. Please remove to continue."
+				end
+			end
 		end
 
 end
