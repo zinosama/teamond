@@ -30,31 +30,30 @@
 				<div class="centered row">
 					<div class="ten wide center aligned column">
 						<%= form_for @order, html: { class: ["ui", "form"], id: "orderShowFeedbackFrom" } do |f| %>
-							<% if @order.issue_status == 0 || @order.issue_status == 2 %>
+							<% if @order.no_feedback? || @order.feedback_resolved? %>
 								<div class="field">
 									<%= f.label :satisfaction,"Did we make you smile?" %>
 									<%= f.hidden_field :satisfaction %>
 									<div class="ui huge heart rating" data-rating="<%= @order.satisfaction || 0 %>" data-max-rating="5"></div>
 								</div>
-								<% if @order.issue_status == 0 %>
+								<% if @order.no_feedback? %>
 								  <div class="field">
 										<%= f.label :issue, "Is there anything we can do better?" %>
 								    <%= f.text_area :issue, rows: 2 %>
 								  </div>
 								  <%= submit_tag "Click me to save your rating and feedback!", class: "ui button inverted blue" %>
-								
 								<% else %>
 									<%= submit_tag "Click me to save your rating!", class: "ui button inverted blue" %>
 								<% end %>
 						 	
-						 	<% elsif @order.issue_status == 1 || @order.issue_status == 2 %>
+						 	<% elsif @order.feedback_created? %>
 						 		<div class="field">
 						 			<%= hidden_field_tag :solved, '1' %>
 						 			<p>We have received the following feedback from you:</p>
 						 			<p><b><%= @order.issue %></b></p>						 			
-						 			<p>We apologize for the issue and will get back to you soon!</p>
+						 			<p>We appreciate your feedback and will get back to you soon!</p>
 						 		</div>
-						 		<%= submit_tag "I received a satisfactory solution", class: "ui button inverted red", style: "width: 55%;" %>
+						 		<%= submit_tag "I have heard back from Teamond", class: "ui button inverted red", style: "width: 55%;" %>
 						 	<% end %>
 						<% end %>
 					</div>

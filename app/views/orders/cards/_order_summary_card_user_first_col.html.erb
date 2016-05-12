@@ -1,10 +1,6 @@
 <div class="<%=col_span%> wide center aligned middle aligned column">
-	<p class="orderStatus <%= order.decode_fulfillment_status[:status]%>"><%= order.decode_fulfillment_status[:msg] %></p>
-	<% if order.fulfillment_status == 0 %>
-		<p>Scheduled for delivery:<br> <b><%= semantic_icon :wait %> <%= order.delivery_time_to_min %></b></p>
-	<% else %>
-		<p>Delivered on:<br> <b><%= semantic_icon :wait %> <%= order.delivery_time_to_min %></b></p>
-	<% end %>
+	<p class="orderStatus <%= order.present_fulfillment_status[:klass]%>"><%= order.present_fulfillment_status[:msg] %></p>
+	<p>Delivery Time:<br> <b><%= semantic_icon :wait %> <%= order.delivery_time_to_min %></b></p>
 	<p>Delivery Location:<br> <b><%= semantic_icon :marker %> <%= order.delivery_location %></b></p>
 	<p>Delivery Instruction:<br> <b><%= semantic_icon "info circle" %><%= order.delivery_instruction %></b></p>
 </div>

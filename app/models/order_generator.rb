@@ -11,7 +11,7 @@ class OrderGenerator
 
 	def place_order
 		raise Exceptions::InvalidRecipientInfoError unless @order.valid?
-		@order.paying_cash? ? @order.save :	process_online_payment
+		@order.cash? ? @order.save :	process_online_payment
 		reassign_orderables
 		return true
 	rescue Exceptions::InvalidRecipientInfoError
@@ -49,8 +49,7 @@ class OrderGenerator
 			payment = Payment.new(payment_info)
 			if charge = payment.charge
 				@order.payment_id = charge.id
-				@order.payment_status = 1
-				@order.save
+				@order.paid!
 			else
 				@order.destroy
 				raise Exceptions::OnlinePaymentError, payment.error_msg
