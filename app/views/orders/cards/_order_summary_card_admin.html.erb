@@ -4,11 +4,11 @@
 			<div class="four wide column">
 				<div class="ui fluid card">
 					<div class="content">
-						<div class="header"><p class="<%= order.decode_fulfillment_status[:status]%>"><%= order.decode_fulfillment_status[:msg] %></p></div>
+						<div class="header"><p class="<%= order.present_fulfillment_status[:klass]%>"><%= order.present_fulfillment_status[:msg] %></p></div>
 						<div class="description">
 							<p>Placed at:<br> <b><%= order.create_time_to_min %></b></p>
 							<p>Id:<br> <b><%= "10052011-#{order.id}" %></b></p>
-							<p><%= pluralize(order.num_of_items, 'item') %></p>
+							<p><%= pluralize(order.item_count, 'item') %></p>
 						</div>
 					</div>
 				</div>
@@ -18,8 +18,8 @@
 						<div class="header">Payment</div>
 						<div class="description">
 							<p>Payment amount: <br><b>$ <%= order.total %></b></p>
-							<p>Payment method: <br><b><%= order.decode_payment_method %></b></p>
-							<p>Payment status: <br><b><%= order.decode_payment_status %></b></p>
+							<p>Payment method: <br><b><%= order.payment_method.capitalize %> payment</b></p>
+							<p>Payment status: <br><b><%= order.payment_status.capitalize %></b></p>
 						</div>
 					</div>
 				</div>
@@ -30,8 +30,8 @@
 						<div class="content">
 							<div class="header">Feedback</div>
 							<div class="description">
-								<p><b><span class="<%= order.decode_issue_status(:admin)[:status] %>"><%= order.decode_issue_status(:admin)[:msg] %></span></b></p>
-								<p>Satisfaction: <br><b><%= order.decode_satisfaction %></b></p>
+								<p><b><span class="<%= order.present_issue_status[:klass] %>"><%= order.present_issue_status[:msg] %></span></b></p>
+								<p>Satisfaction: <br><b><%= order.satisfaction.capitalize %></b></p>
 								<% if order.issue && !order.issue.empty? %><p>User Feedback: <br><b><%= order.issue %></b></p><% end %>
 							</div>
 						</div>
@@ -79,11 +79,7 @@
 					<div class="content">
 						<div class="header">Delivery</div>
 						<div class="description">
-							<% if order.fulfillment_status == 0 %>
-								<p>Scheduled for delivery:<br> <b><%= semantic_icon :wait %> <%= order.delivery_time_to_min %></b></p>
-							<% else %>
-								<p>Delivered on:<br> <b><%= semantic_icon :wait %> <%= order.delivery_time_to_min %></b></p>
-							<% end %>
+							<p>Delivery Time:<br> <b><%= semantic_icon :wait %> <%= order.delivery_time_to_min %></b></p>
 							<p>Delivery Location:<br> <b><%= semantic_icon :marker %> <%= order.delivery_location %></b></p>
 							<p>Delivery Instruction:<br> <b><%= semantic_icon "info circle" %><%= order.delivery_instruction %></b></p>
 						</div>

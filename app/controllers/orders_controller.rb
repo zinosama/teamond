@@ -65,9 +65,9 @@ class OrdersController < ApplicationController #this controller uses current_use
 	def update
 		authorize @order		
 		@order.assign_attributes( order_update_params ) if params[:order]
-		@order.issue = params[:order][:issue] if @order.no_issue? && current_user.shopper?
-		@order.issue_status = 2 if params[:solved] == "1"
+		@order.issue = params[:order][:issue] if @order.no_feedback? && current_user.shopper?
 		raise Exceptions::InvalidOrderAttrsError unless @order.valid?
+		@order.feedback_resolved! if params[:solved] == "1"
 	rescue Exceptions::InvalidOrderAttrsError
 		flash.now[:error] = "Error! Please limit your input to under 255 characters"
 		render 'show'
