@@ -54,13 +54,11 @@
 									</div>
 									<div class="field">
 										<%= f.label :payment_status %>
-										<%= f.select(:payment_status, [['Unpaid', 0], ['Paid', 1], ['Refunded', 2]], {}, { class: "ui dropdown" }) %>
+										<%= f.select(:payment_status, [['Unpaid', 'unpaid'], ['Paid', 'paid'], ['Refunded', 'refunded']], {}, { class: "ui dropdown" }) %>
 									</div>
 									<div class="field">
-										<div class="ui toggle checkbox">
-											<%= f.check_box :fulfillment_status, {}, "1", "0" %>
-											<%= f.label :fulfillment_status, "Mark as delivered" %>	
-										</div>
+										<%= f.label :fulfillment_status %>
+										<%= f.select(:fulfillment_status, [['Received', 'received'], ['Confirmed', 'confirmed'], ['Denied', 'denied'], ['In transit', 'in_transit'], ['Arrived', 'arrived'], ['Delivered', 'delivered'], ['Cancelled', 'cancelled']]) %>
 									</div>
 									<div class="field">
 										<%= f.submit "Save", class: "ui button inverted blue" %>

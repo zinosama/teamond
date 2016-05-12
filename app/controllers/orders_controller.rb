@@ -69,7 +69,11 @@ class OrdersController < ApplicationController #this controller uses current_use
 		raise Exceptions::InvalidOrderAttrsError unless @order.valid?
 		@order.feedback_resolved! if params[:solved] == "1"
 	rescue Exceptions::InvalidOrderAttrsError
+		#this only works for user who provides lengthy input; not admin!
 		flash.now[:error] = "Error! Please limit your input to under 255 characters"
+		render 'show'
+	rescue ArgumentError
+		flash.now[:error] = "Error saving your satisfaction rating, please try again"
 		render 'show'
 	else
 		@order.save
@@ -130,6 +134,7 @@ class OrdersController < ApplicationController #this controller uses current_use
  		end
 
  		def order_update_params
+ 			params[:order][:satisfaction] = params[:order][:satisfaction].to_i if params[:order][:satisfaction]
  			params.require(:order).permit(policy(@order).permitted_update_attributes)
  		end
 

@@ -28,16 +28,6 @@ class OrderTest < ActiveSupport::TestCase
 		assert_not @order.valid?
 	end
 
-	test 'payment_method should not be larger than 1' do
-		@order.payment_method = 2
-		assert_not @order.valid?
-	end
-
-	test 'payment_method should not be negative' do
-		@order.payment_method = -1
-		assert_not @order.valid?
-	end	
-
 	test 'should have recipient_name' do
 		@order.recipient_name = ""
 		assert_not @order.valid?
@@ -68,13 +58,6 @@ class OrderTest < ActiveSupport::TestCase
 		assert_not @order.valid?
 	end
 
-	test 'satisfaction should be between 0 to 5' do
-		@order.satisfaction = -1
-		assert_not @order.valid?
-		@order.satisfaction = 6
-		assert_not @order.valid?
-	end 
-
 	test 'issue should not be too long' do
 		@order.issue = "a" * 256
 		assert_not @order.valid?
@@ -87,21 +70,6 @@ class OrderTest < ActiveSupport::TestCase
 
 	test 'should have a delivery time' do
 		@order.delivery_time = nil
-		assert_not @order.valid?
-	end
-
-	test 'should have an issue status' do
-		@order.issue_status = nil
-		assert_not @order.valid?
-	end
-
-	test 'issue status should be larger than 0' do
-		@order.issue_status = -1
-		assert_not @order.valid?
-	end
-
-	test 'issue status should be less than 2' do
-		@order.issue_status = 3
 		assert_not @order.valid?
 	end
 
