@@ -57,10 +57,10 @@ $(document).ready(function(){
   watchMilkteaAddons();
   watchMilkteaSizes();
 
-  if($('select[name="order[payment_method]"]').length && $('select[name="order[payment_method]"]')[0].value === '0'){
+  if($('select[name="order[payment_method]"]').length && $('select[name="order[payment_method]"]')[0].value === 'online'){
     $('#placeOrderButton').hide();
     $('#payOnlineButton').show();
-  }else if($('select[name="order[payment_method]"]').length && $('select[name="order[payment_method]"]')[0].value === '1'){
+  }else if($('select[name="order[payment_method]"]').length && $('select[name="order[payment_method]"]')[0].value === 'cash'){
     $('#payOnlineButton').hide();
     $('#placeOrderButton').show();
   }
@@ -79,7 +79,7 @@ var watchPlaceOrderButton = function(){
 
 var toggleOnlinePaymentForm = function(){
   $('select[name="order[payment_method]"]').change(function(){
-    if(this.value === '0'){
+    if(this.value === 'online'){
       $('#placeOrderButton').hide();
       $('#payOnlineButton').show();
     }else{

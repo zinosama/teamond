@@ -27,4 +27,8 @@ module OrderPresentor
 			{ msg: "Feedback has been answered", klass: :pending }
 		end				
 	end
+
+	def num_satisfaction
+		Order.satisfactions[satisfaction]
+	end
 end

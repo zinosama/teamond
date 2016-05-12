@@ -87,7 +87,7 @@ class OrderCreateTest < ActionDispatch::IntegrationTest
 
 		#an order is created
 		assert_difference 'Order.count', 1 do
-			post locations_time_orders_url(@locations_time), order: { recipient_name: "zino sama", recipient_phone: "123456", recipient_wechat: "abcdefg", payment_method: 1 }
+			post locations_time_orders_url(@locations_time), order: { recipient_name: "zino sama", recipient_phone: "123456", recipient_wechat: "abcdefg", payment_method: "cash" }
 		end
 		order = assigns(:order)
 		assert_redirected_to order_url(order)
@@ -98,7 +98,7 @@ class OrderCreateTest < ActionDispatch::IntegrationTest
 		assert_equal "zino sama", order.recipient_name
 		assert_equal "123456", order.recipient_phone
 		assert_equal "abcdefg", order.recipient_wechat
-		assert_equal 1, order.payment_method
+		assert order.cash?
 		assert_equal @locations_time.pickup_time_datetime, order.delivery_time
 		assert_equal @shopper.role.id, order.shopper.id
 
@@ -114,7 +114,7 @@ class OrderCreateTest < ActionDispatch::IntegrationTest
 		assert_difference 'Order.count', 1 do post_charge end
 
 		order = assigns(:order)
-		assert_equal 1, order.payment_status
+		assert order.paid?
 		assert_not_nil order.payment_id
 		assert_redirected_to order_url(order)
 	end
@@ -163,7 +163,7 @@ class OrderCreateTest < ActionDispatch::IntegrationTest
 		assert_template 'orders/new'
 		template = assigns(:template)
 		assert_equal 'orders/checkout_templates/recipient_info', template
-		assert_select 'li', count: 4
+		assert_select 'li', count: 3
 		assert_select 'div.ui.error.message', count: 1
 	end
 
@@ -180,7 +180,7 @@ class OrderCreateTest < ActionDispatch::IntegrationTest
 	end
 
 	def post_charge
-		post locations_time_orders_url(@locations_time), order: { recipient_name: "zino sama", recipient_phone: "123456", recipient_wechat: "abcdefg", payment_method: 0 }, stripeToken: @token
+		post locations_time_orders_url(@locations_time), order: { recipient_name: "zino sama", recipient_phone: "123456", recipient_wechat: "abcdefg", payment_method: "online" }, stripeToken: @token
 	end
 
 	#creates six scenarioes, each representing one of the possible cases. Two of them should be selectable.

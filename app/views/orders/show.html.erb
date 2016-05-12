@@ -34,7 +34,7 @@
 								<div class="field">
 									<%= f.label :satisfaction,"Did we make you smile?" %>
 									<%= f.hidden_field :satisfaction %>
-									<div class="ui huge heart rating" data-rating="<%= @order.satisfaction || 0 %>" data-max-rating="5"></div>
+									<div class="ui huge heart rating" data-rating="<%= @order.num_satisfaction %>" data-max-rating="5"></div>
 								</div>
 								<% if @order.no_feedback? %>
 								  <div class="field">

@@ -5,12 +5,12 @@ class Order < ActiveRecord::Base
 	belongs_to :driver
 	has_many :orderables, as: :ownable, dependent: :destroy
 
-	enum satisfaction: %i(unrated worst bad average good best)
+	enum satisfaction: %i(unrated worst bad indifferent good best)
 	enum issue_status: %i(no_feedback feedback_created feedback_resolved)
 	enum payment_status: %i(unpaid paid refunded)
 	enum payment_method: %i(online cash)
 	enum fulfillment_status: %i(received confirmed denied in_transit arrived delivered cancelled)
-	#ArgumentError
+	#raise ArgumentError when value passed in is string or not included in the hash
 
 	validates :total, presence: true, numericality: { greater_than: 0 }
 	validates :recipient_name, presence: true, length: { maximum: 50 }
@@ -22,8 +22,9 @@ class Order < ActiveRecord::Base
 	validates :issue, length: { maximum: 255 }
 	validates :solution, length: { maximum: 255 }
 	validates :note, length: { maximum: 255 }
-	
-	before_validation :update_issue_status
+	validates :payment_method, presence: true
+
+	before_save :update_issue_status
 
 	def self.get_query(query_param)
 		case query_param
@@ -61,4 +62,5 @@ class Order < ActiveRecord::Base
 		def update_issue_status
 			feedback_created! if no_feedback? && !(issue.nil? || issue.empty?)
 		end
+
 end

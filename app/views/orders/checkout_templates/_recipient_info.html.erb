@@ -69,7 +69,7 @@
 						<%= semantic_icon "inverted blue american express" %>
 						<%= semantic_icon "inverted blue discover" %>
 					<% end %>
-					<%= f.select(:payment_method, [['Pay Online', 0], ['Pay Cash', 1]], { include_blank: "select payment method"}, { class: "ui fluid dropdown", id: ""}) %>
+					<%= f.select(:payment_method, [['Pay Online', 'online'], ['Pay Cash', 'cash']], { include_blank: "select payment method"}, { class: "ui fluid dropdown", id: ""}) %>
 					<small>Teamond handles all online transactions through secure payment service provider, Stripe <%= semantic_icon "stripe inverted blue" %>, a PCI Certified Level 1 provider. We do NOT process NOR store your payment information.</small>
 				</div>
 			</div>
