@@ -1,6 +1,8 @@
 class CreateAdmins < ActiveRecord::Migration
   def change
     create_table :admins do |t|
+    	t.boolean :super_admin, default: false, null: false
+    	t.boolean :accountant, default: false, null: false
 
       t.timestamps null: false
     end

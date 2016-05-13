@@ -46,6 +46,7 @@ Rails.application.routes.draw do
   resources :dish_categories, only: [:create, :edit, :update]
   resources :milktea_addons, only: [:create, :edit, :update]
 
+  resources :stores
 ######Delivery System#####
   resources :pickup_locations, only: [:index, :create, :show, :edit, :update, :destroy] do
     resources :locations_times, only: [:create]  

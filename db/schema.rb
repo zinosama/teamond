@@ -24,8 +24,10 @@ ActiveRecord::Schema.define(version: 20160427195701) do
   add_index "addons_orderables", ["milktea_orderable_id"], name: "index_addons_orderables_on_milktea_orderable_id"
 
   create_table "admins", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.boolean  "super_admin", default: false, null: false
+    t.boolean  "accountant",  default: false, null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
   end
 
   create_table "dish_categories", force: :cascade do |t|
@@ -36,8 +38,16 @@ ActiveRecord::Schema.define(version: 20160427195701) do
   end
 
   create_table "drivers", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "nickname",      default: "Steve DBD", null: false
+    t.string   "vehicle_make"
+    t.string   "vehicle_model"
+    t.string   "vehicle_color"
+    t.string   "license_plate"
+    t.boolean  "active",        default: false,       null: false
+    t.decimal  "lat"
+    t.decimal  "long"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   create_table "feedbacks", force: :cascade do |t|
@@ -147,9 +157,10 @@ ActiveRecord::Schema.define(version: 20160427195701) do
   end
 
   create_table "providers", force: :cascade do |t|
+    t.boolean  "chief_liaison", default: false, null: false
     t.integer  "store_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
   add_index "providers", ["store_id"], name: "index_providers_on_store_id"
@@ -162,11 +173,13 @@ ActiveRecord::Schema.define(version: 20160427195701) do
     t.string   "type",                             null: false
     t.boolean  "active",           default: false
     t.integer  "dish_category_id"
+    t.integer  "store_id",                         null: false
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
   end
 
   add_index "recipes", ["dish_category_id"], name: "index_recipes_on_dish_category_id"
+  add_index "recipes", ["store_id"], name: "index_recipes_on_store_id"
 
   create_table "shoppers", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -174,10 +187,17 @@ ActiveRecord::Schema.define(version: 20160427195701) do
   end
 
   create_table "stores", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.string   "address",    null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",                       null: false
+    t.string   "phone",                      null: false
+    t.string   "owner",                      null: false
+    t.string   "email"
+    t.string   "website"
+    t.string   "address",                    null: false
+    t.decimal  "lat",                        null: false
+    t.decimal  "long",                       null: false
+    t.boolean  "active",     default: false, null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "users", force: :cascade do |t|

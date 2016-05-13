@@ -1,0 +1,12 @@
+<div class="ui fluid card">
+	<div class="content">
+		<div class="header center aligned">
+			<span class="storeInfoTitle">Store Providers</span>
+			<%= link_to "Add Provider", "#", class: "ui teal tiny label storeLabel" %>
+		</div>
+
+		<div class="description">
+			<%= @store.providers.empty? ? "This store has no provider" : render("stores/store_provider_info") %>
+		</div>	
+	</div>
+</div>

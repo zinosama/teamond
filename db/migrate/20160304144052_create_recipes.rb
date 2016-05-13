@@ -11,6 +11,7 @@ class CreateRecipes < ActiveRecord::Migration
       t.boolean :active, default: false
 
     	t.references :dish_category, index: true, foreign_key: true
+      t.references :store, index: true, null: false
       t.timestamps null: false
     end
   end

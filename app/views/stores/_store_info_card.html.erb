@@ -1,0 +1,32 @@
+<div class="ui fluid card">
+	<div class="content">
+		<div class="header center aligned">
+			<span class="storeInfoTitle">Store Info</span>
+			<p class="ui <%= @store.active? ? 'green' : 'red' %> tiny label storeLabel">
+				<%= @store.present_active.capitalize %>
+			</p>
+			<%= link_to "Edit", edit_store_url(@store), class: "ui teal tiny label storeLabel" %>
+		</div>
+
+		<div class="description">
+			<div class="row">
+				<div class="ui container grid">
+
+					<div class="eight wide column">
+						<p>Primary contact: <span class="storeInfo"><%= @store.owner %></span></p>
+						<p>Primary contact Number: <span class="storeInfo"><%= @store.phone %></span></p>
+						<p>Primary contact Email: <span class="storeInfo"><%= @store.email || "N/A" %></span></p>
+					</div>
+
+					<div class="eight wide column">
+						<p>Store name: <span class="storeInfo"><%= @store.name.capitalize %></span>
+						<p>Store website: <span class="storeInfo"><%= @store.website.nil? ? "N/A" : link_to("Click here", @store.website, target: "_blank") %></span></p>
+						<p>Store location: <span class="storeInfo"><%= @store.address %></span></p>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>

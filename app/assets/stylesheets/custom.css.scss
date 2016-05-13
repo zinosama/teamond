@@ -305,3 +305,19 @@ div.ui.cards.orderShowCards div.card:hover{
 div.four.wide.column b{
   color: #A06A00;
 }
+
+/* Store Show */
+.storeInfo{
+  display: block; 
+  font-weight: 600;
+}
+.ui.label.storeLabel{
+  vertical-align: top;
+}
+.storeInfoTitle{
+  margin-right: 0.4em;
+}
+.storeProviderInfo{
+  display: block;
+  margin-bottom: 0.3em;
+}
