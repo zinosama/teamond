@@ -6,7 +6,8 @@ class RecipesControllerTest < ActionController::TestCase
 		@admin = users(:zino)
 		@user = users(:ed)
 		@new_category = DishCategory.create(name: "new category")
-		@recipe = Recipe.create(name: "tea", price: 1.23, type: "Milktea", image: File.open(File.join(Rails.root, '/test/fixtures/images/salad.jpg')), description: "description")
+		@store = stores(:one)
+		@recipe = Recipe.create(name: "tea", price: 1.23, type: "Milktea", image: File.open(File.join(Rails.root, '/test/fixtures/images/salad.jpg')), store: @store, description: "description")
 	end
 
 	test 'should redirect manage when not logged in' do
@@ -31,7 +32,7 @@ class RecipesControllerTest < ActionController::TestCase
 
 	test 'should redirect create when not logged in' do
 		assert_no_difference 'Recipe.count' do
-			post :create, recipe: { name: "dukbokki", price: 1.23, type: "Dish", dish_category_id: @new_category.id, image: File.open(File.join(Rails.root, '/test/fixtures/images/salad.jpg')), description: "description"}
+			post :create, recipe: { name: "dukbokki", price: 1.23, type: "Dish", dish_category_id: @new_category.id, image: File.open(File.join(Rails.root, '/test/fixtures/images/salad.jpg')), description: "description", store: @store }
 		end
 
 		assert_redirected_to login_url
@@ -41,7 +42,7 @@ class RecipesControllerTest < ActionController::TestCase
 	test 'should redirect create when logged in as non-admin' do
 		log_in_as @user
 		assert_no_difference 'Recipe.count' do
-			post :create, recipe: { name: "dukbokki", price: 1.23, type: "Dish", dish_category_id: @new_category.id, image: File.open(File.join(Rails.root, '/test/fixtures/images/salad.jpg')), description: "description"}
+			post :create, recipe: { name: "dukbokki", price: 1.23, type: "Dish", dish_category_id: @new_category.id, image: File.open(File.join(Rails.root, '/test/fixtures/images/salad.jpg')), store: @store, description: "description", }
 		end
 
 		assert_redirected_to root_url
@@ -62,7 +63,7 @@ class RecipesControllerTest < ActionController::TestCase
 	end
 
 	test 'should redirect update when not logged in' do
-		patch :update, id: @recipe, recipe: { name: "dddubokki", price: 1.22, type: "Milktea", image: File.open(File.join(Rails.root, '/test/fixtures/images/salad2.jpg')), description: "Hi"}
+		patch :update, id: @recipe, recipe: { name: "dddubokki", price: 1.22, type: "Milktea", image: File.open(File.join(Rails.root, '/test/fixtures/images/salad2.jpg')), description: "Hi" }
 		assert_redirected_to login_url
 		assert_not flash.empty? 
 	end

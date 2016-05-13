@@ -16,9 +16,9 @@ class RecipeEditTest < ActionDispatch::IntegrationTest
 	test 'invalid recipe' do
 		log_in_as @admin
 		get manage_recipes_url
-		patch recipe_path(@dish), recipe: { name: "", price: "", type: "", image: "", description: "" }
+		patch recipe_path(@dish), recipe: { name: "", price: "", type: "", image: "", description: "", store_id: "" }
 		assert_template 'recipes/edit'
-		assert_select 'li', count: 5
+		assert_select 'li', count: 6
 		assert_select 'div.ui.error.message', count: 1
 	end
 

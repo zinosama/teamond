@@ -6,7 +6,8 @@ class Recipe < ActiveRecord::Base
 	validates :image, presence: true
 	validates :price, presence: true, numericality: { greater_than: 0 }
 	validates :type, presence: true
-
+	validates :store, presence: true
+	
 	mount_uploader :image, PictureUploader
 	validate :picture_size
 
