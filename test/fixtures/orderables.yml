@@ -16,6 +16,14 @@
 #   quantity: 1
 #   unit_price: 2.3
 
+patch_one:
+  ownable: shopper_patch_one
+  ownable_type: "Shopper"
+  buyable: milktea_orderable1
+  buyable_type: "MilkteaOrderable"
+  quantity: 1
+  unit_price: 2.3
+
 one:
   ownable: shopper_one
   ownable_type: "Shopper"

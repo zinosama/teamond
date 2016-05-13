@@ -11,16 +11,18 @@ class Orderable < ActiveRecord::Base
 	after_destroy :destroy_milktea
 
 	def to_modified_status(args = nil)
-		if self.buyable.is_a? MilkteaOrderable
+		if buyable.is_a? MilkteaOrderable
 			inactive_count = 0
-			inactive_count += 1 unless self.buyable.milktea.active
-			self.buyable.milktea_addons.each do |addon|
+			inactive_count += 1 unless buyable.milktea.active
+			buyable.milktea_addons.each do |addon|
 				inactive_count += 1 unless addon.active
 			end
 			if inactive_count == 0
-				args == :skip_status_1_check ? self.update_attribute(:status, 0) : self.update_attribute(:status, 1)
+				args == :skip_status_1_check ? update_attribute(:status, 0) : update_attribute(:status, 1)
 			end
-		end
+		elsif buyable.is_a? Dish
+			args == :skip_status_1_check ? update_attribute(:status, 0) : update_attribute(:status, 1)
+		end 
 	end
 
 	def disable

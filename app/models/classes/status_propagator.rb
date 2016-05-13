@@ -4,10 +4,10 @@ class StatusPropagator
   def self.propagate_state_change(obj)
     target_state = obj.active? ? :to_modified_status : :disable 
     
-    case obj.class
+    case obj
     when Dish 
       obj.orderables.each(&target_state)
-    when Milktea || MilkteaAddon
+    when Milktea, MilkteaAddon
       obj.milktea_orderables.map(&:orderable).each(&target_state)
     when Store
       target_state = :activate if target_state == :to_modified_status
