@@ -1,0 +1,28 @@
+<% provide(:title, "Store Management") %>
+<%= render 'shared/admin_nav' %>
+
+<div class="centered row">
+	<div class="categoryTitle">Store Management</div>
+</div>
+
+<div class="row">
+  <% @stores.each do |store| %>
+    <div class="four wide column">
+      
+      <div class="ui fluid card">
+        <div class="content">
+          <div class="header"><%= link_to store.name.capitalize, store_url(store) %></div>
+          <div class="description">
+            Pending...(this is a placeholder for google map static image)
+          </div>
+        </div>
+        
+        <div class="extra content">
+          <div class="ui label <%= store.active? ? 'green' : 'red' %> tiny"><%= store.present_active.capitalize %></div>
+        </div>
+        
+      </div>
+      
+    </div>     
+  <% end %> 
+</div>

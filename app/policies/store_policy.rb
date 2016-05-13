@@ -5,6 +5,10 @@ class StorePolicy < ApplicationPolicy
 		@current_user = current_user
 		@store = model
 	end
+	
+	def index?
+		@current_user.admin?
+	end
 
 	def new?
 		@current_user.admin?

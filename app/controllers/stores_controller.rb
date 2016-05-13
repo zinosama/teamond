@@ -4,6 +4,11 @@ class StoresController < ApplicationController
 
 	after_action :verify_authorized
 
+	def index
+		authorize Store
+		@stores = Store.all
+	end
+
 	def new
 		authorize Store
 		@store = Store.new

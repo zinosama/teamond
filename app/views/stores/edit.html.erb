@@ -4,7 +4,7 @@
 
 <div class="row">
 	<div class="ui breadcrumb">
-	  <%= link_to "Store Management", "#", class: "section" %>
+	  <%= link_to "Store Management", stores_url, class: "section" %>
 	  <i class="right angle icon divider"></i>
 	  <%= link_to @store.name.capitalize, store_url(@store), class: "section" %>
 	  <i class="right angle icon divider"></i>

@@ -17,6 +17,9 @@ class StoreEditTest < ActionDispatch::IntegrationTest
     assert_select 'form[action=?]', store_path(@store), count: 2
     assert_select 'form[method=?]', 'post', count: 2
     assert_select 'input[value=?]', 'patch', count: 2
+    
+    assert_select 'a[href=?]', stores_url, count: 1
+    assert_select 'a[href=?]', store_url(@store), count: 1 
   end
   
   test 'valid update' do

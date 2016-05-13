@@ -6,14 +6,21 @@ class StoreCreateTest < ActionDispatch::IntegrationTest
 		@admin = users(:zino)
 	end
 
-	test 'valid store' do
+	test 'valid new page' do
 		log_in_as @admin
 		get new_store_url
 
 		assert_template 'stores/new'
+		assert_select 'title', full_title("New Store")
 		assert_select 'form[action=?]', stores_path, count: 1
 		assert_select 'form[method=?]', 'post', count: 1
+		
+		assert_select 'a[href=?]', stores_url, count: 1
+	end
 
+	test 'valid store' do
+		log_in_as @admin
+		
 		assert_difference 'Store.count', 1 do
 			post stores_url, store: { name: "new store", phone: "12312", owner: "harry", address: "500 joseph c"}
 		end

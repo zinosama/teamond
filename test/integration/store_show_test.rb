@@ -18,7 +18,7 @@ class StoreShowTest < ActionDispatch::IntegrationTest
     
     # pending tests:
     # assert_select 'a[href=?]', new_provider_url, count: 1
-    # assert_select 'a[href=?]', stores_url, count: 1
+    assert_select 'a[href=?]', stores_url, count: 1
   end 
   
 end
