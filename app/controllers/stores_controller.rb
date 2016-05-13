@@ -1,6 +1,6 @@
 class StoresController < ApplicationController
 	before_action :logged_in_user
-	before_action :valid_store, only: [:show]
+	before_action :valid_store, only: [:show, :edit, :update]
 
 	after_action :verify_authorized
 
@@ -18,6 +18,19 @@ class StoresController < ApplicationController
 	def show
 		authorize @store
 	end	
+	
+	def edit
+		authorize @store
+	end
+	
+	def update
+		authorize @store
+		if @store.update_attributes(store_params)
+			redirect_and_flash(store_url(@store), :success, "Store updated")
+		else
+			render 'edit'
+		end
+	end
 	
 	private 
 

@@ -13,14 +13,15 @@ class StoreEditTest < ActionDispatch::IntegrationTest
     assert_template 'stores/edit'
     assert_select 'title', full_title('Edit Store')
     
-    assert_select 'form[action=?]', stores_url(@store), count: 1
-    assert_select 'form[method=?]', 'post', count: 1
-    assert_select 'input[value=?]', 'patch', count: 1
+    #one form for edit attr, another for activation
+    assert_select 'form[action=?]', store_path(@store), count: 2
+    assert_select 'form[method=?]', 'post', count: 2
+    assert_select 'input[value=?]', 'patch', count: 2
   end
   
   test 'valid update' do
     log_in_as @admin
-    patch stores_url(@store), store: { name: "new name", owner: "new owner", phone: "new phone", address: "new address", email: "new email", website: "new website", active: false }
+    patch store_url(@store), store: { name: "new name", owner: "new owner", phone: "new phone", address: "new address", email: "new email", website: "new website", active: false }
     
     assert_redirected_to store_url(@store)
     assert_not flash[:success].empty?
@@ -38,7 +39,7 @@ class StoreEditTest < ActionDispatch::IntegrationTest
   
   test 'invalid update' do
     log_in_as @admin
-    patch stores_url(@store), store: { name: "", owner: "", phone: "", address: "", email: "a" * 256, website: "a" * 256 }
+    patch store_url(@store), store: { name: "", owner: "", phone: "", address: "", email: "a" * 256, website: "a" * 256 }
     
     assert_template 'stores/edit'
     assert_select 'div.ui.error.message', count: 1
