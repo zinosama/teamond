@@ -7,3 +7,9 @@
 one: 
   name: name
   address: address
+  phone: 4313131
+  owner: owner
+  address: 500 joseph c wilson blvd
+  active: true
+  lat: 0
+  long: 0

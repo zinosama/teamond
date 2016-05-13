@@ -24,9 +24,8 @@ class ApplicationController < ActionController::Base
 	end
 
 	def logged_in_admin
-		unless logged_in? && current_user.admin?
-			store_location
-			flash[:error] = "Access denied."
+		unless current_user.admin?
+			flash[:error] = "Access denied"
 			redirect_to root_url
 		end		
 	end

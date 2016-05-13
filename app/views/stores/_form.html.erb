@@ -1,0 +1,37 @@
+<%= form_for @store, html: { class: ['ui', 'form', 'column'] } do |f| %>
+	<%= render 'shared/error_msgs', object: f.object %>
+
+	<div class="field">
+		<%= f.label :name, "Store" %>
+		<%= icon_input_wrapper(f, :name, :building, { placeholder: "Name of new store" }) %>
+	</div>
+
+	<div class="field">
+		<%= f.label :phone %>
+		<%= icon_input_wrapper(f, :phone, :phone, { placeholder: "Primary contact number" }) %>
+	</div>
+
+	<div class="field">
+		<%= f.label :owner %>
+		<%= icon_input_wrapper(f, :owner, :user, { placeholder: "Name of owner or primary contact" }) %>
+	</div>
+
+	<div class="field">
+		<%= f.label :address %>
+		<%= icon_input_wrapper(f, :address, :marker, { placeholder: "Adderss of new store" }) %>
+	</div>
+
+	<div class="field">
+		<%= f.label :email %>
+		<%= icon_input_wrapper(f, :email, :mail, { placeholder: "Primary contact email (optional)" }) %>
+	</div>
+
+	<div class="field">
+		<%= f.label :website %>
+		<%= icon_input_wrapper(f, :website, :laptop, { placeholder: "Store website (optional)" }) %>
+	</div>
+
+	<div class="field">
+		<%= f.submit yield(:button_text), class: "ui inverted #{yield(:button_color)} button" %>
+	</div>
+<% end %>

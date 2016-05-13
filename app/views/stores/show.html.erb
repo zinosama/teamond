@@ -1,0 +1,37 @@
+<% provide(:title, @store.name) %>
+
+<div class="row">
+	<div class="ui breadcrumb">
+	  <%= link_to "Store Management", "#", class: "section" %>
+	  <i class="right angle icon divider"></i>
+	  <div class="active section"><%= @store.name.capitalize %></div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="ui container grid">
+		<div class="row">
+			<div class="eight wide column">
+				<%= render 'stores/store_info_card' %>
+			</div>
+
+			<div class="eight wide column">
+				<%= render 'stores/store_providers_card' %>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="column">
+				<div class="ui fluid card">
+					<div class="content center aligned">
+						<div class="header">Store Stats</div>
+						<div class="description">
+							Coming...
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>

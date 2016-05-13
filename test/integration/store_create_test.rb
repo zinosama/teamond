@@ -11,7 +11,7 @@ class StoreCreateTest < ActionDispatch::IntegrationTest
 		get new_store_url
 
 		assert_template 'stores/new'
-		assert_select 'form[action=?]', stores_url, count: 1
+		assert_select 'form[action=?]', stores_path, count: 1
 		assert_select 'form[method=?]', 'post', count: 1
 
 		assert_difference 'Store.count', 1 do

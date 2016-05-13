@@ -1,0 +1,19 @@
+<% provide(:title, "New Store") %>
+<% provide(:button_text, "Create New Store") %>
+<% provide(:button_color, "blue") %>
+
+<div class="row">
+	<div class="ui breadcrumb">
+	  <%= link_to "Store Management", "#", class: "section" %>
+	  <i class="right angle icon divider"></i>
+	  <div class="active section">New Store</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="ui container grid">
+		<div class="row">
+		 	<%= render 'stores/form' %>
+		</div>
+	</div>
+</div>

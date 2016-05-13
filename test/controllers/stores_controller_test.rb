@@ -12,7 +12,7 @@ class StoresControllerTest < ActionController::TestCase
 		log_in_as @admin
 		get :new
 		assert_response :success
-		assert_selet "title", full_title("New Store")
+		assert_select "title", full_title("New Store")
 	end
 
 	test 'should redirect new if not logged in' do

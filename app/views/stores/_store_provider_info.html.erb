@@ -1,0 +1,5 @@
+<% @store.providers.each do |provider| %>
+	<span class="storeProviderInfo">
+		<%= link_to provider.name.capitalize, "#", class: ("success" if provider.chief_liaison?) %>
+	</span>
+<% end %>

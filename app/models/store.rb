@@ -1,4 +1,5 @@
 class Store < ActiveRecord::Base
+	include StorePresentor
 	has_many :providers
 	
 	validates :name, presence: true, length: { maximum: 50 }
@@ -7,7 +8,6 @@ class Store < ActiveRecord::Base
 	validates :address, presence: true, length: { maximum: 255 }
 	# validates :lat, presence: true
 	# validates :long, presence: true
-	validates :active, presence: true
 
 	#optional attributes
 	validates :email, length: { maximum: 255 }
@@ -18,7 +18,7 @@ class Store < ActiveRecord::Base
 	private
 
 		def default_lat_long
-			lat = 0 if lat.nil?
-			long = 0 if long.nil?
+			self.lat = 0 if lat.nil?
+			self.long = 0 if long.nil?
 		end
 end

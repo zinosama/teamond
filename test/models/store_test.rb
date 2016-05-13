@@ -44,22 +44,7 @@ class StoreTest < ActiveSupport::TestCase
 	test 'address should not be too long' do
 		@store.address = "a" * 256
 		assert_not @store.valid?
-	end
-
-	test 'should have a lat' do
-		@store.lat = nil
-		assert_not @store.valid?
 	end	
-
-	test 'should have a long' do
-		@store.long = nil
-		assert_not @store.valid?
-	end
-
-	test 'should have active status' do
-		@store.active = nil
-		assert_not @store.valid?
-	end
 
 	#optional attributes
 
