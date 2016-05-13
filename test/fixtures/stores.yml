@@ -11,5 +11,6 @@ one:
   owner: owner
   address: 500 joseph c wilson blvd
   active: true
+  website: https://www.website.com
   lat: 0
   long: 0

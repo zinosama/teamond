@@ -4,7 +4,7 @@
 
 <div class="row">
 	<div class="ui breadcrumb">
-	  <%= link_to "Store Management", "#", class: "section" %>
+	  <%= link_to "Store Management", stores_url, class: "section" %>
 	  <i class="right angle icon divider"></i>
 	  <div class="active section">New Store</div>
 	</div>
@@ -13,7 +13,9 @@
 <div class="row">
 	<div class="ui container grid">
 		<div class="row">
-		 	<%= render 'stores/form' %>
+			<div class="column">
+				<%= render 'stores/form' %>
+			</div>
 		</div>
 	</div>
 </div>

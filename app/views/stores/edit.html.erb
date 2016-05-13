@@ -1,0 +1,26 @@
+<% provide(:title, "Edit Store") %>
+<% provide(:button_text, "Update Store") %>
+<% provide(:button_color, "red") %>
+
+<div class="row">
+	<div class="ui breadcrumb">
+	  <%= link_to "Store Management", stores_url, class: "section" %>
+	  <i class="right angle icon divider"></i>
+	  <%= link_to @store.name.capitalize, store_url(@store), class: "section" %>
+	  <i class="right angle icon divider"></i>
+	  <div class="active section">Edit</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="ui container grid">
+		<div class="row">
+      <div class="column">
+        <%= render 'stores/form' %>
+        <%= render 'shared/toggle_active_button', object: @store, name: "Store" %>
+        <small>**Extreme Caution: Disabling store will disable all associated menu items!</small>
+      </div>
+		</div>
+	</div>
+</div>
+
