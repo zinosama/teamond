@@ -27,8 +27,7 @@ module Teamond
         "<div class=\"ui left icon input error\">#{html_tag}</div>".html_safe
     }
 
-    config.autoload_paths += %W(#{config.root}/app/models/recipes)
-    config.autoload_paths += %W(#{config.root}/app/models/roles)
+    config.autoload_paths += %W(#{config.root}/app/models/recipes #{config.root}/app/models/roles #{config.root}/app/models/classes)
     config.autoload_paths += %W(#{config.root}/lib/assets)
   end
 end
