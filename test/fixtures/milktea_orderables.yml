@@ -9,6 +9,7 @@ milktea_orderable1:
   temp_scale: 1
   size: 0
   milktea: milktea1
+  orderable_id: patch_one
 
 #belongs to ed
 milktea_orderable2:
@@ -16,6 +17,7 @@ milktea_orderable2:
   temp_scale: 1
   size: 0
   milktea: milktea1
+  orderable_id: one
 
 #belongs to shopper2
 milktea_orderable3:
@@ -23,3 +25,4 @@ milktea_orderable3:
   temp_scale: 1
   size: 0
   milktea: milktea1
+  orderable_id: three

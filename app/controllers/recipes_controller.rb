@@ -60,8 +60,7 @@ class RecipesController < ApplicationController
 				@recipe.dish_category = dish_category if dish_category
 			end
 
-			if @recipe.update_attributes(recipe_params)
-				@recipe.update_associated_orderables(:modified)
+			if @recipe.update_attributes(recipe_params) #recipe now propagates status change via after_update callback
 				redirect_and_flash(manage_recipes_url, :success, "Menu item updated")
 			else
 				render 'edit'
@@ -77,6 +76,6 @@ class RecipesController < ApplicationController
 	private 
 
 	def recipe_params
-		params.require(:recipe).permit(:name, :description, :image, :price)
+		params.require(:recipe).permit(:name, :description, :image, :price, :store_id)
 	end
 end

@@ -10,6 +10,11 @@
 		<%= icon_input_wrapper(f, :price, :dollar, { placeholder: "New menu item price, number only!" }) %>
 	</div>
 
+	<div class="field">
+		<%= f.label :store %>
+		<%= f.collection_select(:store_id, Store.where("active =? ", true), :id, :name, { prompt: "Select Store" }, { class: "ui dropdown" }) %>
+	</div>
+
 	<% unless @recipe.type %>
 			<div class="field">
 				<%= f.label :type %>

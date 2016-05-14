@@ -4,7 +4,8 @@ class RecipeTest < ActiveSupport::TestCase
 
 	def setup
 		fried_rice = DishCategory.new(name: "Rice")
-		@dish = fried_rice.dishes.build(name: "Fried Rice", description: "fried rice with little nutrition.", price: 12.11, image: File.open(File.join(Rails.root, '/test/fixtures/images/salad.jpg')) )
+		@store = stores(:one)
+		@dish = fried_rice.dishes.build(name: "Fried Rice", description: "fried rice with little nutrition.", price: 12.11, image: File.open(File.join(Rails.root, '/test/fixtures/images/salad.jpg')), store: @store )
 	end
 
 	#basic attributes testing
@@ -14,7 +15,7 @@ class RecipeTest < ActiveSupport::TestCase
 	end
 
 	test 'milktea should be subclass of recipe' do
-		milktea = Recipe.new(name: "bubble tea", description: "sugar water that makes you fat. Sorry.", price: 3, image: File.open(File.join(Rails.root, '/test/fixtures/images/salad.jpg')), type: "Milktea")
+		milktea = Recipe.new(name: "bubble tea", description: "sugar water that makes you fat. Sorry.", price: 3, image: File.open(File.join(Rails.root, '/test/fixtures/images/salad.jpg')), type: "Milktea", store: @store)
 		assert milktea.valid?
 	end
 
@@ -82,5 +83,9 @@ class RecipeTest < ActiveSupport::TestCase
 		assert_not milktea.valid?
 	end
 
+	test 'store should be present' do
+		@dish.store = nil
+		assert_not @dish.valid?
+	end
 	
 end

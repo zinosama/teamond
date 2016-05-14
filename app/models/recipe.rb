@@ -6,24 +6,33 @@ class Recipe < ActiveRecord::Base
 	validates :image, presence: true
 	validates :price, presence: true, numericality: { greater_than: 0 }
 	validates :type, presence: true
-
+	validates :store, presence: true
+	
 	mount_uploader :image, PictureUploader
 	validate :picture_size
+	
+	after_update :propagate_state_change
 
 	def activate
-		self.update_attribute(:active, true)
-		self.update_associated_orderables(:active)
+		update_attribute(:active, true)
+		# self.update_associated_orderables(:active)
+		propagate_state_change
 	end
 
 	def disable
-		self.update_attribute(:active, false)
-		self.update_associated_orderables(:disabled)
+		update_attribute(:active, false)
+		# self.update_associated_orderables(:disabled)
+		propagate_state_change
 	end
 
 	private
 
-	def picture_size
-		errors.add(:image, "should be less than 1MB") if image.size > 1.megabytes
-	end
+		def propagate_state_change
+			StatusPropagator.propagate_state_change(self)
+		end
+
+		def picture_size
+			errors.add(:image, "should be less than 1MB") if image.size > 1.megabytes
+		end
 
 end
