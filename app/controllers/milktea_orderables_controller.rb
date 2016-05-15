@@ -33,7 +33,7 @@ class MilkteaOrderablesController < ApplicationController
 		authorize @milktea_orderable
 		if @milktea_orderable.update_attributes(milktea_orderable_params)
 			@milktea_orderable.orderable.update_attribute(:unit_price, @milktea_orderable.unit_price)
-			@milktea_orderable.orderable.to_modified_status(:skip_status_1_check)
+			StatusPropagator.propagate_state_change(@milktea_orderable)
 			redirect_and_flash(shopper_cart_url(@milktea_orderable.orderable.ownable), :success, "Changes saved")
 		else
 			@milktea = @milktea_orderable.milktea

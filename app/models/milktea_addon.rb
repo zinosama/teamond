@@ -10,12 +10,10 @@ class MilkteaAddon < ActiveRecord::Base
 	def activate
 		update_attribute(:active, true)
 		propagate_state_change
-		# self.milktea_orderables.each{ |milktea_orderable| milktea_orderable.orderable.to_modified_status if milktea_orderable.orderable }
 	end
 
 	def disable
 		update_attribute(:active, false)
-		# self.milktea_orderables.each{ |milktea_orderable| milktea_orderable.orderable.disable if milktea_orderable.orderable }
 		propagate_state_change
 	end
 	

@@ -28,13 +28,14 @@ class OrderablesController < ApplicationController
 	def update
 		authorize @orderable
 		if params[:status]
-			@orderable.update_attribute(:status, 0) if @orderable.status == 1
+			@orderable.active! if @orderable.updated?
 			redirect_to shopper_cart_url(@orderable.ownable)
 		else
 			if @quantity <= 0
 				@orderable.destroy
 				redirect_and_flash(shopper_cart_url(@orderable.ownable), :success, "Item removed")
-			else @orderable.update_attribute(:quantity, @quantity)
+			else 
+				@orderable.update_attribute(:quantity, @quantity)
 				redirect_and_flash(shopper_cart_url(@orderable.ownable), :success, "Quantity updated")
 			end
 		end
@@ -75,12 +76,12 @@ class OrderablesController < ApplicationController
 		def get_orderables
 			@items = []
 			@shopper.orderables.each do |orderable|
-				if orderable.status == 0
+				if orderable.active?
 					@items << { orderable: orderable }
-				elsif orderable.status == 1
+				elsif orderable.updated?
 					@items << { orderable: orderable, msg: { msg: "Item info has changed!", class: "warning" } }
 					flash.now[:warning] = "We have updated some item(s) in your cart. Please verify before purchasing."
-				else
+				elsif orderable.inactive?
 					if orderable.buyable.is_a? Dish
 						@items << { orderable: orderable, msg: { msg: "Item no longer available!", class: "error" } }
 					else
