@@ -49,13 +49,4 @@ class OrderableTest < ActiveSupport::TestCase
 		assert_not orderable.valid?
 	end
 
-	test 'status should be present' do
-		orderable = Orderable.new(buyable: @dish, unit_price: 10, quantity: 20, status: "")
-		assert_not orderable.valid? 
-	end
-
-	test 'status should be numeric' do
-		orderable = Orderable.new(buyable: @dish, unit_price: 10, quantity: 20, status: "hi")
-		assert_not orderable.valid?
-	end
 end

@@ -11,12 +11,4 @@ class Dish < Recipe
 		Recipe.model_name
 	end
 
-	# def update_associated_orderables(status)
-	# 	if status == :active || status == :modified
-	# 		self.orderables.update_all(status: 1)
-	# 	else
-	# 		self.orderables.update_all(status: 2)
-	# 	end
-	# end
-
 end

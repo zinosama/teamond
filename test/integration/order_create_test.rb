@@ -163,7 +163,7 @@ class OrderCreateTest < ActionDispatch::IntegrationTest
 		assert_template 'orders/new'
 		template = assigns(:template)
 		assert_equal 'orders/checkout_templates/recipient_info', template
-		assert_select 'li', count: 3
+		assert_select 'li', count: 4
 		assert_select 'div.ui.error.message', count: 1
 	end
 

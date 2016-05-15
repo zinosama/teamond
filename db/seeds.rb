@@ -10,14 +10,14 @@ User.create!(name:  "shopper zino",
              password:              "dasdaa",
              password_confirmation: "dasdaa",
              activated: true,
-             activated_at: Time.zone.now,
+             activated_at: Time.zone.now
              )
 root_admin = User.new(name: "admin zino",
 						 email: "admin@gmail.com",
 						 password: "dasdaa",
 						 password_confirmation: "dasdaa",
 						 activated: true,
-						 activated_at: Time.zone.now,
+						 activated_at: Time.zone.now
 						)
 root_admin.role = Admin.create(user: root_admin)
 root_admin.save!
@@ -36,7 +36,9 @@ root_admin.save!
 #                activated_at: Time.zone.now)
 # end
 
-Milktea.create!(name: "uuulong milktea", description:"first milktea", price: 1.23, image: File.open(File.join(Rails.root, '/test/fixtures/images/tea.jpg')))
+store_one = Store.create!(name: "Asian Cafe", phone: "2341232", owner: "Harry Porter", address: "500 Joseph C Wilson Blvd", active: true)
+
+Milktea.create!(name: "uuulong milktea", description:"first milktea", store: store_one, price: 1.23, image: File.open(File.join(Rails.root, '/test/fixtures/images/tea.jpg')))
 MilkteaAddon.create!(name: "bubble", price: 0.5)
 MilkteaAddon.create!(name: "red bean", price: 0.5)
 MilkteaAddon.create!(name: "green bean", price: 0.5)

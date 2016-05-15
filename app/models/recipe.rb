@@ -15,13 +15,11 @@ class Recipe < ActiveRecord::Base
 
 	def activate
 		update_attribute(:active, true)
-		# self.update_associated_orderables(:active)
 		propagate_state_change
 	end
 
 	def disable
 		update_attribute(:active, false)
-		# self.update_associated_orderables(:disabled)
 		propagate_state_change
 	end
 

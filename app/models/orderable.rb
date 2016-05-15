@@ -2,11 +2,12 @@ class Orderable < ActiveRecord::Base
 	belongs_to :ownable, :polymorphic => true
 	belongs_to :buyable, :polymorphic => true
 
+	enum status: %i(active updated inactive)
+
 	validates :quantity, presence: true, numericality: { less_than_or_equal_to: 20 }
 	validates :unit_price, presence: true
 	validates :buyable_id, presence: true
 	validates :ownable_id, presence: true
-	validates :status, presence: true, numericality: true
 	
 	after_destroy :destroy_milktea
 
@@ -18,15 +19,15 @@ class Orderable < ActiveRecord::Base
 				inactive_count += 1 unless addon.active
 			end
 			if inactive_count == 0
-				args == :skip_status_1_check ? update_attribute(:status, 0) : update_attribute(:status, 1)
+				args == :skip_status_1_check ? active! : updated!
 			end
 		elsif buyable.is_a? Dish
-			args == :skip_status_1_check ? update_attribute(:status, 0) : update_attribute(:status, 1)
+			args == :skip_status_1_check ? active! : updated!
 		end 
 	end
 
 	def disable
-		self.update_attribute(:status, 2)
+		inactive!
 	end
 
 	private 
