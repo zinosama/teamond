@@ -19,7 +19,7 @@ class StatusPropagationTest < ActionDispatch::IntegrationTest
     assert dish.active? #initial state: active
     
     log_in_as @admin #dish: active -> updated
-    patch recipe_path(dish), recipe: { image: fixture_file_upload('test/fixtures/images/salad.jpg','images/jpeg'), description: "edited" }
+    patch recipe_path(dish), recipe: { dish_category_id: dish.dish_category.id, image: fixture_file_upload('test/fixtures/images/salad.jpg','images/jpeg'), description: "edited" }
     orderable_propagation(dish, :patch)
 
     log_in_as @admin #dish: active -> inactive

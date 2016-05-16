@@ -19,7 +19,7 @@ class RecipesControllerTest < ActionController::TestCase
 	test 'should redirect manage when logged in as non-admin' do
 		log_in_as @user
 		get :manage
-		assert_redirected_to root_url
+		assert_redirected_to menu_url
 		assert_not flash.empty?
 	end
 
@@ -45,7 +45,7 @@ class RecipesControllerTest < ActionController::TestCase
 			post :create, recipe: { name: "dukbokki", price: 1.23, type: "Dish", dish_category_id: @new_category.id, image: File.open(File.join(Rails.root, '/test/fixtures/images/salad.jpg')), store: @store, description: "description", }
 		end
 
-		assert_redirected_to root_url
+		assert_redirected_to menu_url
 		assert_not	flash.empty?
 	end
 
@@ -58,7 +58,7 @@ class RecipesControllerTest < ActionController::TestCase
 	test 'should redirect edit when logged in as non-admin' do
 		log_in_as @user
 		get :edit, id: @recipe
-		assert_redirected_to root_url
+		assert_redirected_to menu_url
 		assert_not flash.empty?
 	end
 
@@ -71,7 +71,7 @@ class RecipesControllerTest < ActionController::TestCase
 	test 'should redirect update when logged in as non-admin' do
 		log_in_as @user
 		patch :update, id: @recipe, recipe: { name: "dddubokki", price: 1.22, image: File.open(File.join(Rails.root, '/test/fixtures/images/salad2.jpg')), description: "Hi"}
-		assert_redirected_to root_url
+		assert_redirected_to menu_url
 		assert_not flash.empty?
 	end
 
