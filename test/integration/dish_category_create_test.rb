@@ -3,12 +3,11 @@ require 'test_helper'
 class DishCategoryCreateTest < ActionDispatch::IntegrationTest
 
 	def setup
-		@user = users(:zino)
+		@admin = users(:zino)
 	end
 
 	test 'invalid dish category information' do
-		log_in_as @user
-		get manage_recipes_url
+		log_in_as @admin
 		assert_no_difference 'DishCategory.count' do
 			post dish_categories_url, dish_category: { name: "" }
 		end
@@ -18,7 +17,7 @@ class DishCategoryCreateTest < ActionDispatch::IntegrationTest
 	end
 
 	test 'valid dish category information' do
-		log_in_as @user
+		log_in_as @admin
 		get manage_recipes_url
 		
 		#this category should always be there
@@ -29,7 +28,7 @@ class DishCategoryCreateTest < ActionDispatch::IntegrationTest
 			post dish_categories_url, dish_category: { name: "valid_name" }
 		end
 		dish_category = assigns(:dish_category)
-		assert_equal false, dish_category.active
+		assert_not dish_category.active?
 
 		assert_redirected_to manage_recipes_url
 		follow_redirect!

@@ -1,5 +1,6 @@
 class Store < ActiveRecord::Base
 	include StorePresentor
+	include Propagatable
 	has_many :providers
 	has_many :recipes
 	
@@ -15,7 +16,7 @@ class Store < ActiveRecord::Base
 	validates :website, length: { maximum: 255 }
 	
 	before_create :default_lat_long #placeholder for lat and long
-	after_update :propagate_state_change
+	after_update :lazy_propagate_state_change
 
 	def activate
 		update_attribute(:active, true)
@@ -33,8 +34,5 @@ class Store < ActiveRecord::Base
 			self.lat = 0 if lat.nil?
 			self.long = 0 if long.nil?
 		end
-		
-		def propagate_state_change
-			StatusPropagator.propagate_state_change(self) if active_changed?
-		end
+
 end

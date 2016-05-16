@@ -1,4 +1,5 @@
 class Recipe < ActiveRecord::Base
+	include Propagatable
 	scope :active, -> { where(active: true) }
 
 	belongs_to :store
@@ -27,10 +28,6 @@ class Recipe < ActiveRecord::Base
 	end
 
 	private
-
-		def propagate_state_change
-			StatusPropagator.propagate_state_change(self)
-		end
 
 		def immutable_type
 			 errors.add(:type, "cannot be changed" ) if type_changed? && persisted?			

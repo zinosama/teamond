@@ -20,7 +20,7 @@ class DishCategoriesControllerTest < ActionController::TestCase
 		assert_no_difference 'DishCategory.count' do
 			post :create, dish_category: { name: "new-cate" }
 		end	
-		assert_redirected_to root_url
+		assert_redirected_to menu_url
 		assert_not flash.empty?
 	end
 
@@ -33,7 +33,7 @@ class DishCategoriesControllerTest < ActionController::TestCase
 	test 'should redirect edit when logged in as non-admin' do
 		log_in_as @user
 		get :edit, id: @dish_cate
-		assert_redirected_to root_url
+		assert_redirected_to menu_url
 		assert_not flash.empty?
 	end
 
@@ -46,7 +46,7 @@ class DishCategoriesControllerTest < ActionController::TestCase
 	test 'should redirect update when logged in as non-admin' do
 		log_in_as @user
 		patch :update, id: @dish_cate, dish_category: { name: "edited cate" }
-		assert_redirected_to root_url
+		assert_redirected_to menu_url
 		assert_not flash.empty?
 	end
 
