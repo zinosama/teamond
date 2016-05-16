@@ -101,12 +101,27 @@ p.unactivatedUser, .unactivatedUser a{
 }
 
 /* recipe management */
+.recipeManageIndexColumn .ui.centered.card{
+  margin-bottom: 1em;
+}
+#newRecipeCard{
+  margin-bottom: 1em;
+}
 #categoryListing{
   display: none;
+  margin-top: 1em;
 }
 #addonListing{
   display: none;
   margin-top: 1em; 
+  margin-bottom: 0.5em;
+}
+#categoryListing .ui.tag.label{
+  margin-right: 1em;
+  margin-bottom: 0.5em;
+}
+#addonListing .ui.tag.label{
+  margin-right: 1em;
   margin-bottom: 0.5em;
 }
 #newRecipeForm .ui.grid > .column:not(.row){

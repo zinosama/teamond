@@ -1,7 +1,7 @@
 <%-# This view is controlled by RecipeController and rendered through recipes/manage view %>
 
 <% dish_category.dishes.each do |dish| %>
-  <div class="three wide column">
+  <div class="four wide column recipeManageIndexColumn">
 	  <div class="ui centered card">
 	    <div class="image">
 	      <%= link_to(image_tag(dish.image.url, class:"ui image"), edit_recipe_url(dish)) %>

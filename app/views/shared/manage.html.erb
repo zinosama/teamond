@@ -4,64 +4,80 @@
 	<div class="categoryTitle">Menu Management</div>
 </div>
 
-<div class="two column stackable row">
-	<div class="column">
-		<%= render 'recipes/new_recipe' %>
-	</div>
-	<div class="column">
-		<%= render 'dish_categories/new_dish_category' %>
-		<%= render 'milktea_addons/new_addon' %>
-	</div>
-</div>
 
-<div class="row">
-	<div class="ui container grid">
-		<div class="stackable row">
-			<% Milktea.all.each do |milktea| %>
-			  <div class="three wide column">
-				  <div class="ui centered card">
-				    <div class="image">
-				      <%= link_to(image_tag(milktea.image.url, class:"ui image"), edit_recipe_url(milktea)) %>
-				    </div>
-				    <div class="content">
-				      <div class="header"><%= milktea.name %></div>
-				      <div class="meta">
-				        <a>Taichi Milktea</a>
-				      </div>
-				      <div class="description">
-				        <%= milktea.description %>
-				      </div>
-				    </div>
-				    <div class="extra content">
-				      <span class="left floated">
-				        <i class="dollar icon"></i>
-				        <%= milktea.price %>
-				      </span>
-			      	<% if milktea.active %>
-					      <span class="right floated success">
-				      		<i class="checkmark icon"></i>ACTIVE
-					      </span>
-			      	<% else %>
-			      		<span class="right floated error">
-			      			<i class="remove icon"></i>INACTIVE
-			      		</span>
-			      	<% end %>
-				    </div>
-				  </div>
-			  </div>	
-			<% end %>
+<div class="stackable row">
+	
+	<div class="five wide column">
+		<div class="row">
+			<div class="column">
+				<%= render 'recipes/new_recipe' %>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="column">
+				<%= render 'dish_categories/new_dish_category' %>
+				<%= render 'milktea_addons/new_addon' %>
+			</div>
 		</div>
 	</div>
-</div>
+	
+	
+	<div class="eleven wide column">
+		<div class="row">
+			<div class="ui container grid">
+				<div class="stackable row">
+					<% Milktea.all.each do |milktea| %>
+						<div class="four wide column recipeManageIndexColumn">
+							<div class="ui centered card">
+								<div class="image">
+									<%= link_to(image_tag(milktea.image.url, class:"ui image"), edit_recipe_url(milktea)) %>
+								</div>
+								<div class="content">
+									<div class="header"><%= milktea.name %></div>
+									<div class="meta">
+										<a>Taichi Milktea</a>
+									</div>
+									<div class="description">
+										<%= milktea.description %>
+									</div>
+								</div>
+								<div class="extra content">
+									<span class="left floated">
+										<i class="dollar icon"></i>
+										<%= milktea.price %>
+									</span>
+									<% if milktea.active %>
+										<span class="right floated success">
+											<i class="checkmark icon"></i>ACTIVE
+										</span>
+									<% else %>
+										<span class="right floated error">
+											<i class="remove icon"></i>INACTIVE
+										</span>
+									<% end %>
+								</div>
+							</div>
+						</div>	
+					<% end %>
+				</div>
+			</div>
+		</div>
 
-<div class="row">
-	<div class="ui container grid">
-		<div class="stackable row">
-			<%= render @dish_categories %>
+		<div class="row">
+			<div class="ui container grid">
+				<div class="stackable row">
+					<%= render @dish_categories %>
+				</div>
+			</div>
 		</div>
 	</div>
-</div>
+	
 
+
+
+	
+</div>
 
 
 
