@@ -1,12 +1,12 @@
 class RecipesController < ApplicationController
 	before_action :logged_in_user, except: [:show, :index]
-	before_action :load_resources, only: [:manage, :create]
 	before_action :valid_recipe, only: [:show, :edit, :update]
 
 	after_action :verify_authorized, except: [:show, :index]
 	
 	def manage
 		authorize Recipe
+		load_resources
 		@recipe = Recipe.new
 		render 'shared/manage'
 	end
@@ -18,6 +18,7 @@ class RecipesController < ApplicationController
 
 	def create
 		authorize Recipe
+		load_resources
 		@recipe = Recipe.new(recipe_params)
 		@recipe.save ? redirect_and_flash(manage_recipes_url, :success, "Item created") : render('shared/manage')
 	end

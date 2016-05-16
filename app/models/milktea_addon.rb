@@ -7,15 +7,5 @@ class MilkteaAddon < ActiveRecord::Base
 	has_many :milktea_orderables, through: :addons_orderables
 
 	after_update :propagate_state_change
-	
-	def activate
-		update_attribute(:active, true)
-		propagate_state_change
-	end
-
-	def disable
-		update_attribute(:active, false)
-		propagate_state_change
-	end
-	
+		
 end
