@@ -7,11 +7,12 @@ class Recipe < ActiveRecord::Base
 	validates :description, presence: true, length: { maximum: 255 }
 	validates :image, presence: true
 	validates :price, presence: true, numericality: { greater_than: 0 }
-	validates :type, presence: true
+	validates :type, presence: true, inclusion: { in: ["Dish", "Milktea"], message: "%{value} is not a valid type" }
 	validates :store, presence: true
 	
 	mount_uploader :image, PictureUploader
 	validate :picture_size
+	validate :immutable_type
 	
 	after_update :propagate_state_change
 
@@ -29,6 +30,10 @@ class Recipe < ActiveRecord::Base
 
 		def propagate_state_change
 			StatusPropagator.propagate_state_change(self)
+		end
+
+		def immutable_type
+			 errors.add(:type, "cannot be changed" ) if type_changed? && persisted?			
 		end
 
 		def picture_size
