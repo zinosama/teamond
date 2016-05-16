@@ -128,6 +128,31 @@ class StatusPropagationTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_not @store.reload.active?
     @store.recipes.each{ |recipe| orderable_propagation(recipe, :disable) }
+    
+    patch store_path(@store), store: { active: "1" } #activate store shouldn't activate associated items
+    follow_redirect!
+    @store.recipes.each{ |recipe| orderable_propagation(recipe, :disable) }
+  end
+  
+  ########Dish Category#############
+  
+  test 'dish category propagation' do
+    cate = dish_categories(:cate1)
+    dish = recipes(:dish1)
+    
+    assert cate.active?
+    assert dish.active?
+    
+    log_in_as @admin
+    patch dish_category_path(cate), dish_category: { active: "0" }
+    follow_redirect!
+    assert_not cate.reload.active?
+    cate.dishes.each{ |dish| orderable_propagation(dish, :disable) }
+    
+    patch dish_category_path(cate), dish_category: { active: "1" } #activate cate doesn't activate assocated dishes
+    follow_redirect!
+    cate.dishes.each{ |dish| orderable_propagation(dish, :disable) }
+    
   end
   
   

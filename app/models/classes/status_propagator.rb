@@ -11,10 +11,11 @@ class StatusPropagator
         obj.orderables.each(&target_state)
       when Milktea, MilkteaAddon
         obj.milktea_orderables.map(&:orderable).each(&target_state) unless obj.milktea_orderables.empty?
-      when Store 
+      when Store
         #Only disabling store will be propagated to associated recipes
-        #Activating store will leave associated recipes' states unchanged
         obj.recipes.each(&target_state) if target_state == :disable
+      when DishCategory #same as store
+        obj.dishes.each(&target_state) if target_state == :disable
       end
     end  
   end

@@ -1,4 +1,5 @@
 class MilkteaAddon < ActiveRecord::Base
+	include Propagatable
 	validates :name, presence: true, length: { maximum: 50 }
 	validates :price, presence: true, numericality: { greater_than: 0 }
 
@@ -17,9 +18,4 @@ class MilkteaAddon < ActiveRecord::Base
 		propagate_state_change
 	end
 	
-	private
-	
-		def propagate_state_change
-			StatusPropagator.propagate_state_change(self)
-		end
 end
