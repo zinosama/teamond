@@ -17,15 +17,9 @@ class Store < ActiveRecord::Base
 	
 	before_create :default_lat_long #placeholder for lat and long
 	after_update :lazy_propagate_state_change
-
-	def activate
-		update_attribute(:active, true)
-		propagate_state_change
-	end
 	
 	def disable
 		update_attribute(:active, false)
-		propagate_state_change
 	end
 	
 	private

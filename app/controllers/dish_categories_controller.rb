@@ -4,11 +4,7 @@ class DishCategoriesController < ApplicationController
 	
 	def create
 		authorize DishCategory
-		@recipe = Recipe.new
-		@milktea_addon = MilkteaAddon.new
-		@dish_categories = DishCategory.all
-		@addons = MilkteaAddon.all
-		
+		load_resources		
 		@dish_category = DishCategory.new(dish_category_params)
 		@dish_category.save ? redirect_and_flash(manage_recipes_url, :success, "Category saved") : render('shared/manage')
 	end
@@ -33,6 +29,13 @@ class DishCategoriesController < ApplicationController
 		def valid_dish_category
 			@dish_category = DishCategory.find(params[:id])
 		rescue ActiveRecord::RecordNotFound
-			redirect_and_flash(menu_url, :error, "Invalid category")	
+			redirect_and_flash(menu_url, :error, "Invalid categor")
+		end
+		
+		def load_resources
+			@recipe = Recipe.new
+			@milktea_addon = MilkteaAddon.new
+			@dish_categories = DishCategory.all
+			@addons = MilkteaAddon.all
 		end
 end
