@@ -10,12 +10,11 @@ class RecipeCreateTest < ActionDispatch::IntegrationTest
 
 	test 'invalid recipe information' do
 		log_in_as @user
-		get manage_recipes_url
 		assert_no_difference 'Recipe.count' do
-			post recipes_path, recipe: { name: "", price: "", type: "", image: "", description: "", dish_category_id: "" }
+			post recipes_path, recipe: { name: "", price: "", type: "Dish", image: "", description: "", dish_category_id: @dish_category.id }
 		end
 		assert_template 'shared/manage'
-		assert_select 'li', count: 7
+		assert_select 'li', count: 6
 		assert_select 'div.ui.error.message', count: 1
 	end
 
@@ -23,6 +22,16 @@ class RecipeCreateTest < ActionDispatch::IntegrationTest
 		log_in_as @user
 		assert_no_difference 'Recipe.count' do
 			post recipes_path, recipe: { name: "", price: "", type: "Dish", image: "", description: "", dish_category_id: "101" }
+		end
+		assert_template 'shared/manage'
+		assert_not flash[:error].empty?
+		assert_select 'li', count: 0
+	end
+	
+	test 'invalid type' do
+		log_in_as @user
+		assert_no_difference 'Recipe.count' do
+			post recipes_path, recipe: { name: "", price: "", type: "", image: "", description: "", dish_category_id: @dish_category }
 		end
 		assert_template 'shared/manage'
 		assert_not flash[:error].empty?

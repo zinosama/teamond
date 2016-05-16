@@ -36,4 +36,10 @@ module Exceptions
 		end
 	end
 	
+	class InvalidRecipeTypeError < StandardError
+		def initialize(msg = "Invalid Recipe Type.")
+			super
+		end
+	end
+	
 end

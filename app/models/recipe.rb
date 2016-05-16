@@ -1,4 +1,6 @@
 class Recipe < ActiveRecord::Base
+	scope :active, -> { where(active: true) }
+
 	belongs_to :store
 	
 	validates :name, presence: true, length: { maximum: 50 }

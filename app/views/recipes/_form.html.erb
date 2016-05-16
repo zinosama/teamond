@@ -12,7 +12,7 @@
 
 	<div class="field">
 		<%= f.label :store %>
-		<%= f.collection_select(:store_id, Store.where("active =? ", true), :id, :name, { prompt: "Select Store" }, { class: "ui dropdown" }) %>
+		<%= f.collection_select(:store_id, Store.where("active =? ", true), :id, :name, { prompt: "Select Store:" }, { class: "ui dropdown" }) %>
 	</div>
 
 	<% unless @recipe.type %>
