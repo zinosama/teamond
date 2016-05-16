@@ -18,22 +18,8 @@ class RecipesController < ApplicationController
 
 	def create
 		authorize Recipe
-		case params[:recipe][:type]
-		when "Dish"
-			@recipe = DishCategory.find(params[:recipe][:dish_category_id].to_i).dishes.build(recipe_params)
-		when "Milktea"
-			@recipe = Milktea.new(recipe_params)
-		end
-		raise Exceptions::InvalidRecipeTypeError if @recipe.nil?
+		@recipe = Recipe.new(recipe_params)
 		@recipe.save ? redirect_and_flash(manage_recipes_url, :success, "Item created") : render('shared/manage')
-	rescue ActiveRecord::RecordNotFound
-		@recipe = Recipe.new
-		flash.now[:error] = "Invalid category"
-		render 'shared/manage'
-	rescue Exceptions::InvalidRecipeTypeError
-		@recipe = Recipe.new
-		flash.now[:error] = "Invalid type"
-		render 'shared/manage'
 	end
 
 	def edit
@@ -46,7 +32,6 @@ class RecipesController < ApplicationController
 			params[:recipe][:active] == "0" ? @recipe.disable : @recipe.activate
 			redirect_and_flash(manage_recipes_url, :success, "Item updated")
 		else #recipe now propagates status change via after_update callback
-			@recipe.dish_category = DishCategory.find_by(id: params[:recipe][:dish_category_id]) if @recipe.is_a? Dish
 			@recipe.update_attributes(recipe_params) ? redirect_and_flash(manage_recipes_url, :success, "Item updated") : render('edit')
 		end
 	end
@@ -57,7 +42,7 @@ class RecipesController < ApplicationController
 	private 
 
 	def recipe_params
-		params.require(:recipe).permit(:name, :description, :image, :price, :store_id)
+		params.require(:recipe).permit(:name, :description, :image, :price, :store_id, :type, :dish_category_id)
 	end
 	
 	def valid_recipe
