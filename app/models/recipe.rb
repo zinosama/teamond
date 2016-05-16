@@ -16,9 +16,18 @@ class Recipe < ActiveRecord::Base
 	validate :immutable_type
 	
 	after_update :propagate_state_change
-
+	after_update :propagate_price_change
+	
 	def disable
 		update_attribute(:active, false)
+	end
+	
+	def activate
+		update_attribute(:active, true)
+	end
+	
+	def unit_price
+		price
 	end
 
 	private

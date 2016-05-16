@@ -35,7 +35,7 @@ class OrderCreateTest < ActionDispatch::IntegrationTest
 		assert_select 'div.header', text: @milktea_orderable.buyable.milktea.name.capitalize, count: 1
 		assert_select 'p', text: "Quantity: #{@dish_orderable.quantity}"
 		assert_select 'p', text: "Quantity: #{@milktea_orderable.quantity}"
-		assert_select 'div.extra.content p', text: "Total Payment: $ #{(3.53*1.08).round(2)}", count: 1
+		assert_select 'div.extra.content p', text: "Total Payment: $ #{(3.85*1.08).round(2)}", count: 1
 
 		#location form and select field present
 		assert_select 'form[action=?]', shopper_orders_url(@shopper.role), count: 1

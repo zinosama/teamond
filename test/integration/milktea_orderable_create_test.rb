@@ -68,7 +68,7 @@ class MilkteaOrderableCreateTest < ActionDispatch::IntegrationTest
 		MilkteaAddon.where("active = ?", true).each do |addon|
 			assert_select 'div.ui.label', text: addon.name, count: 1
 		end
-		assert_select 'div.value', text: "$ #{total.to_f + 2.3}", count: 1
+		assert_select 'div.value', text: "$ #{total.to_f + 2.12}", count: 1
 	end
 
 	test 'only shopper can create milktea orderable' do

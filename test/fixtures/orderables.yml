@@ -8,13 +8,13 @@ patch_one:
   ownable: shopper_patch_one (Shopper)
   buyable: milktea_orderable1 (MilkteaOrderable)
   quantity: 1
-  unit_price: 2.3
-
+  unit_price: 2.12
+  
 one:
   ownable: shopper_one (Shopper)
   buyable: milktea_orderable2 (MilkteaOrderable)
   quantity: 1
-  unit_price: 2.3
+  unit_price: 2.12
 
 two:
   ownable: shopper_two (Shopper)
@@ -26,4 +26,4 @@ three:
   ownable: shopper_two (Shopper)
   buyable: milktea_orderable3 (MilkteaOrderable)
   quantity: 1
-  unit_price: 2.3
+  unit_price: 2.62
