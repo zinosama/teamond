@@ -1,6 +1,5 @@
 class Milktea < Recipe
 	has_many :milktea_orderables
-
 	validates :dish_category_id, absence: true
 
 	#Caution! This hack may cause unexpected behaviors.
@@ -9,5 +8,5 @@ class Milktea < Recipe
 	def self.model_name
 		Recipe.model_name
 	end
-	
+		
 end

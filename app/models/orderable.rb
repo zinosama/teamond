@@ -25,6 +25,11 @@ class Orderable < ActiveRecord::Base
 			args == :skip_status_1_check ? active! : updated!
 		end 
 	end
+	
+	def recalculate_price
+		new_price = buyable.unit_price
+		update_attribute(:unit_price, new_price)
+	end
 
 	def disable
 		inactive!

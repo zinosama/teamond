@@ -7,5 +7,5 @@ class MilkteaAddon < ActiveRecord::Base
 	has_many :milktea_orderables, through: :addons_orderables
 
 	after_update :propagate_state_change
-		
+	after_update :propagate_price_change
 end
