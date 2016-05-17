@@ -162,7 +162,7 @@ class StatusPropagationTest < ActionDispatch::IntegrationTest
       @addon = milktea_addons(:bubble)
       log_in_as @shopper_empty
       shopper = @shopper_empty.role
-      post shopper_milktea_orderables_path(shopper), milktea_orderable: { sweet_scale: 1, temp_scale: 1, size: 1, milktea_addon_ids: [@addon.id] }, milktea_id: @milktea.id
+      post shopper_milktea_orderables_path(shopper), milktea_orderable: { sweet_scale: "little_sweet", temp_scale: "less_ice", size: "large_size", milktea_addon_ids: [@addon.id] }, milktea_id: @milktea.id
       assert_equal 1, @shopper_empty.role.orderables.size #check setup
       @orderable = @shopper_empty.role.orderables.first
       

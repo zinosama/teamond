@@ -8,9 +8,9 @@
 		</div>
 		
 		<div class="row" style="margin-bottom: 0.7em;">
-			<span class="ui label"><%= "#{orderable.buyable.display_size} size" %></span>
-			<span class="ui label"><%= "#{orderable.buyable.display_sweet_scale} sweet"%></span>
-			<span class="ui label"><%= "#{orderable.buyable.display_temp_scale}" %></span>
+			<span class="ui label"><%= orderable.buyable.display_size %></span>
+			<span class="ui label"><%= orderable.buyable.display_sweet_scale %></span>
+			<span class="ui label"><%= orderable.buyable.display_temp_scale %></span>
 		</div>
 
 		<% if orderable.buyable.milktea_addons.any? %>

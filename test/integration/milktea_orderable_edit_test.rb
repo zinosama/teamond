@@ -17,22 +17,22 @@ class MilkteaOrderableEditTest < ActionDispatch::IntegrationTest
 		get shopper_cart_url(@shopper.role)
 		assert_select 'li', count: 0
 		assert_select 'p', text: "Toppings:", count: 0
-		assert_select 'span.ui.label', text: "regular size", count: 1
-		assert_select 'span.ui.label', text: "half sweet", count: 1
-		assert_select 'span.ui.label', text: "less ice", count: 1
+		assert_select 'span.ui.label', text: "Regular size", count: 1
+		assert_select 'span.ui.label', text: "Half sweet", count: 1
+		assert_select 'span.ui.label', text: "Less ice", count: 1
 		
 		#edit
 		get edit_milktea_orderable_url(@milktea_orderable)
 		assert_template 'milktea_orderables/edit'
 		assert_difference 'AddonsOrderable.count', 3 do
-			patch milktea_orderable_url(@milktea_orderable), milktea_orderable: { sweet_scale: 0, temp_scale: 0, size: 1, milktea_addon_ids: get_addon_ids }
+			patch milktea_orderable_url(@milktea_orderable), milktea_orderable: { sweet_scale: "unsweet", temp_scale: "chilled", size: "large_size", milktea_addon_ids: get_addon_ids }
 		end
 		assert_redirected_to shopper_cart_url(@shopper.role)
 		follow_redirect!
 		assert_not flash[:success].empty?
 
 		#check if orderable's unit_price has been updated
-		total = @milktea_orderable.milktea.price + 0.99 + @milktea_orderable.milktea_addons.size * 0.5
+		total = @milktea_orderable.milktea.price + 0.99 + @milktea_orderable.milktea_addons.map(&:price).sum
 		assert_equal(total.to_f, @milktea_orderable.orderable.reload.unit_price.to_f)
 
 		#after edit, in cart
@@ -40,13 +40,13 @@ class MilkteaOrderableEditTest < ActionDispatch::IntegrationTest
 			assert_select 'div.ui.label', text: addon.name, count: 1
 		end
 		assert_select 'div.row', text: "Toppings:", count: 1
-		assert_select 'span.ui.label', text: "large size", count: 1
-		assert_select 'span.ui.label', text: "zero sweet", count: 1
-		assert_select 'span.ui.label', text: "chill", count: 1
+		assert_select 'span.ui.label', text: "Large size", count: 1
+		assert_select 'span.ui.label', text: "Unsweet", count: 1
+		assert_select 'span.ui.label', text: "Chilled", count: 1
 
 		#test destroy dependency for addons_orderable
 		assert_difference 'AddonsOrderable.count', -3 do
-			patch milktea_orderable_url(@milktea_orderable), milktea_orderable: { sweet_scale: 0, temp_scale: 0, size: 1, milktea_addon_ids: [""] }
+			patch milktea_orderable_url(@milktea_orderable), milktea_orderable: { sweet_scale: "unsweet", temp_scale: "chilled", size: "large_size", milktea_addon_ids: [""] }
 		end
 		assert_redirected_to shopper_cart_url(@shopper.role)
 		follow_redirect!
@@ -55,17 +55,16 @@ class MilkteaOrderableEditTest < ActionDispatch::IntegrationTest
 
 	test 'cannot edit with invalid data' do
 		log_in_as @shopper
-		patch milktea_orderable_url(@milktea_orderable), milktea_orderable: { sweet_scale: "", temp_scale: 9, size: 3 }
-		assert_template 'milktea_orderables/edit'
-		assert_select 'div.ui.error.message', count: 1
-		assert_select 'li', count: 4
-	end
+		patch milktea_orderable_url(@milktea_orderable), milktea_orderable: { sweet_scale: "", temp_scale: "9", size: "3" }
+		assert_redirected_to menu_url
+		assert_not flash[:error].empty?
+	end	
 
 	test 'cannot edit record that belongs to other shopper' do
 		#admin cannot edit
 		log_in_as @admin
 		assert_no_difference 'AddonsOrderable.count' do
-			patch milktea_orderable_url(@milktea_orderable), milktea_orderable: { sweet_scale: 0, temp_scale: 0, size: 1, milktea_addon_ids: [""] }
+			patch milktea_orderable_url(@milktea_orderable), milktea_orderable: { sweet_scale: "unsweet", temp_scale: "chilled", size: "large_size", milktea_addon_ids: [""] }
 		end
 		assert_redirected_to menu_url
 		follow_redirect!
@@ -75,7 +74,7 @@ class MilkteaOrderableEditTest < ActionDispatch::IntegrationTest
 		#other shopper cannot edit
 		log_in_as @shopper2
 		assert_no_difference 'AddonsOrderable.count' do
-			patch milktea_orderable_url(@milktea_orderable), milktea_orderable: { sweet_scale: 0, temp_scale: 0, size: 1, milktea_addon_ids: [""] }
+			patch milktea_orderable_url(@milktea_orderable), milktea_orderable: { sweet_scale: "unsweet", temp_scale: "chilled", size: "large_size", milktea_addon_ids: [""] }
 		end
 		assert_redirected_to menu_url
 		follow_redirect!
@@ -87,8 +86,8 @@ class MilkteaOrderableEditTest < ActionDispatch::IntegrationTest
 
 		def varify_no_change 		
 			@milktea_orderable.reload
-			assert_equal 2, @milktea_orderable.sweet_scale
-			assert_equal 1, @milktea_orderable.temp_scale
-			assert_equal 0, @milktea_orderable.size
+			assert @milktea_orderable.half_sweet?
+			assert @milktea_orderable.less_ice?
+			assert @milktea_orderable.regular_size?
 		end
 end
