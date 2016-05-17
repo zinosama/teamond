@@ -18,29 +18,29 @@
 					<label>Size</label>
 				</div>
 				<div class="inline fields">
-					<%= radio_wrapper(f, :size, "0", "Standard", checked: true, class:"milkteaSize", new_record: @milktea_orderable.new_record?) %>
-					<%= radio_wrapper(f, :size, "1", "Large (+ $0.99)", class: "milkteaSize", new_record: @milktea_orderable.new_record?) %>
+					<%= radio_wrapper(f, :size, "regular_size", "Standard", checked: true, class:"milkteaSize", new_record: @milktea_orderable.new_record?) %>
+					<%= radio_wrapper(f, :size, "large_size", "Large (+ $0.99)", class: "milkteaSize", new_record: @milktea_orderable.new_record?) %>
 				</div>
 				
 				<div class="field">
 					<label>Sweetness</label>
 				</div>
 				<div class="inline fields">
-					<%= radio_wrapper(f, :sweet_scale, "0", "Zero", new_record: @milktea_orderable.new_record?) %>
-					<%= radio_wrapper(f, :sweet_scale, "1", "Little", new_record: @milktea_orderable.new_record?) %>
-					<%= radio_wrapper(f, :sweet_scale, "2", "Half", new_record: @milktea_orderable.new_record?) %>
-					<%= radio_wrapper(f, :sweet_scale, "3", "Less", new_record: @milktea_orderable.new_record?) %>
-					<%= radio_wrapper(f, :sweet_scale, "4", "Regular", checked: true, new_record: @milktea_orderable.new_record?) %>
+					<%= radio_wrapper(f, :sweet_scale, "unsweet", "Zero", new_record: @milktea_orderable.new_record?) %>
+					<%= radio_wrapper(f, :sweet_scale, "little_sweet", "Little", new_record: @milktea_orderable.new_record?) %>
+					<%= radio_wrapper(f, :sweet_scale, "half_sweet", "Half", new_record: @milktea_orderable.new_record?) %>
+					<%= radio_wrapper(f, :sweet_scale, "less_sweet", "Less", new_record: @milktea_orderable.new_record?) %>
+					<%= radio_wrapper(f, :sweet_scale, "sweet", "Regular", checked: true, new_record: @milktea_orderable.new_record?) %>
 				</div>
 
 				<div class="field">
 					<label>Ice Level</label>
 				</div>
 				<div class="inline fields">
-					<%= radio_wrapper(f, :temp_scale, "0", "Chill", checked: true, new_record: @milktea_orderable.new_record?) %>
-					<%= radio_wrapper(f, :temp_scale, "1", "Less Ice", new_record: @milktea_orderable.new_record?) %>
-					<%= radio_wrapper(f, :temp_scale, "2", "No Ice", new_record: @milktea_orderable.new_record?) %>
-					<%= radio_wrapper(f, :temp_scale, "3", "Warm", new_record: @milktea_orderable.new_record?) %>
+					<%= radio_wrapper(f, :temp_scale, "chilled", "Chill", checked: true, new_record: @milktea_orderable.new_record?) %>
+					<%= radio_wrapper(f, :temp_scale, "less_ice", "Less Ice", new_record: @milktea_orderable.new_record?) %>
+					<%= radio_wrapper(f, :temp_scale, "no_ice", "No Ice", new_record: @milktea_orderable.new_record?) %>
+					<%= radio_wrapper(f, :temp_scale, "warm", "Warm", new_record: @milktea_orderable.new_record?) %>
 				</div>
 
 				<%= hidden_field_tag :milktea_id, @milktea.id %>

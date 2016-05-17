@@ -23,7 +23,7 @@ class MilkteaOrderableCreateTest < ActionDispatch::IntegrationTest
 		post shopper_milktea_orderables_path(@shopper.role), milktea_orderable: { sweet_scale: "", temp_scale: "", size: "" }, milktea_id: @milktea.id 
 		assert_template 'milktea_orderables/new'
 		assert_select 'div.ui.error.message', count: 1
-		assert_select 'li', count: 6
+		assert_select 'li', count: 3
 	end
 
 	test 'invalid milktea orderable - inactive milktea' do
@@ -40,7 +40,7 @@ class MilkteaOrderableCreateTest < ActionDispatch::IntegrationTest
 		addon_ids = get_addon_ids
 		log_in_as @shopper
 		assert_difference 'AddonsOrderable.count', 3 do
-			post shopper_milktea_orderables_path(@shopper.role), milktea_orderable: { sweet_scale: 1, temp_scale: 1, size: 1, milktea_addon_ids: addon_ids }, milktea_id: @milktea.id
+			post shopper_milktea_orderables_path(@shopper.role), milktea_orderable: { sweet_scale: "little_sweet", temp_scale: "less_ice", size: "large_size", milktea_addon_ids: addon_ids }, milktea_id: @milktea.id
 		end
 		assert_redirected_to menu_url
 		follow_redirect!
@@ -51,7 +51,7 @@ class MilkteaOrderableCreateTest < ActionDispatch::IntegrationTest
 	test 'valid milktea orderable - create correct orderable in cart' do
 		log_in_as @shopper
 		assert_difference 'Orderable.count', 1 do
-			post shopper_milktea_orderables_path(@shopper.role), milktea_orderable: { sweet_scale: 1, temp_scale: 1, size: 1, milktea_addon_ids: get_addon_ids }, milktea_id: @milktea.id
+			post shopper_milktea_orderables_path(@shopper.role), milktea_orderable: { sweet_scale: "little_sweet", temp_scale: "less_ice", size: "large_size", milktea_addon_ids: get_addon_ids }, milktea_id: @milktea.id
 		end
 		milktea_orderable = assigns(:milktea_orderable)
 
@@ -82,7 +82,7 @@ class MilkteaOrderableCreateTest < ActionDispatch::IntegrationTest
 
 		#milktea orderable #create
 		assert_no_difference 'Orderable.count' do
-			post shopper_milktea_orderables_path(@admin.role), milktea_orderable: { sweet_scale: 1, temp_scale: 1, size: 1, milktea_addon_ids: get_addon_ids }, milktea_id: @milktea.id
+			post shopper_milktea_orderables_path(@admin.role), milktea_orderable: { sweet_scale: "little_sweet", temp_scale: "less_ice", size: 'large_size', milktea_addon_ids: get_addon_ids }, milktea_id: @milktea.id
 		end
 		assert_redirected_to menu_url
 		follow_redirect!
@@ -95,7 +95,7 @@ class MilkteaOrderableCreateTest < ActionDispatch::IntegrationTest
 		log_in_as @shopper
 
 		assert_no_difference 'Orderable.count' do
-			post shopper_milktea_orderables_path(shopper2.role), milktea_orderable: { sweet_scale: 1, temp_scale: 1, size: 1, milktea_addon_ids: get_addon_ids }, milktea_id: @milktea.id
+			post shopper_milktea_orderables_path(shopper2.role), milktea_orderable: { sweet_scale: "little_sweet", temp_scale: "less_ice", size: "large_size", milktea_addon_ids: get_addon_ids }, milktea_id: @milktea.id
 		end
 		assert_redirected_to menu_url
 		follow_redirect!

@@ -22,6 +22,8 @@ class MilkteaOrderablesController < ApplicationController
 		else 
 			render 'new'
 		end
+	rescue ArgumentError
+		redirect_and_flash(menu_url, :error, "Invalid milktea config")
 	end
 
 	def edit
@@ -39,6 +41,8 @@ class MilkteaOrderablesController < ApplicationController
 			@milktea = @milktea_orderable.milktea
 			render 'edit'
 		end
+	rescue ArgumentError
+		redirect_and_flash(menu_url, :error, "Invalid milktea config")
 	end
 
 	private

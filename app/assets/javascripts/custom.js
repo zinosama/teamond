@@ -91,7 +91,7 @@ var toggleOnlinePaymentForm = function(){
 
 var watchMilkteaSizes = function(){
   $(".milkteaSize").change(function(){
-    $('input:checked.milkteaSize')[0].value === "0" ? updateMilkteaTotal(-1) : updateMilkteaTotal(1);
+    $('input:checked.milkteaSize')[0].value === "regular_size" ? updateMilkteaTotal(-1) : updateMilkteaTotal(1);
   });
 };
 
