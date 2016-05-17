@@ -56,7 +56,7 @@ class MilkteaOrderableCreateTest < ActionDispatch::IntegrationTest
 		milktea_orderable = assigns(:milktea_orderable)
 
 		#orderable unit_price is set correctly
-		total = milktea_orderable.milktea.price + 0.99 + milktea_orderable.milktea_addons.size * 0.5
+		total = milktea_orderable.milktea.price + 0.99 + milktea_orderable.milktea_addons.map(&:price).sum
 		assert_equal total, milktea_orderable.orderable.unit_price
 
 		#appears in shopping cart correctly

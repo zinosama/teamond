@@ -32,7 +32,7 @@ class MilkteaOrderableEditTest < ActionDispatch::IntegrationTest
 		assert_not flash[:success].empty?
 
 		#check if orderable's unit_price has been updated
-		total = @milktea_orderable.milktea.price + 0.99 + @milktea_orderable.milktea_addons.size * 0.5
+		total = @milktea_orderable.milktea.price + 0.99 + @milktea_orderable.milktea_addons.map(&:price).sum
 		assert_equal(total.to_f, @milktea_orderable.orderable.reload.unit_price.to_f)
 
 		#after edit, in cart

@@ -18,7 +18,7 @@ class MilkteaOrderable < ActiveRecord::Base
 	before_save :trim_addons
 
 	def unit_price
-		milktea.price + (large_size? ? 0.99 : 0) + 0.5 * milktea_addons.size
+		milktea.price + (large_size? ? 0.99 : 0) + milktea_addons.map(&:price).sum
 	end
 	
 	private
