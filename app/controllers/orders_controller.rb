@@ -92,7 +92,7 @@ class OrdersController < ApplicationController #this controller uses current_use
 
 		def valid_shopper_or_admin
 			@owner = params[:shopper_id] ? Shopper.find(params[:shopper_id]) : Admin.find(params[:admin_id])
-			redirect_and_flash(menu_url, :error, "Unauthorized access") unless current_user.role == @owner 
+			redirect_and_flash(menu_url, :error, "Unauthorized access") unless (current_user.role == @owner || current_user.admin?) 
 		rescue ActiveRecord::RecordNotFound
 			redirect_and_flash(menu_url, :error, "Access denied")
 		end

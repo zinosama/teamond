@@ -42,6 +42,7 @@ $(document).ready(function(){
 
 
   toggleDishCategorySelectDisplay();
+  toggleStoreSelectDisplay();
   enableRecipeDelete();
 
   $('#recipe_image').bind('change', function() {
@@ -67,6 +68,8 @@ $(document).ready(function(){
 
   toggleOnlinePaymentForm();
   watchPlaceOrderButton();
+  
+  
 });
 
 
@@ -117,5 +120,12 @@ var toggleDishCategorySelectDisplay = function(){
   var recipeTypeSelectField = $('#recipe_type');
   recipeTypeSelectField.change(function(){
     this.value == 'Dish' ? $('#newRecipeDishCategory').show() : $('#newRecipeDishCategory').hide();
+  });
+};
+
+var toggleStoreSelectDisplay = function() {
+  var roleTypeSelectField = $('#user_role_type');
+  roleTypeSelectField.change(function() {
+    this.value == 'Provider' ? $('#newStore').show() : $('#newStore').hide();
   });
 };

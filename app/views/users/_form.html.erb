@@ -30,6 +30,20 @@
 		<%= f.label :wechat %>
 		<%= icon_input_wrapper(f, :wechat, :wechat, { placeholder: "Optional alternative contact"}) %>
 	</div>
-
+	
+	<% if current_user && current_user.admin? %>
+		<div class="field">
+			<%= f.label :role_type, "Role" %>
+			<%= f.select(:role_type, [['Shopper', 'Shopper'], ['Admin', 'Admin'], ['Provider', 'Provider'], ['Driver', 'Driver']], { prompt: "Select Role: "}, { class: "ui dropdown" }) %>
+		</div>
+		
+		<%= f.fields_for :role_attributes do |role_form| %>
+			<div class="field" id= "newStore">
+				<%= role_form.label :store_id %>
+				<%= role_form.collection_select(:store_id, Store.all, :id, :name, { prompt: "Select Store: " }, { class: "ui dropdown" }) %>
+			</div>
+		<% end %>
+	<% end %>
+		
 	<%= f.submit yield(:button_text), class: "ui teal basic button" %>
 <% end %>

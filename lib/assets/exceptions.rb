@@ -42,4 +42,10 @@ module Exceptions
 		end
 	end
 	
+	class UnknownRoleError < StandardError
+		def initialize(msg = "Invalid role.")
+			super
+		end
+	end
+	
 end
