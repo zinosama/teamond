@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
 	attr_accessor :remember_token, :activation_token, :reset_token
 
 	VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
+	ROLE_TYPES = %w(Admin Shopper Driver Provider)
 	has_secure_password
 
 	before_save :downcase_email, :default_role
@@ -15,7 +16,13 @@ class User < ActiveRecord::Base
 	validate :immutable_role?
 
 	belongs_to :role, :polymorphic => true, dependent: :destroy
+	accepts_nested_attributes_for :role
 
+	def build_role(params) #this is called by accepts_nested_attributes_for. It helps polymorphism to figure out correct association
+		raise Exceptions::UnknownRoleError unless ROLE_TYPES.include? role_type
+		self.role = role_type.constantize.new( role_type == "Provider" ? params : nil )
+		self.role.user = self
+	end
 
 	def admin?
 		role_type == "Admin"
