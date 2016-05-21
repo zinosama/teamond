@@ -125,6 +125,9 @@ var toggleDishCategorySelectDisplay = function(){
 
 var toggleStoreSelectDisplay = function() {
   var roleTypeSelectField = $('#user_role_type');
+  if(roleTypeSelectField[0].value == 'Provider'){
+    $('#newStore').show();
+  }
   roleTypeSelectField.change(function() {
     this.value == 'Provider' ? $('#newStore').show() : $('#newStore').hide();
   });

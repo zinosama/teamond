@@ -8,10 +8,12 @@ class UsersController < ApplicationController
 	end
 
 	def new
+		authorize User
 		@user = User.new
 	end
 
 	def create
+		authorize User
 		@user = User.new(user_create_params)
 		if @user.save
 			@user.send_activation_email
@@ -39,7 +41,7 @@ class UsersController < ApplicationController
 	private
 
 	def user_create_params
-		params.require(:user).permit(:name, :email, :phone, :wechat, :password, :password_confirmation, :role_type, role_attributes: [:store_id])	
+		params.require(:user).permit(policy(User).permitted_attributes)
 	end
 	
 	def user_update_params
