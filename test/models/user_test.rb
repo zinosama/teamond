@@ -3,6 +3,7 @@ require 'test_helper'
 class UserTest < ActiveSupport::TestCase
 	
 	def setup 
+		@admin = users(:zino)
 		@user = User.new(name: "Test User", email: "user@example.com", phone: "5853231234", password: "foobar", password_confirmation: "foobar")
 	end
 
@@ -10,7 +11,6 @@ class UserTest < ActiveSupport::TestCase
 		@user.valid?
 	end
 
-	#name tests
 	test 'name should be present' do
 		@user.name = "  "
 		assert_not @user.valid?
@@ -21,7 +21,6 @@ class UserTest < ActiveSupport::TestCase
 		assert_not @user.valid?
 	end
 
-	#email tests
 	test 'email should be present' do
 		@user.email = "   "
 		assert_not @user.valid?
@@ -92,20 +91,21 @@ class UserTest < ActiveSupport::TestCase
 	end
 
 	test 'can be valid admin' do
-		@user.role = Admin.create!(user: @user)
+		# @current_user = @admin
+		@user.role = Admin.new(user: @user)
 		assert @user.save
 		assert @user.reload.role.is_a? Admin
 	end
 
 	test 'can be driver' do
-		@user.role = Driver.create!(user: @user)
+		@user.role = Driver.new(user: @user)
 		@user.save
 		assert @user.role.is_a? Driver
 	end
 
 	test 'can be provider' do
 		store = Store.create(name: "store1", address: "address")
-		@user.role = Provider.create!(store: store, user: @user)
+		@user.role = Provider.new(store: store, user: @user)
 		@user.save
 		assert @user.role.is_a? Provider
 	end

@@ -14,6 +14,18 @@ class UserPolicy < ApplicationPolicy
     @current_user.nil? || @current_user.admin?
   end
   
+  def edit?
+    @current_user.admin? || @current_user == @model
+  end
+  
+  def update?
+    @current_user.admin? || @current_user == @model
+  end
+  
+  def index?
+    @current_user.admin?
+  end
+  
   def permitted_attributes
     if @current_user.nil?
       [ :name, :email, :phone, :wechat, :password, :password_confirmation ]

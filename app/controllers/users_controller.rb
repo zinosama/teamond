@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
-	before_action :logged_in_user, only: [:show, :edit, :update, :leave, :destroy]
-	before_action :correct_user_or_admin, only: [:show, :edit, :update, :leave, :destroy]
-	before_action :logged_in_admin, only: [:index]
+	before_action :logged_in_user, only: [:edit, :update]
+	before_action :valid_user, only: [:edit, :update]
 
 	def index
+		authorize User
 		@users = User.paginate(page: params[:page])
 	end
 
@@ -17,25 +17,19 @@ class UsersController < ApplicationController
 		@user = User.new(user_create_params)
 		if @user.save
 			@user.send_activation_email
-			flash[:info] = "Please check your email to activate your account."
-			redirect_to root_url
+			redirect_and_flash(root_url, :info, "Please check your email to activate your account")
 		else
 			render 'new'
 		end
 	end
 
 	def edit
-		@user = User.find(params[:id])
+		authorize @user
 	end
 
 	def update
-		@user = User.find(params[:id])
-		if @user.update_attributes(user_update_params)
-			flash[:success] = "Profile Updated."
-			redirect_to edit_user_url(@user)
-		else 
-			render 'edit'
-		end
+		authorize @user
+		@user.update_attributes(user_update_params) ? redirect_and_flash(edit_user_url(@user), :succes, "Profile updated") : render('edit')
 	end
 
 	private
@@ -46,5 +40,11 @@ class UsersController < ApplicationController
 	
 	def user_update_params
 		params.require(:user).permit(:name, :email, :phone, :wechat, :password, :password_confirmation)
+	end
+	
+	def valid_user
+		@user = User.find(params[:id])
+	rescue ActiveRecord::RecordNotFound
+		redirect_and_flash(menu_url, :error, "Invalid user")
 	end
 end
