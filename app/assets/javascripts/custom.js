@@ -69,7 +69,7 @@ $(document).ready(function(){
   toggleOnlinePaymentForm();
   watchPlaceOrderButton();
   
-  $('#dimmerCard').dimmer({
+  $('.dimmerCard').dimmer({
     on: 'hover'
   });
     
