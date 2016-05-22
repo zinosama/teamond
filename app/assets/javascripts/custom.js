@@ -69,7 +69,10 @@ $(document).ready(function(){
   toggleOnlinePaymentForm();
   watchPlaceOrderButton();
   
-  
+  $('#dimmerCard').dimmer({
+    on: 'hover'
+  });
+    
 });
 
 
@@ -125,7 +128,7 @@ var toggleDishCategorySelectDisplay = function(){
 
 var toggleStoreSelectDisplay = function() {
   var roleTypeSelectField = $('#user_role_type');
-  if(roleTypeSelectField[0].value == 'Provider'){
+  if(roleTypeSelectField.length != 0 && roleTypeSelectField[0].value == 'Provider'){
     $('#newStore').show();
   }
   roleTypeSelectField.change(function() {
