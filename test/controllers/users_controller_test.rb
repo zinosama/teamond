@@ -28,21 +28,21 @@ class UsersControllerTest < ActionController::TestCase
 	test 'should redirect edit when logged in as wrong user' do
 		log_in_as @non_admin
 		get :edit, id: @admin
-		assert_redirected_to root_url
+		assert_redirected_to menu_url
 		assert_not flash.empty?
 	end
 
 	test 'should redirect update when logged in as wrong user' do
 		log_in_as @non_admin
 		patch :update, id: @admin, user: { name: @non_admin.name, email: @non_admin.email }
-		assert_redirected_to root_url
+		assert_redirected_to menu_url
 		assert_not flash.empty?
 	end
 
 	test 'should redirect index when not admin' do
 		log_in_as @non_admin
 		get :index
-		assert_redirected_to root_url
+		assert_redirected_to menu_url
 		assert_not flash.empty?
 	end
 
