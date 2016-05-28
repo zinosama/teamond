@@ -1,7 +1,7 @@
 <% provide(:title, "Sign up") %>
 <% provide(:button_text, "Register Account") %>
 <div class="centered row">
-	<p class="categoryTitle">Sign Up</p>
+	<p class="categoryTitle"><%= request.url == new_user_url ? "New User" : "Sign Up" %></p>
 </div>
 <div class="row">
 	<%= render 'form' %>

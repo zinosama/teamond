@@ -70,6 +70,16 @@ input{
 
 /* user listing */
 
+.newUserCardText{
+  font-size: 2em;
+  font-weight: 600;
+}
+
+.ui.card > .content.newUserCardContent{
+  padding-top: 4em;
+  padding-bottom: 4em;
+}
+
 .pagination {
   width: 100%;
   background: #f1f1f1;
