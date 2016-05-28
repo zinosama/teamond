@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   resources :account_activations, only: [:edit]
   resources :password_resets, only: [:new, :create, :edit, :update]
   get 'signup' => 'users#new'
-  resources :users, except: [:new, :show, :destroy]
+  resources :users, except: [:show, :destroy]
 
   resources :shoppers, only: [] do
     resources :milktea_orderables, only: [:create]
